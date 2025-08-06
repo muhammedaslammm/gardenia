@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --background-color: #fffef7;
+}
+/* #fffdf3 */
+
+html {
+  font-family: 10px;
+  font-family: "Merriweather", serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background-color);
+  color: black;
+}
+.font--inter-tight {
+  font-family: "Inter Tight", sans-serif;
+}
+
+.font--dm-serif-display {
+  font-family: "DM Serif Display", serif;
+}
+
+.font--marriweather {
+  font-family: "Merriweather", serif;
+}
+.font--whisper {
+  font-family: "Whisper", cursive;
+}
+
+img,
+.image,
+.space-fade,
+.event-fade,
+.facility-fade,
+.fade {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+}
+
+h1,
+h2,
+h3,
+.contact-info,
+.submit-button,
+.banner {
+  font-family: "Inter Tight", sans-serif;
+}
+button {
+  font-family: "Inter Tight", serif;
+}
+
+.banner-button {
+  @apply self-center text-[1.2rem] font-semibold py-2 px-8   uppercase cursor-pointer;
+}
+
+.banner-image {
+  animation: fade-in 1.5s ease-out;
+}
+/* bg for card - #0f592e14 */
+.heading--section {
+  @apply text-[1rem] lg:text-[1.2rem] xl:text-[1.3rem] font-semibold text-[#0f592e] text-start uppercase;
+}
+
+.paragraph--section {
+  @apply text-[1rem] lg:text-[1.2rem] xl:text-[1.25rem] leading-[1.5rem] lg:leading-[1.8rem] xl:leading-[1.8rem] text-justify;
+}
+
+.about-para {
+  @apply block text-justify text-[1rem] lg:text-[1.2rem] xl:text-[1.2rem] leading-[1.5rem] lg:leading-[1.8rem] xl:leading-[1.8rem];
+}
+
+.form__input {
+  @apply w-full py-3 xl:py-3 px-2 text-[.9rem] xl:text-[1rem] text-black border border-gray-400 rounded-[.3rem] xl:rounded-[.5rem] outline-0;
+}
+
+.error--form__input {
+  @apply absolute text-[.8rem] xl:text-[1rem] left-[.3rem] xl:left-[.5rem] text-red-700;
+}
+
+input::placeholder {
+  font-family: "Inter", sans-serif;
+  color: black;
+}
+.card__spacing {
+  @apply py-16 first:pt-0 last:pb-0 border-b border-gray-400 last:border-0;
+}
+
+.heading--space {
+  @apply text-[3rem] font-semibold uppercase tracking-[.1rem];
+}
+.paragraph--space {
+  @apply text-[1.3rem] leading-[2rem];
+}
+
+.a--input {
+  @apply w-full text-[1rem] border border-neutral-500 p-[.6rem] outline-none;
+}
+.a--input::placeholder {
+  color: rgb(75, 75, 75);
+}
+.a--input-error {
+  @apply text-[.9rem] text-red-800 font-medium;
+}
+
+/* 
+left : 122 163 136
+right : 255 254 247
+*/
+
+.admin {
+  scroll-behavior: smooth;
+}
+
+@keyframes fade-in {
+  from {
+    scale: 1.1;
+  }
+  to {
+    scale: 1;
+  }
+}
