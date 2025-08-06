@@ -24,7 +24,6 @@ import wheelchair from "../assets/gardenia_s_facilities/wheelchair.avif";
 import powerbackup from "../assets/gardenia_s_facilities/powerbackup.avif";
 import avsupport from "../assets/gardenia_s_facilities/avsupport.avif";
 import wifi from "../assets/gardenia_s_facilities/wifi.avif";
-import night1 from "../assets/new_images/WFV_7677.jpg";
 
 export {
   bannerImage,
@@ -53,5 +52,4 @@ export {
   powerbackup,
   avsupport,
   wifi,
-  night1,
 };

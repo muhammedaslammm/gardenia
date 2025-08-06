@@ -1,4 +1,4 @@
-import { night1, image6 } from "../utils/images";
+import { image6 } from "../utils/images";
 import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 const Login = () => {
