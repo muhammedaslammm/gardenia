@@ -1,4 +1,4 @@
-import bannerImage from "../assets/compressed_images/WFV_9002.JPG";
+import bannerImage from "../assets/compressed_images/WFV_9002.jpg";
 import image1 from "../assets/compressed_images/WFV_7677.jpg";
 import image2 from "../assets/compressed_images/WFV_1000.jpg";
 import image3 from "../assets/compressed_images/WFV_7729.jpg";
