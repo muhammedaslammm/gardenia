@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import Sidebar from "../adminComponents/sidebar";
+import Sidebar from "../adminComponents/Sidebar.jsx";
 import useSideBar from "../hooks/useSideBar";
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext } from "react";
