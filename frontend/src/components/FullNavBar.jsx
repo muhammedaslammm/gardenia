@@ -6,7 +6,7 @@ const FullNavBar = ({ state, func }) => {
   const { headerContent } = getHeaderContent();
   return (
     <div
-      className={`fixed left-0 top-0 w-full h-screen z-300 ${
+      className={`fixed left-0 top-0 w-full h-screen z-1000 ${
         state ? "translate-x-0" : "translate-x-full"
       } transition-all text-black bg-white backdrop-blur-[20px] `}
     >

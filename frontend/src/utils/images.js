@@ -1,5 +1,5 @@
 export const bannerImage = "/images/WFV_9002-2.webp";
-export const mobileBanner = "/images/WFV_1002-2.jpg";
+export const mobileBanner = "/images/WFV_7664.jpg";
 export const image1 = "/images/WFV_7677.webp";
 export const image2 = "/images/WFV_1000.webp";
 export const image3 = "/images/WFV_7729.webp";

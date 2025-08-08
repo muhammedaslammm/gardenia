@@ -15,16 +15,16 @@ const Header = ({ func }) => {
         currentPath === "home"
           ? "absolute text-white"
           : "fixed bg-[#e7ede4] text-[#0f592e] border-b border-[#e2ece5] "
-      } left-0 w-full top-0 z-1000`}
+      } left-0 w-full top-0 z-500`}
       ref={containerRef}
     >
       <nav
-        className={`flex justify-between items-center md:items-baseline xl:items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 mx-auto ${
+        className={`flex justify-center sm:justify-between items-center md:items-baseline xl:items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 mx-auto ${
           currentPath === "home" ? "py-[1rem]" : "py-[.4rem]"
         }`}
       >
         <Link
-          className="logo font-bold text-[1.3rem] sm:text-[1.4rem] xl:text-[1.8rem]"
+          className="hidden sm:block logo font-bold text-[1.3rem] sm:text-[1.4rem] xl:text-[1.8rem]"
           style={{ fontFamily: "Playfair Display, serif" }}
           to={"/home"}
         >

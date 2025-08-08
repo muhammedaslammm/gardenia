@@ -44,25 +44,25 @@ const Banner = () => {
         />
       </picture>
 
-      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[23rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center">
-        <h1 className="text-[1.8rem] font--dm-serif-display text-center sm:hidden">
+      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[23rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center ">
+        <h1 className="text-[2rem] leading-[2.8rem] font--dm-serif-display text-center sm:hidden">
           Space & Memories
         </h1>
         <h1
-          className="hidden sm:block text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.1rem] xl:text-[4.6rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[4.5rem] sm:text-center"
+          className="hidden sm:block sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.1rem] xl:text-[4.6rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[4.5rem] sm:text-center"
           style={{ fontFamily: "Playfair Display, serif" }}
         >
           the <span className="text-[#76a560]">space</span> that speaks your{" "}
           <span className="text-[#76a560]">memories</span>
         </h1>
         <h2
-          className="mx-auto w-[80%] sm:w-[85%] xl:w-full text-[1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-neutral-400 sm:text-neutral-200 xl:uppercase text-center"
+          className="mx-auto w-[80%] sm:w-[85%] xl:w-full text-[1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-neutral-400 leading-[1.3rem] sm:text-neutral-200 xl:uppercase text-center"
           style={{ fontFamily: "Inter Tight, serif" }}
         >
           Weddings, expos, summits—we shape the space to fit your story.
         </h2>
       </div>
-      <div className="space-x-8 absolute bottom-[1.5rem] xl:bottom-[3rem] left-[50%] -translate-x-[50%] z-20">
+      <div className="space-x-8 absolute bottom-[1rem] xl:bottom-[3rem] left-[50%] -translate-x-[50%] z-20">
         <button
           className="text-whtie font-semibold text-[.6rem] text-white uppercase tracking-[.1rem] cursor-pointer" //#12522c
           onClick={() => toSection("contact")}
