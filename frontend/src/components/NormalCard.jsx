@@ -8,7 +8,7 @@ const NormalCard = ({ data }) => {
         <img
           src={data.image}
           alt=""
-          className="image-fade h-[10rem] lg:h-[12rem] xl:h-[13rem] w-full rounded-[.5rem] object-cover"
+          className="image-fade h-[10rem] lg:h-[12rem] xl:h-[13rem] w-full object-cover"
         />
       </div>
 

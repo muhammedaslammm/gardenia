@@ -56,7 +56,7 @@ const Form = () => {
   return (
     <>
       <Toaster position="top-center" richColors="true" />
-      <section className="md:w-[60%] mx-auto lg:w-4/12 lg:self-end h-full space-y-7 md:space-y-8 xl:space-y-10 border border-gray-300 p-6 md:p-6 rounded-[1rem] md:rounded-[.5rem]">
+      <section className="md:w-[60%] mx-auto lg:w-4/12 lg:self-end h-full space-y-7 md:space-y-8 xl:space-y-10 border border-gray-300 p-6 md:p-6 rounded-[0rem] md:rounded-[.0rem]">
         <div className="space-y-0">
           <h3 className="text-[1rem] md:text-[1.2rem] lg:text-[1.1rem] xl:text-[1.2rem] text-[#0f592e] text-center uppercase font-semibold">
             fill out the form
@@ -137,7 +137,7 @@ const Form = () => {
                 ? "text-red-800 border-red-800 font-semibold"
                 : "bg-white border-[#0f592e] cursor-pointer"
             }
-             rounded-[.2rem] md:rounded-[.4rem] capitalize transition`}
+             rounded-[.0rem] md:rounded-[.0rem] capitalize transition`}
             disabled={buttonStatus === "loading" || buttonStatus === "success"}
           >
             {buttonStatus === "success" ? (

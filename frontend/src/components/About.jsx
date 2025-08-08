@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
@@ -10,6 +10,7 @@ const About = () => {
   const containerRef = useRef();
   const isMobile = useIsMobile();
   const { onAboutEnter, onAboutLeaveBack } = useOutletContext();
+  const [textReveal, setTextReveal] = useState(false);
 
   useLayoutEffect(() => {
     const context = gsap.context(() => {
@@ -38,20 +39,28 @@ const About = () => {
     >
       <h1 className="heading--section about-fade">who are we ?</h1>
       <div className="space-y-8 xl:space-y-10">
-        <p className="about-para about-fade">
-          Nestled in the heart of Kallambalam, Gardenia Convention Center was
-          built on a vision: to offer more than just a venue — a place where
-          moments are elevated, and gatherings become timeless. With a deep
-          focus on comfort, hospitality, and thoughtful design, we created a
-          space that welcomes every kind of celebration with warmth and
-          elegance. Whether it's a wedding, a conference, or a cultural event,
-          Gardenia is where your story finds its perfect stage. We've
-          thoughtfully equipped the space with key features to support events of
-          every kind.
-        </p>
+        <div>
+          <p className={`about-para ${!textReveal ? "!line-clamp-4" : ""}`}>
+            Gardenia Convention Center was built on a vision: to offer more than
+            just a venue — a place where moments are elevated, and gatherings
+            become timeless. With a deep focus on comfort, hospitality, and
+            thoughtful design, we created a space that welcomes every kind of
+            celebration with warmth and elegance. Whether it's a wedding, a
+            conference, or a cultural event, Gardenia is where your story finds
+            its perfect stage. We've thoughtfully equipped the space with key
+            features to support events of every kind.
+          </p>
+          <button
+            className="font--marriweather text-[#0f592e] font-semibold"
+            onClick={() => setTextReveal(!textReveal)}
+          >
+            {!textReveal ? "read more" : "read less"}
+          </button>
+        </div>
+
         <div className="w-[95%] sm:w-full md:w-full mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 place-items-start gap-4">
           {highlights.map(({ icon: Icon, ...rest }) => (
-            <div className="w-full py-8 flex flex-col items-center gap-1 bg-[#0f592e]/10 border border-[#09241750] rounded-[.3rem]">
+            <div className="w-full py-8 flex flex-col items-center gap-1 bg-[#0f592e]/10 border border-[#09241750] rounded-[.0rem]">
               <Icon
                 weight="light"
                 color="#0f592e"

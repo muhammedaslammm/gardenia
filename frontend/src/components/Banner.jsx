@@ -1,4 +1,4 @@
-import { bannerImage } from "../utils/images";
+import { bannerImage, mobileBanner } from "../utils/images";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useLayoutEffect, useRef } from "react";
@@ -31,26 +31,32 @@ const Banner = () => {
   // }, []);
   return (
     <section
-      className="relative w-full h-[100svh] overflow-hidden"
+      className="relative w-full h-[80svh] md:h-[100svh] overflow-hidden"
       ref={bannerContainer}
     >
-      <img
-        ref={imageRef}
-        src={bannerImage}
-        alt=""
-        className="banner banner-image w-full h-full object-cover z-0 object-bottom"
-      />
+      <picture>
+        <source srcSet={mobileBanner} media="(max-width:500px)" />
+        <img
+          ref={imageRef}
+          src={bannerImage}
+          alt="gardenia banner image"
+          className="banner banner-image w-full h-full object-cover z-0 object-bottom"
+        />
+      </picture>
 
-      <div className="absolute hidden bottom-[22rem] sm:bottom-[18rem] xl:bottom-[20rem] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center">
+      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[23rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center">
+        <h1 className="text-[1.8rem] font--dm-serif-display text-center sm:hidden">
+          Space & Memories
+        </h1>
         <h1
-          className="text-[2.25rem] sm:text-[2.5rem] xl:text-[4.5rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] xl:leading-[4.5rem] text-center"
+          className="hidden sm:block text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.1rem] xl:text-[4.6rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[4.5rem] sm:text-center"
           style={{ fontFamily: "Playfair Display, serif" }}
         >
-          the <span className="text-[#8ba380]">space</span> that speaks your{" "}
-          <span className="text-[#8ba380]">memories</span>
+          the <span className="text-[#76a560]">space</span> that speaks your{" "}
+          <span className="text-[#76a560]">memories</span>
         </h1>
         <h2
-          className="mx-auto w-[80%] sm:w-[85%] xl:w-full text-[1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-neutral-200 xl:uppercase text-center"
+          className="mx-auto w-[80%] sm:w-[85%] xl:w-full text-[1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-neutral-400 sm:text-neutral-200 xl:uppercase text-center"
           style={{ fontFamily: "Inter Tight, serif" }}
         >
           Weddings, expos, summits—we shape the space to fit your story.
@@ -64,8 +70,8 @@ const Banner = () => {
           Contact Us Now
         </button>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 z-10"></div>
-      <div className="absolute inset-0 bg-black/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 sm:from-black/70 z-10"></div>
+      <div className="absolute inset-0 bg-black/20"></div>
     </section>
   );
 };

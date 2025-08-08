@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <main>
       <Banner />
-      <div className="relative z-1000">
+      <div className="relative z-100">
         <div className="w-[95%] sm:w-[90%] xl:w-[85%] px-2 mx-auto ">
           <About />
           <Spaces />

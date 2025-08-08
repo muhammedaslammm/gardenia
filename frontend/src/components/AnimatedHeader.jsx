@@ -8,16 +8,15 @@ const AnimatedHeader = forwardRef((props, ref) => {
   const { currentPath, headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#e7ede4] border-t-1 border-b-1 border-[#c5d8cd] z-200 -translate-y-full"
+      className="fixed left-0 top-0 w-full bg-[#e7ede4] border-t-1 border-b-1 border-[#c5d8cd] z-1000 -translate-y-full"
       ref={ref}
     >
-      <nav className="text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto py-[.3rem]">
-        <div
-          className="logo text-[#0f592e] font-bold text-[1.3rem] xl:text-[1.8rem]"
-          style={{ fontFamily: "Playfair Display, serif" }}
-        >
-          Gardenia
-        </div>
+      <nav className="text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto py-[.4rem]">
+        <img
+          className="w-[5rem] lg:h-[2.5rem] lg:w-[7rem] h-auto  object-contain -translate-y-[.1rem]"
+          src="/logo/gardenia-logo.png"
+          alt="gardenia logo"
+        />
         <div className="md:hidden text-[#0f592e]">
           <i
             className="fa-solid fa-bars text-[1.1rem]"
@@ -26,14 +25,14 @@ const AnimatedHeader = forwardRef((props, ref) => {
         </div>
 
         <ul
-          className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-10 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase"
+          className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase"
           style={{ fontFamily: "Inter Tight, serif" }}
         >
           {headerContent.map((n) => {
             if (n.path.startsWith("/"))
               return (
                 <Link
-                  className="cursor-pointer tracking-[.1rem] font-semibold"
+                  className="cursor-pointer tracking-[.1rem] font-medium"
                   to={`${n.path}`}
                 >
                   {n.title}
@@ -41,7 +40,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
               );
             return (
               <li
-                className="cursor-pointer tracking-[.1rem] font-semibold"
+                className="cursor-pointer tracking-[.1rem] font-medium"
                 onClick={() => toSection(n.path)}
               >
                 {n.title}

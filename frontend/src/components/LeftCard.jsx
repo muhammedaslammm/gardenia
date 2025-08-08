@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const LeftCard = ({ data }) => {
   return (
-    <section className="flex-col space-y-8">
+    <section className="flex-col space-y-8 ">
       <div className="flex flex-col lg:gap-1">
         <div className="flex items-center justify-between">
           <h3 className="block md:text-[1rem] lg:text-[1.2rem] text-[#0f592e] font-semibold uppercase ">
@@ -22,7 +22,7 @@ const LeftCard = ({ data }) => {
           <img
             src={data.image} //{data.image}
             alt={`${data.name} image`}
-            className="h-[230px] sm:h-[300px] md:h-[240px] lg:h-[260px] xl:h-[300px] w-full object-cover rounded-[.2rem] sm:rounded-[.5rem] md:rounded-[.3rem] lg:rounded-[.0rem]"
+            className="h-[230px] sm:h-[300px] md:h-[240px] lg:h-[260px] xl:h-[350px] w-full object-cover rounded-[.2rem] sm:rounded-[.5rem] md:rounded-[.3rem] lg:rounded-[.0rem] "
           />
         </div>
         {/* <div className="md:w-7/12 xl:8/12 flex flex-col gap-6 sm:gap-4 md:gap-0 justify-between">

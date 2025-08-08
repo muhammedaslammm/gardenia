@@ -51,7 +51,7 @@ const Events = () => {
       </div>
       <div className="bottom grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mx-auto">
         {events.map(({ title, icon: Icon }) => (
-          <div className="event-fade bg-[#0f592e]/10 border border-[#a3c0af] rounded-[.5rem] flex flex-col gap-2 items-center justify-center p-8 h-[10rem]">
+          <div className="event-fade bg-[#0f592e]/10 border border-[#a3c0af] rounded-[.0rem] flex flex-col gap-2 items-center justify-center p-8 h-[10rem]">
             <Icon
               weight="regular"
               color="#0f592e"

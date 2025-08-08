@@ -44,9 +44,9 @@ const ChooseUs = () => {
           {chooseusSection.description}
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
         {chooseusSection.features.map(({ icon: Icon, ...rest }) => (
-          <div className="fade bg-[#0f592e]/10 border border-[#a3c0af] rounded-[.5rem] flex flex-col gap-4 xl:gap-3 items-start p-6">
+          <div className="fade bg-[#0f592e]/10 border border-[#a3c0af] rounded-[.0rem] flex flex-col gap-4 xl:gap-3 items-start p-6">
             <Icon weight="regular" color="#0f592e" className="w-8 h-8" />
             <div className="sm:space-y-1">
               <p
