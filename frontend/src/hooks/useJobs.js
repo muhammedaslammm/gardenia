@@ -13,10 +13,11 @@ const useJobs = () => {
   });
   const [updateChild, setUpdateChild] = useState(null);
   const [buttonState, setButtonState] = useState("idle");
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("http://localhost:4009/api/admin/jobs", {
+        const response = await fetch(`${BACKEND_URL}/api/admin/jobs`, {
           method: "GET",
           credentials: "include",
         });
@@ -64,13 +65,10 @@ const useJobs = () => {
   // delete job
   const deleteJob = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:4009/api/admin/jobs/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/api/admin/jobs/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setJobs(data.jobs);
@@ -118,19 +116,16 @@ const useJobs = () => {
       setButtonState("loading");
       let response;
       if (updateChild) {
-        response = await fetch(
-          `http://localhost:4009/api/admin/jobs/${updateChild}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newJob),
-          }
-        );
+        response = await fetch(`${BACKEND_URL}/api/admin/jobs/${updateChild}`, {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newJob),
+        });
       } else {
-        response = await fetch("http://localhost:4009/api/admin/jobs", {
+        response = await fetch(`${BACKEND_URL}/api/admin/jobs`, {
           method: "POST",
           credentials: "include",
           headers: {

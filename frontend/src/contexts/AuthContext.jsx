@@ -4,11 +4,12 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     let isMounted = true;
     const fetchAdminDetails = async () => {
       try {
-        const response = await fetch("http://localhost:4009/api/users/me", {
+        const response = await fetch(`${BACKEND_URL}/api/users/me`, {
           method: "GET",
           credentials: "include",
         });
@@ -32,7 +33,7 @@ const AuthProvider = ({ children }) => {
 
   const userLogin = async (userData) => {
     try {
-      const response = await fetch("http://localhost:4009/api/users/login", {
+      const response = await fetch(`${BACKEND_URL}/api/users/login  `, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +55,7 @@ const AuthProvider = ({ children }) => {
 
   const userLogout = async () => {
     try {
-      const response = await fetch("http://localhost:4009/api/users/logout", {
+      const response = await fetch(`${BACKEND_URL}/api/users/logout`, {
         method: "POST",
         credentials: "include",
       });
