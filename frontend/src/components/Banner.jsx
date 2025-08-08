@@ -41,9 +41,9 @@ const Banner = () => {
         className="banner banner-image w-full h-full object-cover z-0 object-bottom"
       />
 
-      <div className="absolute hidden bottom-[22rem] sm:bottom-[18rem] xl:bottom-[22rem] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center">
+      <div className="absolute hidden bottom-[22rem] sm:bottom-[18rem] xl:bottom-[20rem] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center">
         <h1
-          className="text-[2.25rem] sm:text-[2.5rem] xl:text-[3.7rem] font-semibold uppercase leading-[2.4rem] xl:leading-[5rem] text-center"
+          className="text-[2.25rem] sm:text-[2.5rem] xl:text-[4.5rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] xl:leading-[4.5rem] text-center"
           style={{ fontFamily: "Playfair Display, serif" }}
         >
           the <span className="text-[#8ba380]">space</span> that speaks your{" "}
