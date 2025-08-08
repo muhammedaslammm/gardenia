@@ -1,12 +1,13 @@
 import app from "./app.js";
 import mongoose from "mongoose";
 
+const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING;
+const PORT = process.env.PORT || 4009;
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      `mongodb+srv://gardenia:gardeniapass1@cluster0.i9fvp9t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-    );
-    app.listen(4009, () =>
+    await mongoose.connect(CONNECTION_STRING);
+    app.listen(PORT, () =>
       console.log("db connected and server listening for request via port 4009")
     );
   } catch (error) {}
