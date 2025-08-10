@@ -7,9 +7,10 @@ import adminRouter from "./routers/AdminRouter.js";
 
 const app = express();
 const allowedOrigins = [
-  "http:localhost:5173",
-  "https://gardeniaconventioncenter.in",
+  "http://localhost:5173",
+  "https://www.gardeniaconventioncenter.in",
 ];
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -22,6 +23,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
