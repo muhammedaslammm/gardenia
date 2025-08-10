@@ -34,7 +34,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="pt-4 pb-10 md:py-6 lg:py-8 xl:pb-12 space-y-2 lg:space-y-2"
+      className="pt-4 pb-2 md:py-6 lg:py-8 xl:pb-12 space-y-2 lg:space-y-2"
       ref={containerRef}
     >
       <h1 className="heading--section about-fade">who are we ?</h1>
@@ -64,7 +64,7 @@ const About = () => {
           </button>
         </div>
 
-        <div className="w-[95%] sm:w-full md:w-full mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 place-items-start gap-4">
+        <div className="hidden w-[95%] sm:w-full md:w-full mx-auto lg:grid lg:grid-cols-6  xl:grid-cols-6 place-items-start gap-4">
           {highlights.map(({ icon: Icon, ...rest }) => (
             <div className="w-full py-8 flex flex-col items-center gap-1 bg-[#0f592e]/10 border border-[#09241750] rounded-[.0rem]">
               <Icon

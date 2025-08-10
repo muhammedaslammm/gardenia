@@ -1,19 +1,15 @@
-import { useState } from "react";
-import generateDateObjects from "../utils/generateDateObjects.js";
 import useEvents from "../hooks/useEvents";
 import { weekDays } from "../data/days.js";
 import { ArrowSquareRight, ArrowSquareLeft } from "phosphor-react";
 
 const Events = () => {
-  const { events, currentYear, currentMonth, currentDate } = useEvents();
-
-  const dates = generateDateObjects(currentYear, currentMonth, events);
+  const { dates, selectedDate, dateString } = useEvents();
   return (
     <section className="">
       <div className="flex gap-4">
         <div className="w-8/12 space-y-1">
           <div className="text-[1rem] font-medium flex justify-between items-end">
-            <div>{currentDate}</div>
+            <div>{dateString}</div>
             <div className="flex gap-1">
               <ArrowSquareLeft
                 className="w-5 h-5 cursor-pointer"
@@ -33,11 +29,11 @@ const Events = () => {
             ))}
             {dates.map((d) => (
               <div
-                className={`h-[5rem] border  ${
-                  d.isToday
-                    ? "border-[#0f592e]/80"
+                className={`h-[5rem] border border-[#0f592e]/10  ${
+                  d.isoDate === selectedDate?.isoDate
+                    ? "bg-[#0f592e]/20"
                     : d.isMonth
-                    ? "bg-[#0f592e]/5 border-[#0f592e]/10 hover:border-[#0f592e]/60"
+                    ? "bg-[#0f592e]/5 hover:border-[#0f592e]/60"
                     : "opacity-30 border-[#0f592e]/10"
                 } transition cursor-pointer  p-1`} //bg-[#0f592e]/10
               >
@@ -47,7 +43,7 @@ const Events = () => {
           </div>
         </div>
         <div className="w-4/12 flex flex-col justify-end">
-          <div className="font-medium">Handle Event for {currentDate}</div>
+          <div className="font-medium">Handle Event</div>
           <div className="border border-neutral-300 h-full mt-1 p-2">
             <p className="text-[.9rem] text-neutral-600 ">
               There is no event added on this date.

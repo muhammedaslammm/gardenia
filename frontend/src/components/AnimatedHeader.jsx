@@ -3,29 +3,39 @@ import toSection from "../utils/toSection";
 import { Link } from "react-router-dom";
 import headerConfig from "../data/headerConfig";
 import getHeaderContent from "../utils/getHeaderContent";
+import { Phone } from "phosphor-react";
 
 const AnimatedHeader = forwardRef((props, ref) => {
   const { currentPath, headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#e7ede4] border-t-1 border-b-1 border-[#c5d8cd] z-500 -translate-y-full"
+      className="fixed left-0 top-0 w-full bg-[#fffef7] border-t-1 border-b-1 border-[#c5d8cd] z-500 -translate-y-full"
       ref={ref}
     >
-      <nav className="text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto py-[.4rem]">
-        <img
-          className="w-[5rem] lg:h-[2.5rem] lg:w-[7rem] h-auto  object-contain -translate-y-[.1rem]"
-          src="/logo/gardenia-logo.png"
-          alt="gardenia logo"
-        />
-        <div className="md:hidden text-[#0f592e]">
+      <nav className="relative lg:static h-[3rem] text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto py-[.1rem]">
+        <div className="absolute left-2 top-3 lg:hidden text-[#0f592e]">
           <i
-            className="fa-solid fa-bars text-[1.1rem]"
+            className=" fa-solid fa-bars text-[1.1rem]"
             onClick={props.func}
           ></i>
         </div>
+        <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[3.2rem] lg:w-[11.5rem] lg:-translate-x-[1.5rem] -translate-y-[1rem] lg:translate-y-0">
+          <img
+            className="w-full h-full object-cover"
+            src="/logo/gardenia-logo-3.png"
+            alt="gardenia logo"
+          />
+        </div>
+
+        <a href="tel:9997879978">
+          <Phone
+            className="absolute top-3 right-2 text-[#0f592e] w-5 h-6 lg:hidden"
+            weight="bold"
+          />
+        </a>
 
         <ul
-          className="hidden md:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase"
+          className="hidden lg:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase"
           style={{ fontFamily: "Inter Tight, serif" }}
         >
           {headerContent.map((n) => {

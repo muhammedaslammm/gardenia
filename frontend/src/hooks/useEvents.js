@@ -1,27 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { months, weekDays } from "../data/days";
+import generateDateObjects from "../utils/generateDateObjects.js";
 
 const useEvents = () => {
   const today = new Date();
   const [events, setEvents] = useState([]);
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [monthName, setMonthName] = useState(months[currentMonth]);
-  const currentDate = `${monthName.head} ${currentYear}, ${today.getDate()} ${
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const dateString = `${months[month].head} ${year}, ${today.getDate()} ${
     weekDays[today.getDay()]
   }`;
+  const dates = generateDateObjects(year, month, events);
 
-  const isCurrentDate = (date1, date2) => {
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+  useEffect(() => {
+    let match = dates.find((d) => {
+      if (d.isoDate === today.toISOString().split("T")[0]) {
+        console.log(d.isoDate);
+        return d;
+      }
+    });
+    setSelectedDate((prev) => match);
+  }, []);
+
+  return {
+    dates,
+    selectedDate,
+    dateString,
   };
-
-  const handleMonth = (action) => {};
-
-  return { events, isCurrentDate, currentYear, currentMonth, currentDate };
 };
 
 export default useEvents;

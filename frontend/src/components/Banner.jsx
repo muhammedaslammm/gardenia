@@ -44,7 +44,7 @@ const Banner = () => {
         />
       </picture>
 
-      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[22rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 xl:gap-5 z-20 items-center justify-center ">
+      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[20rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 xl:gap-5 z-20 items-center justify-center ">
         <h1 className="text-[2rem] leading-[2.8rem] font--dm-serif-display text-center sm:hidden">
           Space & Memories
         </h1>

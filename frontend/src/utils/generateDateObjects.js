@@ -1,20 +1,11 @@
 import useEvents from "../hooks/useEvents";
+import { weekDays } from "../data/days";
 
 const generateDateObjects = (year, month, events) => {
   let dates = [];
   let today = new Date();
   let monthFirstDate = new Date(year, month, 1);
   let monthLastDate = new Date(year, month + 1, 0);
-  let { isCurrentDate } = useEvents();
-  let weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
 
   let calendarStart = new Date(monthFirstDate);
   calendarStart.setDate(calendarStart.getDate() - calendarStart.getDay());
@@ -25,15 +16,15 @@ const generateDateObjects = (year, month, events) => {
   let current = new Date(calendarStart);
 
   while (current <= calendarEnd) {
-    const iso = current.toISOString().split("T")[0];
+    const isoDate = current.toISOString().split("T")[0];
     const dateEvents = events.filter((event) => event.date === iso);
     dates.push({
       fullDate: new Date(current),
-      isoDate: iso,
+      isoDate,
       day: current.getDate(),
       month: current.getMonth(),
       year: current.getFullYear(),
-      weekday: weekdays[current.getDay()],
+      weekday: weekDays[current.getDay()],
       isToday: isCurrentDate(today, current),
       isMonth: current.getMonth() === month,
       isPast:
@@ -45,6 +36,14 @@ const generateDateObjects = (year, month, events) => {
       events: dateEvents,
     });
     current.setDate(current.getDate() + 1);
+  }
+
+  function isCurrentDate(d1, d2) {
+    return (
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getFullYear() === d2.getFullYear()
+    );
   }
   return dates;
 };
