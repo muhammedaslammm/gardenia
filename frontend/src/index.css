@@ -113,6 +113,9 @@ right : 255 254 247
 .admin {
   scroll-behavior: smooth;
 }
+.admin--text {
+  @apply text-black;
+}
 
 @keyframes fade-in {
   from {

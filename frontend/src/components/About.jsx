@@ -40,7 +40,13 @@ const About = () => {
       <h1 className="heading--section about-fade">who are we ?</h1>
       <div className="space-y-8 xl:space-y-10">
         <div>
-          <p className={`about-para ${!textReveal ? "!line-clamp-4" : ""}`}>
+          <p
+            className={`about-para ${
+              !textReveal
+                ? "!line-clamp-4 lg:!line-clamp-none"
+                : "!line-clamp-none"
+            }`}
+          >
             Gardenia Convention Center was built on a vision: to offer more than
             just a venue — a place where moments are elevated, and gatherings
             become timeless. With a deep focus on comfort, hospitality, and
@@ -51,7 +57,7 @@ const About = () => {
             features to support events of every kind.
           </p>
           <button
-            className="font--marriweather text-[#0f592e] font-semibold"
+            className="lg:hidden font--marriweather text-[#0f592e] font-semibold"
             onClick={() => setTextReveal(!textReveal)}
           >
             {!textReveal ? "read more" : "read less"}

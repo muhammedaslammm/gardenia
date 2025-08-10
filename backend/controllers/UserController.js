@@ -16,7 +16,11 @@ export const userRegistration = async (req, res) => {
       userRole: user.role,
     });
     return res
-      .cookie("token", token, { httpOnly: true })
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
       .status(200)
       .json({ message: "user created" });
   } catch (error) {
@@ -35,10 +39,14 @@ export const userLogin = async (req, res) => {
         userRole: match.role,
       });
       return res
-        .cookie("token", token, { httpOnly: true })
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        })
         .status(200)
         .json({
-          messge: "user authenticated",
+          message: "user authenticated",
           user: {
             userId: match._id,
             userName: match.username,

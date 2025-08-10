@@ -6,7 +6,22 @@ import userRouter from "./routers/UserRouter.js";
 import adminRouter from "./routers/AdminRouter.js";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http:localhost:5173",
+  "https://gardeniaconventioncenter.in",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();

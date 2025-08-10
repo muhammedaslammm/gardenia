@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
           credentials: "include",
         });
         const data = await response.json();
-        console.log("user data at /me request:", data.user);
+        console.log("user data at /me request:", data.user || data.message);
         if (!response.ok) {
           throw new Error(data.message);
         } else {
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
 
   const userLogin = async (userData) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/users/login  `, {
+      const response = await fetch(`${BACKEND_URL}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

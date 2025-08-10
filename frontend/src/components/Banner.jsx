@@ -44,12 +44,12 @@ const Banner = () => {
         />
       </picture>
 
-      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[23rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 z-20 items-center justify-center ">
+      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[22rem] xl:bottom-[45%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 xl:gap-5 z-20 items-center justify-center ">
         <h1 className="text-[2rem] leading-[2.8rem] font--dm-serif-display text-center sm:hidden">
           Space & Memories
         </h1>
         <h1
-          className="hidden sm:block sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.1rem] xl:text-[4.6rem] xl:max-w-[70rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[4.5rem] sm:text-center"
+          className="hidden sm:block sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.2rem] xl:max-w-[80rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[4.7rem] sm:text-center"
           style={{ fontFamily: "Playfair Display, serif" }}
         >
           the <span className="text-[#76a560]">space</span> that speaks your{" "}

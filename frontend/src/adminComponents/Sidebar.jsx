@@ -30,7 +30,7 @@ const Sidebar = ({ content, page_slug }) => {
       </div>
       <div className="pt-4 border-t pl-2 border-neutral-600 flex flex-col gap-2">
         <div className="text-[.9rem] text-center  text-neutral-300 font-semibold">
-          {user.userName}
+          {user?.userName}
         </div>
         <button
           className="text-white font-semibold text-[.9rem] p-1.5 rounded-[.2rem] bg-[#081e10] cursor-pointer hover:bg-[#081e10]/80 transition"
