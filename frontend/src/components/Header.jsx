@@ -54,7 +54,7 @@ const Header = ({ func }) => {
           )}
         </Link>
 
-        <a href="tel:8891813555">
+        <a href="tel:+918891813555">
           <Phone
             className={`absolute lg:hidden ${
               currentPath === "home" ? "top-4" : "top-3"
