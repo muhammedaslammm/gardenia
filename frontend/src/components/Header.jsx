@@ -54,7 +54,7 @@ const Header = ({ func }) => {
           )}
         </Link>
 
-        <a href="tel:9997879978">
+        <a href="tel:8891813555">
           <Phone
             className={`absolute lg:hidden ${
               currentPath === "home" ? "top-4" : "top-3"
@@ -62,12 +62,6 @@ const Header = ({ func }) => {
             weight="bold"
           />
         </a>
-        <Phone
-          className={`absolute lg:hidden ${
-            currentPath === "home" ? "top-4" : "top-3"
-          } right-4 md:right-10  w-5 md:w-6 h-6`}
-          weight="bold"
-        />
 
         <ul
           className="hidden lg:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.8rem]  xl:text-[.9rem] font-medium uppercase"

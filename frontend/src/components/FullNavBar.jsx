@@ -11,20 +11,25 @@ const FullNavBar = ({ state, func }) => {
       } transition-all text-black bg-white backdrop-blur-[20px] `}
     >
       <nav className="w-[90%] mx-auto my-2 space-y-4">
-        <div className="flex justify-between items-center ">
-          <div
-            style={{ fontFamily: "Playfair Display, serif" }}
-            className="text-[1.3rem] font-semibold"
-          >
-            Gardenia
-          </div>
-          <i className="fa-solid fa-xmark text-[1.1rem]" onClick={func}></i>
+        <div className="relative w-full">
+          <img
+            src="/logo/gardenia-logo.png"
+            alt="gardenia logo"
+            className="absolute left-0 top-0 w-[5rem] object-cover -translate-y-1"
+          />
+          <i
+            className="absolute right-2 top-1 fa-solid fa-xmark text-[1.1rem]"
+            onClick={func}
+          ></i>
         </div>
-        <ul style={{ fontFamily: "Inter Tight, serif" }}>
+        <ul
+          style={{ fontFamily: "Inter Tight, serif" }}
+          className="pt-13 text-[#0f592e]"
+        >
           {headerContent.map((n) => {
             if (n.path.startsWith("/"))
               return (
-                <li className="py-[.5rem]">
+                <li className="py-[.6rem]">
                   <Link
                     to={n.path}
                     className="text-[.9rem] font-medium uppercase tracking-[.1rem]"
@@ -36,7 +41,7 @@ const FullNavBar = ({ state, func }) => {
               );
             return (
               <li
-                className="text-[.9rem] font-medium py-[.5rem] uppercase tracking-[.1rem]"
+                className="text-[.9rem] font-medium py-[.6rem] uppercase tracking-[.1rem] border-b border-neutral-300"
                 onClick={() => {
                   toSection(n.path);
                   func();

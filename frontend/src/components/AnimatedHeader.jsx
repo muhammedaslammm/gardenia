@@ -27,7 +27,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
           />
         </div>
 
-        <a href="tel:9997879978">
+        <a href="tel:8891813555">
           <Phone
             className="absolute top-3 right-2 text-[#0f592e] w-5 h-6 lg:hidden"
             weight="bold"
