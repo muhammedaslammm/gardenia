@@ -29,7 +29,7 @@ const FullNavBar = ({ state, func }) => {
           {headerContent.map((n) => {
             if (n.path.startsWith("/"))
               return (
-                <li className="py-[.6rem]">
+                <li className="py-[.6rem] border-b border-neutral-300 last:border-b-0">
                   <Link
                     to={n.path}
                     className="text-[.9rem] font-medium uppercase tracking-[.1rem]"

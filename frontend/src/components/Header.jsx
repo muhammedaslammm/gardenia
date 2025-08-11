@@ -43,7 +43,7 @@ const Header = ({ func }) => {
             <img
               src="/logo/gardenia-logo-2.png"
               alt="gardenia logo"
-              className="w-[8rem] sm:w-[10rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3.2rem] xl:w-[11.5rem] h-auto object-cover -translate-y-[1.4rem] lg:translate-y-0"
+              className="w-[8.5rem] sm:w-[10rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3.2rem] xl:w-[11.5rem] h-auto object-cover -translate-y-[1.4rem] lg:translate-y-0"
             />
           ) : (
             <img
