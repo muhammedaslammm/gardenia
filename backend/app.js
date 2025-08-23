@@ -3,7 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import userRouter from "./routers/UserRouter.js";
-import adminRouter from "./routers/AdminRouter.js";
+import jobRouter from "./routers/JobRouter.js";
+import eventRouter from "./routers/EventRouter.js";
 
 const app = express();
 const allowedOrigins = [
@@ -23,12 +24,12 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
 
 app.use("/api/users", userRouter);
-app.use("/api/admin", adminRouter);
+app.use("/api/jobs", jobRouter);
+app.use("/api/events", eventRouter);
 
 export default app;

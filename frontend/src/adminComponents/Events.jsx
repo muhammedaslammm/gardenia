@@ -1,9 +1,22 @@
 import useEvents from "../hooks/useEvents";
 import { weekDays } from "../data/days.js";
 import { ArrowSquareRight, ArrowSquareLeft } from "phosphor-react";
+import EventDetails from "./EventDetails.jsx";
+import CustomModal from "./CustomModal.jsx";
 
 const Events = () => {
-  const { dates, selectedDate, dateString } = useEvents();
+  const {
+    dates,
+    currentDate,
+    month,
+    dateString,
+    handleDate,
+    dateDetails,
+    eventFormData,
+    eventDelete,
+  } = useEvents();
+
+  const eventUtils = { dateDetails, eventFormData, eventDelete };
   return (
     <section className="">
       <div className="flex gap-4">
@@ -14,10 +27,12 @@ const Events = () => {
               <ArrowSquareLeft
                 className="w-5 h-5 cursor-pointer"
                 weight="light"
+                onClick={month.decrementMonth}
               />
               <ArrowSquareRight
                 className="w-5 h-5 cursor-pointer"
                 weight="light"
+                onClick={month.incrementMonth}
               />
             </div>
           </div>
@@ -29,28 +44,41 @@ const Events = () => {
             ))}
             {dates.map((d) => (
               <div
-                className={`h-[5rem] border border-[#0f592e]/10  ${
-                  d.isoDate === selectedDate?.isoDate
-                    ? "bg-[#0f592e]/20"
+                className={`h-[5rem] border border-[#0f592e]/10 bg-[#0f592e]/15 flex flex-col justify-between ${
+                  d.isToday
+                    ? "bg-[#0f592e]/80 text-white"
+                    : d.iso_date === dateDetails?.iso_date
+                    ? "border-[#0f592e]/80 bg-[#0f592e]/25"
                     : d.isMonth
-                    ? "bg-[#0f592e]/5 hover:border-[#0f592e]/60"
-                    : "opacity-30 border-[#0f592e]/10"
-                } transition cursor-pointer  p-1`} //bg-[#0f592e]/10
+                    ? "border-[#0f592e]/25 hover:border-[#0f592e]/80"
+                    : "opacity-55 border-[#0f592e]/10"
+                } active:bg-[#0f592e]/30 transition cursor-pointer p-1`} //bg-[#0f592e]/10
+                onClick={() => handleDate(d)}
               >
                 <div className="text-[.8rem]">{d.day}</div>
+                {d.events.length > 0 && (
+                  <div
+                    className={`text-[.8rem] ${
+                      d.isToday ? "text-white" : "text-[#0f592e]"
+                    } font-medium self-end`}
+                  >{`${d.events.length} ${
+                    d.events.length > 1 ? "bookings" : "booking"
+                  }`}</div>
+                )}
               </div>
             ))}
           </div>
         </div>
-        <div className="w-4/12 flex flex-col justify-end">
-          <div className="font-medium">Handle Event</div>
-          <div className="border border-neutral-300 h-full mt-1 p-2">
-            <p className="text-[.9rem] text-neutral-600 ">
-              There is no event added on this date.
-            </p>
-          </div>
-        </div>
+        <EventDetails utils={eventUtils} />
       </div>
+      {eventDelete.modal && (
+        <CustomModal
+          stat={eventDelete.modalButtonStat}
+          cancelModal={eventDelete.cancelModal}
+          deleteEvent={eventDelete.deleteEvent}
+          event={eventDelete.deleteData}
+        />
+      )}
     </section>
   );
 };

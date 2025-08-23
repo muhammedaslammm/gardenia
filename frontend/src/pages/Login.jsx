@@ -1,16 +1,27 @@
 import { image6 } from "../utils/images";
 import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
+import { Spinner } from "phosphor-react";
 const Login = () => {
-  const { userData, handleInput, submitCredentials, buttonText, errors } =
-    useUser();
+  const {
+    userData,
+    handleInput,
+    submitCredentials,
+    buttonText,
+    buttonState,
+    errors,
+  } = useUser();
   return (
     <section className="relative">
       <Link
         to="/"
-        className="absolute top-6 left-6 z-100 text-white font-semibold text-[1.4rem]"
+        className="absolute top-1 left-1 z-100 text-white font-semibold text-[1.4rem]"
       >
-        Gardenia
+        <img
+          src="/logo/gardenia-logo-2.png"
+          alt="Gardenia Convention Center Logo"
+          className="w-[10rem] h-[3rem] object-cover -translate-x-[.4rem]"
+        />
       </Link>
       <div className="lg:h-screen flex flex-col lg:flex-row">
         {/* left */}
@@ -75,10 +86,19 @@ const Login = () => {
                 <button
                   className={`${
                     errors.login_error ? "bg-red-800" : "bg-[#0f592e]"
-                  } text-white font-semibold rounded-[.3rem] w-full p-2 mt-[2rem] cursor-pointer hover:-translate-y-[.1rem] active:translate-y-0 transition`}
+                  } text-white font-semibold rounded-[.3rem] w-full p-2 mt-[2rem] hover:-translate-y-[.1rem] active:translate-y-0 transition flex items-center justify-center ${
+                    buttonState === "loading"
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
                   onClick={submitCredentials}
+                  disabled={buttonState !== "idle"}
                 >
-                  {buttonText}
+                  {buttonState === "loading" ? (
+                    <Spinner className="animate-spin w-5 h-5" />
+                  ) : (
+                    buttonText
+                  )}
                 </button>
               </div>
             </div>

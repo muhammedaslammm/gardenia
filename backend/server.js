@@ -8,7 +8,9 @@ const connectDB = async () => {
   try {
     await mongoose.connect(CONNECTION_STRING);
     app.listen(PORT, () =>
-      console.log("db connected and server listening for request via port 4009")
+      console.log(
+        `db connected and server listening for request via port ${PORT}`
+      )
     );
   } catch (error) {}
 };

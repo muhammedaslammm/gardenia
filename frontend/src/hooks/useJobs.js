@@ -17,7 +17,7 @@ const useJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/api/admin/jobs`, {
+        const response = await fetch(`${BACKEND_URL}/api/jobs`, {
           method: "GET",
           credentials: "include",
         });
@@ -65,7 +65,7 @@ const useJobs = () => {
   // delete job
   const deleteJob = async (id) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/admin/jobs/${id}`, {
+      const response = await fetch(`${BACKEND_URL}/api/jobs/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -116,7 +116,7 @@ const useJobs = () => {
       setButtonState("loading");
       let response;
       if (updateChild) {
-        response = await fetch(`${BACKEND_URL}/api/admin/jobs/${updateChild}`, {
+        response = await fetch(`${BACKEND_URL}/api/jobs/${updateChild}`, {
           method: "PUT",
           credentials: "include",
           headers: {
@@ -125,7 +125,7 @@ const useJobs = () => {
           body: JSON.stringify(newJob),
         });
       } else {
-        response = await fetch(`${BACKEND_URL}/api/admin/jobs`, {
+        response = await fetch(`${BACKEND_URL}/api/jobs`, {
           method: "POST",
           credentials: "include",
           headers: {

@@ -31,8 +31,9 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const userLogin = async (userData) => {
+  const userLogin = async (userData, setButtonState) => {
     try {
+      setButtonState("loading");
       const response = await fetch(`${BACKEND_URL}/api/users/login`, {
         method: "POST",
         headers: {
@@ -42,11 +43,12 @@ const AuthProvider = ({ children }) => {
         credentials: "include",
       });
       const data = await response.json();
-      console.log("user data at login:", data.user);
       if (!response.ok) throw new Error();
+      setButtonState("idle");
       setUser(data.user);
       return true;
     } catch (error) {
+      setButtonState("idle");
       console.error(error.message);
       setUser(null);
       return false;

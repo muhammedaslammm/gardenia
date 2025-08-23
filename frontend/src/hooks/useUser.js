@@ -7,6 +7,8 @@ export const useUser = () => {
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [buttonText, setButtonText] = useState("Log In");
+  const [buttonState, setButtonState] = useState("idle");
+  const [logoutStat, setLogoutStat] = useState("idle");
   const { userLogin, userLogout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ export const useUser = () => {
       return setErrors((prevErrors) => ({ ...prevErrors, ...errors }));
     }
 
-    let login_result = await userLogin(userData);
+    let login_result = await userLogin(userData, setButtonState);
 
     if (!login_result) {
       setErrors((prevErrors) => ({
@@ -58,7 +60,9 @@ export const useUser = () => {
   };
 
   const handleLogout = async () => {
+    setLogoutStat("loading");
     const logout_result = await userLogout();
+    setLogoutStat("idle");
     if (logout_result) navigate("/admin-login");
     else toast.error("Logging Out Failed");
   };
@@ -69,6 +73,8 @@ export const useUser = () => {
     submitCredentials,
     handleLogout,
     buttonText,
+    logoutStat,
+    buttonState,
     errors,
   };
 };

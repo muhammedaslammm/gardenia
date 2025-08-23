@@ -2,17 +2,21 @@ import footer from "../data/footer";
 
 const Footer = () => {
   return (
-    <footer className="mt-6 xl:mt-10 mx-auto pt-4 xl:pt-2 space-y-8 xl:space-y-8 bg-[#081e10] text-white">
+    <footer className="mt-6 xl:mt-10 mx-auto pt-4 xl:pt-4 space-y-8 xl:space-y-8 bg-[#081e10] text-white">
       <div className="w-[90%] xl:w-[80%] mx-auto space-y-4">
         <div
-          className="top flex justify-between items-start xl:items-baseline"
+          className="top flex justify-between items-center"
           style={{ fontFamily: "DM Serif Display, serif" }}
         >
-          <div className="top__left w-[55%] text-[1.1rem] sm:text-[1.3rem] md:text-[1.5rem] xl:text-[1.8rem] leading-[1.3rem] xl:leading-[1.5rem] capitalize">
+          <div className="top__left w-[55%] text-[1rem] sm:text-[1.3rem] md:text-[1.5rem] xl:text-[1.8rem] leading-[1.3rem] xl:leading-[1.5rem] capitalize">
             {footer.title}
           </div>
           <div className="top__right text-[1.5rem] md:text-[1.8rem] xl:text-[2.5rem]">
-            {footer.logo}
+            <img
+              src="/logo/gardenia-logo-2.png"
+              alt="Gardenia Convention Center Logo"
+              className="w-[10rem] sm:w-[11rem] md:w-[14rem] xl:w-[16rem] h-[5rem] object-cover translate-x-6 sm:translate-x-6 md:translate-x-7 xl:translate-x-19"
+            />
           </div>
         </div>
         <div
