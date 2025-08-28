@@ -19,11 +19,11 @@ const Sidebar = ({ content, page_slug, stat }) => {
             className="w-[10rem] h-[3rem] object-cover -translate-x-[.4rem]"
           />
         </div>
-        <div className="flex flex-col gap-1 pt-2">
+        <div className="flex flex-row sm:flex-col sm:gap-1 sm:pt-2">
           {content.map(({ icon: Icon, ...d }) => (
             <Link
               to={d?.path}
-              className={`py-1 px-2 text-white font-medium hover:bg-[#0f592e]/60 transition rounded-[.1rem] ${
+              className={`flex-1 sm:flex-0 py-1 px-2 text-white font-medium hover:bg-[#0f592e]/60 transition rounded-[.1rem] ${
                 selectedSlug === d?.slug ? "bg-[#0f592e]/70" : ""
               } flex items-center gap-2`}
               onClick={() => setSelectedSlug(d.slug)}

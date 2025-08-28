@@ -14,14 +14,16 @@ const EventDetails = ({ utils }) => {
   const current_date = `${day} ${monthname}, ${year}`;
 
   return (
-    <div className="w-full sm:w-4/12 flex flex-col gap-1 relative overflow-x-hidden">
+    <div className="sm:w-4/12 flex flex-col gap-1 relative overflow-x-hidden">
       {/* top block */}
       <div className="flex justify-between items-end">
-        <div className="font-medium">Event Details</div>
+        <div className="font-medium text-[.9rem] sm:text-[1rem]">
+          Event Details
+        </div>
         <button
           title={past ? "Cannot add events on past date" : ""}
           disabled={past}
-          className={`a-button text-white ${
+          className={`a-button  text-white ${
             past ? "hidden" : "block bg-black"
           }`}
           onClick={eventFormData.handleSlideinform}
@@ -46,8 +48,8 @@ const EventDetails = ({ utils }) => {
       ) : (
         <div className="border border-neutral-300 flex-1 mt-1 p-2">
           <div className="pb-4">
-            <div className="font-medium">{`${monthname} ${day}, ${year}`}</div>
-            <div className="text-[.9rem]">{`Total booking: ${
+            <div className="font-medium text-[.8rem] sm:text-[1rem]">{`${monthname} ${day}, ${year}`}</div>
+            <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${
               events && events.length
             }`}</div>
           </div>

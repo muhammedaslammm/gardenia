@@ -7,7 +7,7 @@ const AdminHeader = ({ stat }) => {
   const { user } = useContext(AuthContext);
   const { handleLogout } = useUser();
   return (
-    <header className="fixed left-0 top-0 w-full flex justify-between items-center z-1000 bg-[#081e10]">
+    <header className="sm:hidden fixed left-0 top-0 w-full flex justify-between items-center z-1000 bg-[#081e10]">
       <div className="block pb-2 px-2 sm:border-b border-neutral-600">
         <img
           src="/logo/gardenia-logo-2.png"

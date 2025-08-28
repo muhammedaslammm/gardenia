@@ -106,7 +106,7 @@ input::placeholder {
 }
 
 .a-button {
-  @apply text-[.9rem] font-medium px-2 py-[.2rem] cursor-pointer;
+  @apply text-[.8rem] sm:text-[.9rem] font-medium px-2 py-[.2rem] cursor-pointer;
 }
 
 .admin {
