@@ -112,6 +112,9 @@ input::placeholder {
 .admin {
   scroll-behavior: smooth;
 }
+.admin--background {
+  background-color: var(--background-color);
+}
 .admin--text {
   @apply text-black;
 }

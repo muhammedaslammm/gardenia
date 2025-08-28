@@ -182,7 +182,7 @@ const SlideinForm = ({ utils }) => {
 
         <button
           disabled={eventFormData.buttonState === "loading"}
-          className={`bg-[#0f592e] text-white mt-4 py-2 w-full ${
+          className={`bg-[#0f592e] text-white mt-4 py-2 w-full flex justify-center items-center ${
             eventFormData.buttonState === "loading"
               ? "cursor-not-allowed opacity-60"
               : "cursor-pointer"

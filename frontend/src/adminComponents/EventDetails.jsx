@@ -14,7 +14,7 @@ const EventDetails = ({ utils }) => {
   const current_date = `${day} ${monthname}, ${year}`;
 
   return (
-    <div className="w-4/12 flex flex-col gap-1 relative overflow-x-hidden">
+    <div className="w-full sm:w-4/12 flex flex-col gap-1 relative overflow-x-hidden">
       {/* top block */}
       <div className="flex justify-between items-end">
         <div className="font-medium">Event Details</div>

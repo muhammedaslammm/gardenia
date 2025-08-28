@@ -5,6 +5,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useContext } from "react";
 import { Toaster } from "sonner";
 import { useUser } from "../hooks/useUser.js";
+import AdminHeader from "../adminComponents/AdminHeader.jsx";
 
 const Admin = () => {
   const { getPageInfo, getSideBarContents } = useSideBar();
@@ -20,8 +21,9 @@ const Admin = () => {
         <Toaster position="top-center" richColors />
         <section className="admin flex relative font--inter-tight">
           <Sidebar content={content} page_slug={data?.slug} stat={logoutStat} />
-          <div className="absolute left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-5 py-3 space-y-4">
-            <h1 className="text-[1.2rem] font-medium">{data?.page_title}</h1>
+          <AdminHeader stat={logoutStat} />
+          <div className="absolute top-8 sm:top-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-5 py-3 space-y-4">
+            <h1 className="sm:text-[1.2rem] font-medium">{data?.page_title}</h1>
             <Outlet />
           </div>
         </section>
