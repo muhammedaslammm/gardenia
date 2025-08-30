@@ -9,9 +9,7 @@ const SlideinForm = ({ utils }) => {
       } transition space-y-2 pt-7 sm:p-2 z-100`}
     >
       <div className="flex justify-between items-center">
-        <div className="font-medium text-[.9rem] sm:text-[1rem]">
-          Event Form
-        </div>
+        <div className="font-medium text-[1rem] sm:text-[1rem]">Event Form</div>
         <div
           className="text-red-900 font-semibold mr-4 mt-1 cursor-pointer"
           onClick={() => eventFormData.setShowForm(false)}
@@ -184,7 +182,7 @@ const SlideinForm = ({ utils }) => {
 
         <button
           disabled={eventFormData.buttonState === "loading"}
-          className={`bg-[#0f592e] text-white mt-4 py-1.5 sm:py-2 text-[.8rem] sm:text-[1rem] w-full flex justify-center items-center ${
+          className={`bg-[#0f592e] text-white mt-4 py-1.5 sm:py-2 text-[.9rem] sm:text-[1rem] w-full flex justify-center items-center ${
             eventFormData.buttonState === "loading"
               ? "cursor-not-allowed opacity-60"
               : "cursor-pointer"

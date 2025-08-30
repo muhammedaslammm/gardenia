@@ -43,7 +43,6 @@ const Jobs = () => {
     );
   return (
     <>
-      <Toaster position="top-center" richColors={true} />
       <section className="flex flex-col lg:flex-row ">
         <div className="lg:w-4/6 border-b pb-8 lg:pb-0 lg:border-r lg:pr-8 border-neutral-400 ">
           {jobs.length ? (

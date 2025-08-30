@@ -96,11 +96,11 @@ input::placeholder {
 }
 
 .admin_form--label {
-  @apply flex justify-between items-end text-[.8rem] sm:text-[1rem];
+  @apply flex justify-between items-end text-[.9rem] sm:text-[1rem];
 }
 
 .a--input {
-  @apply w-full text-[.8rem] sm:text-[1rem] border border-neutral-500 p-[.4rem] sm:p-[.6rem] outline-none;
+  @apply w-full text-[.9rem] sm:text-[1rem] border border-neutral-500 p-[.4rem] sm:p-[.6rem] outline-none;
 }
 .a--input::placeholder {
   color: rgb(75, 75, 75);

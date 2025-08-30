@@ -14,16 +14,14 @@ const EventDetails = ({ utils }) => {
   const current_date = `${day} ${monthname}, ${year}`;
 
   return (
-    <div className="pt-6 pb-[7rem] border-t border-neutral-300 sm:border-t-0 sm:pt-0 sm:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
+    <div className="pt-6  border-t border-neutral-300 sm:border-t-0 sm:pt-0 sm:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
       {/* top block */}
       <div className="flex justify-between items-end">
-        <div className="font-medium text-[.9rem] sm:text-[1rem]">
-          Event Details
-        </div>
+        <div className="font-medium sm:text-[1rem]">Event Details</div>
         <button
           title={past ? "Cannot add events on past date" : ""}
           disabled={past}
-          className={`a-button !text-[.8rem] sm:!text-[.9rem] ${
+          className={`a-button !text-[.9rem] sm:!text-[.9rem] ${
             past
               ? "hidden"
               : "block text-green-700 underline hover:text-violet-700"
@@ -50,7 +48,7 @@ const EventDetails = ({ utils }) => {
       ) : (
         <div className="border border-neutral-300 flex-1 mt-1 p-2">
           <div className="pb-2 sm:pb-4">
-            <div className="font-medium text-[.8rem] sm:text-[1rem]">{`${monthname} ${day}, ${year}`}</div>
+            <div className="font-medium text-[.9rem] sm:text-[1rem]">{`${monthname} ${day}, ${year}`}</div>
             <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${
               events && events.length
             }`}</div>
@@ -58,10 +56,10 @@ const EventDetails = ({ utils }) => {
           <div>
             {events &&
               events.map((event) => (
-                <div className="space-y-2 sm:space-y-4 py-4 border-t border-neutral-300">
+                <div className="space-y-4 sm:space-y-4 py-4 border-t border-neutral-300">
                   <div className="flex justify-between text-[.9rem]">
                     <div className="leading-[1.1rem] sm:leading-[1.4rem]">
-                      <div className="text-[.9rem] sm:text-[1.1rem] font-medium">
+                      <div className="text-[1rem] sm:text-[1.1rem] font-medium">
                         {event.event_title}
                       </div>
                       <div className="text-[.8rem] sm:text-[.9rem] text-[#4F4F4F]">
@@ -70,7 +68,7 @@ const EventDetails = ({ utils }) => {
                     </div>
                     <div className="text-[.8rem] sm:text-[1rem]">{`#${event.contract_number}`}</div>
                   </div>
-                  <div className="space-y-2 sm:space-y-3 text-[.8rem] sm:text-[1rem]">
+                  <div className="space-y-2 sm:space-y-3 text-[.9rem] sm:text-[1rem]">
                     <div className="space-y-1">
                       <div>
                         <div className="text-[#4F4F4F]">
@@ -96,14 +94,14 @@ const EventDetails = ({ utils }) => {
                       </div>
                       <div className="flex items-end gap-1 sm:gap-2">
                         <PencilSimpleLine
-                          className="cursor-pointer w-3 sm:w-4 h-3 sm:h-4"
+                          className="cursor-pointer w-4 h-4"
                           onClick={() =>
                             eventFormData.setFormDataforUpdate(event)
                           }
                         />
 
                         <TrashSimple
-                          className="cursor-pointer w-3 sm:w-4 h-3 sm:h-4 text-red-800"
+                          className="cursor-pointer w-4 h-4 text-red-800"
                           onClick={() => eventDelete.showModal(event)}
                         />
                       </div>

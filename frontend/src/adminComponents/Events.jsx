@@ -20,25 +20,27 @@ const Events = () => {
   return (
     <section className="">
       <div className="flex flex-col sm:flex-row sm:gap-4">
-        <div className="w-full pb-6 sm:pb-0 sm:w-8/12 space-y-1.5 sm:space-y-2">
+        <div className="w-full pb-6 sm:pb-0 sm:w-8/12 space-y-2 sm:space-y-2">
           <div className="text-[1rem] font-medium flex justify-between items-end">
-            <div className="text-[.8rem] sm:text-[1rem]">{dateString}</div>
+            <div className="text-[.9rem] sm:text-[1rem] font-semibold">
+              {dateString}
+            </div>
             <div className="flex gap-1">
               <ArrowSquareLeft
-                className="w-4 h-4 cursor-pointer"
+                className="w-4.5 sm:w-5 h-4.5 sm:h-5 cursor-pointer"
                 weight="light"
                 onClick={month.decrementMonth}
               />
               <ArrowSquareRight
-                className="w-4 h-4 cursor-pointer"
+                className="w-4.5 h-4.5 cursor-pointer"
                 weight="light"
                 onClick={month.incrementMonth}
               />
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-px">
+          <div className="grid grid-cols-7 gap-[.05rem]">
             {weekDays.map((day) => (
-              <div className="text-[.6rem] sm:text-[.8rem] text-neutral-600 font-medium text-center py-[.2rem] border border-[#0f592e]/10">
+              <div className="text-[.65rem] sm:text-[.8rem] text-neutral-600 font-medium text-center py-[.2rem] border border-[#0f592e]/10">
                 {day}
               </div>
             ))}
@@ -55,10 +57,12 @@ const Events = () => {
                 } active:bg-[#0f592e]/30 transition cursor-pointer p-1`} //bg-[#0f592e]/10
                 onClick={() => handleDate(d)}
               >
-                <div className="text-[.7rem] sm:text-[.8rem]">{d.day}</div>
+                <div className="text-[.7rem] sm:text-[.8rem] font-medium">
+                  {d.day}
+                </div>
                 {d.events.length > 0 && (
                   <div
-                    className={`text-[.6rem] sm:text-[.8rem] ${
+                    className={`text-[.5rem] sm:text-[.8rem] ${
                       d.isToday ? "text-white" : "text-[#0f592e]"
                     } font-medium self-end leading-[.8rem]`}
                   >{`${d.events.length} ${
