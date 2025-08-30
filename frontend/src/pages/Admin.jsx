@@ -22,7 +22,7 @@ const Admin = () => {
         <section className="admin flex relative font--inter-tight">
           <Sidebar content={content} page_slug={data?.slug} stat={logoutStat} />
           <AdminHeader stat={logoutStat} />
-          <div className="absolute top-8 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-5 py-3  sm:space-y-4">
+          <div className="absolute top-8 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-5 py-3 space-y-2  sm:space-y-4">
             <h1 className="text-[.9rem] sm:text-[1.2rem] font-medium">
               {data?.page_title}
             </h1>

@@ -95,14 +95,22 @@ input::placeholder {
   @apply text-[1.3rem] leading-[2rem];
 }
 
+.admin_form--label {
+  @apply flex justify-between items-end text-[.8rem] sm:text-[1rem];
+}
+
 .a--input {
-  @apply w-full text-[1rem] border border-neutral-500 p-[.6rem] outline-none;
+  @apply w-full text-[.8rem] sm:text-[1rem] border border-neutral-500 p-[.4rem] sm:p-[.6rem] outline-none;
 }
 .a--input::placeholder {
   color: rgb(75, 75, 75);
 }
 .a--input-error {
   @apply text-[.9rem] text-red-800 font-medium;
+}
+
+.admin_form--error {
+  @apply text-[.9rem] text-red-800;
 }
 
 .a-button {
@@ -119,12 +127,6 @@ input::placeholder {
   @apply text-black;
 }
 
-.admin_form--label {
-  @apply flex justify-between items-end;
-}
-.admin_form--error {
-  @apply text-[.9rem] text-red-800;
-}
 .background-image--admin {
   --s: 150px; /* control the size*/
   --c1: #5a8e6b;

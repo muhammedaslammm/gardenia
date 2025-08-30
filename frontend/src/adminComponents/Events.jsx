@@ -19,18 +19,18 @@ const Events = () => {
   const eventUtils = { dateDetails, eventFormData, eventDelete };
   return (
     <section className="">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="w-full sm:w-8/12 space-y-1">
+      <div className="flex flex-col sm:flex-row sm:gap-4">
+        <div className="w-full pb-6 sm:pb-0 sm:w-8/12 space-y-1.5 sm:space-y-2">
           <div className="text-[1rem] font-medium flex justify-between items-end">
-            <div className="text-[.9rem] sm:text-[1rem]">{dateString}</div>
+            <div className="text-[.8rem] sm:text-[1rem]">{dateString}</div>
             <div className="flex gap-1">
               <ArrowSquareLeft
-                className="w-5 h-5 cursor-pointer"
+                className="w-4 h-4 cursor-pointer"
                 weight="light"
                 onClick={month.decrementMonth}
               />
               <ArrowSquareRight
-                className="w-5 h-5 cursor-pointer"
+                className="w-4 h-4 cursor-pointer"
                 weight="light"
                 onClick={month.incrementMonth}
               />
@@ -55,7 +55,7 @@ const Events = () => {
                 } active:bg-[#0f592e]/30 transition cursor-pointer p-1`} //bg-[#0f592e]/10
                 onClick={() => handleDate(d)}
               >
-                <div className="text-[.6rem] sm:text-[.8rem]">{d.day}</div>
+                <div className="text-[.7rem] sm:text-[.8rem]">{d.day}</div>
                 {d.events.length > 0 && (
                   <div
                     className={`text-[.6rem] sm:text-[.8rem] ${

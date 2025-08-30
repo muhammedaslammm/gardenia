@@ -4,22 +4,24 @@ const SlideinForm = ({ utils }) => {
   const { eventFormData } = utils;
   return (
     <div
-      className={`absolute inset-0 bg-[#fffef7] ${
+      className={`absolute inset-0  bg-[#fffef7] ${
         eventFormData.showForm ? "translate-x-0" : "translate-x-full"
-      } transition space-y-2 p-2 z-100`}
+      } transition space-y-2 pt-7 sm:p-2 z-100`}
     >
       <div className="flex justify-between items-center">
-        <div className="font-medium">Event Form</div>
+        <div className="font-medium text-[.9rem] sm:text-[1rem]">
+          Event Form
+        </div>
         <div
           className="text-red-900 font-semibold mr-4 mt-1 cursor-pointer"
           onClick={() => eventFormData.setShowForm(false)}
         >
-          <X weight="bold" />
+          <X weight="bold" className="w-4 h-4" />
         </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex gap-2">
-          <div className="space-y-1 w-1/2">
+          <div className="space-y-[.1rem] sm:space-y-1 w-1/2">
             <div className="admin_form--label">
               <div>Event</div>
               {eventFormData.errors.event && (
@@ -51,7 +53,7 @@ const SlideinForm = ({ utils }) => {
               ))}
             </select>
           </div>
-          <div className="space-y-1 w-1/2">
+          <div className="space-y-[.1rem] sm:space-y-1 w-1/2">
             <div className="admin_form--label">
               <div>Stage</div>
               {eventFormData.errors.stage && (
@@ -85,7 +87,7 @@ const SlideinForm = ({ utils }) => {
             </select>
           </div>
         </div>
-        <div className="space-y-1">
+        <div className="space-y-[.1rem] sm:space-y-1">
           <div className="admin_form--label">
             <div>Event Title</div>
             {eventFormData.errors.event_title && (
@@ -104,7 +106,7 @@ const SlideinForm = ({ utils }) => {
           />
         </div>
         <div className="flex gap-2">
-          <div className="w-1/2 space-y-1">
+          <div className="w-1/2 space-y-[.1rem] sm:space-y-1">
             <div className="admin_form--label">
               <div>Start Time</div>
               {eventFormData.errors.start_time && (
@@ -121,7 +123,7 @@ const SlideinForm = ({ utils }) => {
               onChange={eventFormData.handleEventForm}
             />
           </div>
-          <div className="w-1/2 space-y-1">
+          <div className="w-1/2 space-y-[.1rem] sm:space-y-1">
             <div className="admin_form--label">
               <div>End Time</div>
               {eventFormData.errors.end_time && (
@@ -140,7 +142,7 @@ const SlideinForm = ({ utils }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          <div className="space-y-1 w-4/6">
+          <div className="space-y-[.1rem] sm:space-y-1 w-4/6">
             <div className="admin_form--label">
               <div>Phone Number</div>
               {eventFormData.errors.phone_number && (
@@ -159,7 +161,7 @@ const SlideinForm = ({ utils }) => {
               onChange={eventFormData.handleEventForm}
             />
           </div>
-          <div className="space-y-1 w-2/6">
+          <div className="space-y-[.1rem] sm:space-y-1 w-2/6">
             <div className="admin_form--label">
               <div>CN</div>
               {eventFormData.errors.contract_number && (
@@ -182,7 +184,7 @@ const SlideinForm = ({ utils }) => {
 
         <button
           disabled={eventFormData.buttonState === "loading"}
-          className={`bg-[#0f592e] text-white mt-4 py-2 w-full flex justify-center items-center ${
+          className={`bg-[#0f592e] text-white mt-4 py-1.5 sm:py-2 text-[.8rem] sm:text-[1rem] w-full flex justify-center items-center ${
             eventFormData.buttonState === "loading"
               ? "cursor-not-allowed opacity-60"
               : "cursor-pointer"
