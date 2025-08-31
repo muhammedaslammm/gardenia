@@ -253,7 +253,7 @@ const useEvents = () => {
     );
 
     if (matching_slot)
-      formErrors.slot = `Time slot already taken by contract "${matching_slot.contract_number}" for "${matching_slot.event}"`;
+      formErrors.slot = `Time slot already taken by contract "${matching_slot.contract_number}" for "${matching_slot.event}" in the selected hall.`;
     if (Object.keys(formErrors).length) {
       return setErrors((prevErrors) => {
         let newErrors = { ...prevErrors };
