@@ -1,10 +1,13 @@
+import Shimmer from "../components/Shimmer.jsx";
 import useJobs from "../hooks/useJobs.js";
 
 export default function Careers() {
   const { jobs } = useJobs();
   return (
     <div className="py-17 lg:py-20 min-h-[100svh] w-[90%] xl:w-[85%] mx-auto space-y-4">
-      {jobs.length === 0 ? (
+      {jobs === null ? (
+        <Shimmer />
+      ) : jobs.length === 0 ? (
         <div className="p-6 bg-[#0f592e]/10 rounded-[.3rem]">
           <div className="text-[1.8rem] font--dm-serif-display text-[#0f592e]">
             Nothing Found

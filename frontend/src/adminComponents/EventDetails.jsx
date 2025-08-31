@@ -34,9 +34,9 @@ const EventDetails = ({ utils }) => {
 
       {/* bottom block */}
       {events && !events.length ? (
-        <div className="border border-neutral-300 h-full flex flex-col justify-between">
-          <div className="p-2">
-            <p className="font-medium text-[1.1rem]">
+        <div className="border border-neutral-300 h-full flex flex-col justify-between gap-4">
+          <div className="p-2 leading-[1.3rem]">
+            <p className="font-medium text-[1rem] sm:text-[1.1rem]">
               No events found for {current_date}
             </p>
             <p className="text-[.9rem] text-neutral-800">

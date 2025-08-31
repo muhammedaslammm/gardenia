@@ -127,6 +127,25 @@ input::placeholder {
   @apply text-black;
 }
 
+.shimmer--box {
+  @apply h-[15rem] w-full bg-neutral-400 rounded-[.5rem] relative overflow-x-hidden;
+}
+.shimmer--shadow {
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent;
+  animation: shimmer-animation 2s infinite;
+}
+.shimmer--anime {
+  animation: shimmer-animation 2s infinite;
+}
+@keyframes shimmer-animation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translate(100%);
+  }
+}
+
 .background-image--admin {
   --s: 150px; /* control the size*/
   --c1: #5a8e6b;

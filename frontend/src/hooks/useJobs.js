@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const useJobs = () => {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState(null);
   const [errors, setErrors] = useState({});
   const [newJob, setNewJob] = useState({
     title: "",

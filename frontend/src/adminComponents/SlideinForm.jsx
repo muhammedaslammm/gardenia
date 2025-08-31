@@ -1,4 +1,4 @@
-import { Spinner, X } from "phosphor-react";
+import { Spinner, X, WarningCircle } from "phosphor-react";
 import { events, stages } from "../data/admin";
 const SlideinForm = ({ utils }) => {
   const { eventFormData } = utils;
@@ -18,6 +18,11 @@ const SlideinForm = ({ utils }) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
+        {eventFormData.errors.slot && (
+          <div className="bg-red-100 text-[.8rem] sm:text-[.8rem] lg:text-[.9rem] text-red-800/90 font-medium leading-[1.1rem] sm:leading-[1.1rem] lg:leading-[1.2rem] p-1 sm:p-2 rounded-[.2rem] mb-2">
+            {eventFormData.errors.slot}
+          </div>
+        )}
         <div className="flex gap-2">
           <div className="space-y-[.1rem] sm:space-y-1 w-1/2">
             <div className="admin_form--label">

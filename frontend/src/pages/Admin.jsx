@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { Toaster } from "sonner";
 import { useUser } from "../hooks/useUser.js";
 import AdminHeader from "../adminComponents/AdminHeader.jsx";
+import Shimmer from "../components/Shimmer.jsx";
+import ShimmerPage from "../components/ShimmerPage.jsx";
 
 const Admin = () => {
   const { getPageInfo, getSideBarContents } = useSideBar();
@@ -14,7 +16,7 @@ const Admin = () => {
   const { user } = useContext(AuthContext);
   const { logoutStat } = useUser();
 
-  if (user === null) return <div>loading</div>;
+  if (user === null) return <ShimmerPage />;
   else if (user)
     return (
       <>
@@ -22,7 +24,7 @@ const Admin = () => {
         <section className="admin flex relative font--inter-tight">
           <Sidebar content={content} page_slug={data?.slug} stat={logoutStat} />
           <AdminHeader stat={logoutStat} />
-          <div className="absolute top-9 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-4 sm:px-5 py-3 space-y-3 sm:space-y-4 pb-[5rem]">
+          <div className="absolute top-9 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-3 sm:px-5 py-3 space-y-3 sm:space-y-4 pb-[5rem]">
             <Outlet />
           </div>
         </section>

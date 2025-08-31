@@ -4,6 +4,7 @@ import generateDateObjects from "../utils/generateDateObjects.js";
 import { toast } from "sonner";
 import getDateString from "../utils/getDateString.js";
 import { AuthContext } from "../contexts/AuthContext.jsx";
+import getEventSlot from "../utils/getEventSlot.js";
 
 const useEvents = () => {
   const [events, setEvents] = useState([]);
@@ -164,6 +165,13 @@ const useEvents = () => {
         };
       });
     }
+    if (["stage", "start_time", "end_time"].includes(name)) {
+      setErrors((prev) => {
+        console.log("prev errors:", prev);
+        let { slot, ...rest } = prev;
+        return rest;
+      });
+    }
     setErrors((prevErrors) => {
       const { [name]: bin, ...rest } = prevErrors;
       return rest;
@@ -217,6 +225,7 @@ const useEvents = () => {
       else if (key === "phone_number" && value.trim().length < 10)
         formErrors[key] = "Invalid Number";
       else if (key === "contract_number") {
+        if (!value.trim()) formErrors[key] = "Required";
         if (eventID) {
           const matching_event = events.find((event) => {
             if (event._id !== eventID && event.contract_number === value)
@@ -232,6 +241,19 @@ const useEvents = () => {
       } else if (!value.trim()) formErrors[key] = "Required";
       else setErrors({});
     });
+
+    let { start_time, end_time, iso_date, stage } = formData;
+    let matching_slot = getEventSlot(
+      start_time,
+      end_time,
+      iso_date,
+      stage,
+      events,
+      eventID
+    );
+
+    if (matching_slot)
+      formErrors.slot = `Time slot already taken by contract "${matching_slot.contract_number}" for "${matching_slot.event}"`;
     if (Object.keys(formErrors).length) {
       return setErrors((prevErrors) => {
         let newErrors = { ...prevErrors };

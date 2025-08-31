@@ -8,7 +8,7 @@ const AdminHeader = ({ stat }) => {
   const { handleLogout } = useUser();
   return (
     <header className="sm:hidden fixed left-0 top-0 w-full flex justify-between items-center z-1000 bg-[#081e10]">
-      <div className="block pb-2 px-2 sm:border-b border-neutral-600">
+      <div className="block  py-1.5 px-2 sm:border-b border-neutral-600">
         <img
           src="/logo/gardenia-logo-2.png"
           alt="gardenia logo"
