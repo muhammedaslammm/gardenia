@@ -29,7 +29,7 @@ const headerConfig = {
   spaces: [
     {
       title: "Home",
-      path: "/home",
+      path: "/",
     },
     {
       title: "Main Hall",
@@ -43,7 +43,7 @@ const headerConfig = {
   careers: [
     {
       title: "Home",
-      path: "/home",
+      path: "/",
     },
   ],
 };

@@ -2,7 +2,7 @@ import footer from "../data/footer";
 
 const Footer = () => {
   return (
-    <footer className="mt-6 xl:mt-10 mx-auto pt-4 xl:pt-4 space-y-8 xl:space-y-8 bg-[#081e10] text-white">
+    <footer className="mt-6 xl:mt-10 mx-auto pt-4 xl:pt-4 space-y-8 xl:space-y-8 bg-[#081e10] text-white ">
       <div className="w-[90%] xl:w-[80%] mx-auto space-y-4">
         <div
           className="top flex justify-between items-center"

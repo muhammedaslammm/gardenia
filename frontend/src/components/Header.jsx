@@ -37,7 +37,7 @@ const Header = ({ func }) => {
             currentPath === "home" ? "sm:top-0" : "sm:top-2"
           } lg:static`}
           style={{ fontFamily: "Playfair Display, serif" }}
-          to={"/home"}
+          to="/"
         >
           {currentPath === "home" ? (
             <img

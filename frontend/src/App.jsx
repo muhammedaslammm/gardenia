@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger, ScrollSmoother } from "gsap/all";
 import Header from "./components/Header";
@@ -7,24 +7,30 @@ import Footer from "./components/Footer.jsx";
 import AnimatedHeader from "./components/AnimatedHeader.jsx";
 import FullNavBar from "./components/FullNavBar.jsx";
 import { useLocation } from "react-router-dom";
+import { ShimmerBanner } from "./components/ShimmerBanner.jsx";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const App = () => {
   const [fullNavState, setFullNavState] = useState(false);
+  const [isContentReady, setIsContentReady] = useState(false);
   const containerRef = useRef();
   const animatedHeaderRef = useRef();
+  const navigation = useNavigation();
+
   useLayoutEffect(() => {
     const context = gsap.context(() => {
-      ScrollSmoother.create({
-        wrapper: "#smooth-wrapper",
-        content: "#smooth-content",
-        smooth: 1.5,
-        smoothTouch: false,
+      requestAnimationFrame(() => {
+        ScrollSmoother.create({
+          wrapper: "#smooth-wrapper",
+          content: "#smooth-content",
+          smooth: 1.5,
+          smoothTouch: false,
+        });
       });
     }, containerRef);
     return () => context.revert();
-  }, []);
+  }, [isContentReady]);
 
   const { pathname, id } = useLocation();
 
@@ -55,12 +61,17 @@ const App = () => {
     <main id="smooth-wrapper" className="relative" ref={containerRef}>
       <div id="smooth-content">
         <Header func={handleButtonClick} />
-        <Outlet
-          context={{
-            onAboutEnter,
-            onAboutLeaveBack,
-          }}
-        />
+        {navigation.state === "loading" ? (
+          <ShimmerBanner />
+        ) : (
+          <Outlet
+            context={{
+              onAboutEnter,
+              onAboutLeaveBack,
+            }}
+          />
+        )}
+
         <Footer />
       </div>
       <AnimatedHeader ref={animatedHeaderRef} func={handleButtonClick} />
