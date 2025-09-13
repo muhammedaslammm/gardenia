@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { useUser } from "../hooks/useUser";
-import { Fingerprint } from "phosphor-react";
+import { Fingerprint, Spinner } from "phosphor-react";
 
 const Sidebar = ({ content, page_slug, stat }) => {
   const [selectedSlug, setSelectedSlug] = useState(page_slug);
@@ -44,11 +44,16 @@ const Sidebar = ({ content, page_slug, stat }) => {
             stat === "loading"
               ? "cursor-not-allowed opacity-60"
               : "cursor-pointer"
-          } hover:bg-[#081e10]/80 transition hover:text-red-400`}
+          } hover:bg-[#081e10]/80 transition hover:text-red-400 flex justify-center items-center`}
           onClick={handleLogout}
           title="Click button to logout"
+          disabled={stat === "loading"}
         >
-          Logout
+          {stat === "loading" ? (
+            <Spinner className="animate-spin duration-200" />
+          ) : (
+            "Log Out"
+          )}
         </button>
       </div>
     </aside>

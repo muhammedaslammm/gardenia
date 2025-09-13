@@ -71,7 +71,7 @@ const Jobs = () => {
             />
           )}
         </div>
-        <div className="mx-auto w-full md:w-[80%] lg:w-2/6 text-black pt-6 lg:pt-0 lg:pl-8 font--inter-tight space-y-4 rounded-[.3rem]">
+        <div className="mx-auto w-full lg:w-2/6 text-black pt-6 lg:pt-0 lg:pl-8 font--inter-tight space-y-4 rounded-[.3rem]">
           <div className=" font-semibold text-[1rem] sm:text-[1.2rem] ">
             {updateChild
               ? "Update the Selected Job..."

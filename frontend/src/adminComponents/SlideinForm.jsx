@@ -1,5 +1,5 @@
 import { Spinner, X, WarningCircle } from "phosphor-react";
-import { events, stages } from "../data/admin";
+import { events, stages, status } from "../data/admin";
 const SlideinForm = ({ utils }) => {
   const { eventFormData } = utils;
   return (
@@ -90,6 +90,7 @@ const SlideinForm = ({ utils }) => {
             </select>
           </div>
         </div>
+
         <div className="space-y-[.1rem] sm:space-y-1">
           <div className="admin_form--label">
             <div>Event Title</div>

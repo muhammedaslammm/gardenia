@@ -14,18 +14,14 @@ const EventDetails = ({ utils }) => {
   const current_date = `${day} ${monthname}, ${year}`;
 
   return (
-    <div className="pt-6  border-t border-neutral-300 sm:border-t-0 sm:pt-0 sm:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
+    <div className="pt-6  border-t border-neutral-300 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
       {/* top block */}
       <div className="flex justify-between items-end">
         <div className="font-medium sm:text-[1rem]">Event Details</div>
         <button
-          title={past ? "Cannot add events on past date" : ""}
-          disabled={past}
-          className={`a-button !text-[.9rem] sm:!text-[.9rem] ${
-            past
-              ? "hidden"
-              : "block text-green-700 underline hover:text-violet-700"
-          }`}
+          className={
+            "a-button !text-[.9rem] sm:!text-[.9rem] block text-green-700 underline hover:text-violet-700"
+          }
           onClick={eventFormData.handleSlideinform}
         >
           Add Event

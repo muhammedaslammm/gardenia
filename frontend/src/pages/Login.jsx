@@ -15,17 +15,17 @@ const Login = () => {
     <section className="relative">
       <Link
         to="/"
-        className="absolute top-1 left-1 z-100 text-white font-semibold text-[1.4rem]"
+        className="absolute top-2 left-[1%] sm:left-[6.5%] md:left-[50%] md:-translate-x-[50%] lg:left-1 lg:-translate-x-0 lg:top-1 z-100 text-white font-semibold text-[1.4rem]"
       >
         <img
           src="/logo/gardenia-logo-2.png"
           alt="Gardenia Convention Center Logo"
-          className="w-[10rem] h-[3rem] object-cover -translate-x-[.4rem]"
+          className="w-[7rem] sm:w-[7.5rem] md:w-[8.5rem] md:-translate-x-[8%] lg:translate-x-0 h-[2rem] lg:w-[8.5rem] lg:h-[3rem] object-cover"
         />
       </Link>
       <div className="lg:h-screen flex flex-col lg:flex-row">
         {/* left */}
-        <div className="lg:w-4/6 h-[10rem] lg:h-full relative">
+        <div className="lg:w-4/6 h-[10rem] sm:h-[12rem] lg:h-full relative">
           <img
             src={image6}
             alt="gardenia night image"
@@ -35,18 +35,18 @@ const Login = () => {
         </div>
         {/* right */}
         <div className="relative lg:w-2/6">
-          <div className="w-[90%] sm:w-[80%] md:w-[65%] lg:w-[80%]  flex flex-col gap-8 mx-auto my-[2rem] lg:my-[8rem]">
+          <div className="w-[90%] sm:w-[80%] md:w-[65%] lg:w-[80%] flex flex-col gap-4 lg:gap-8 mx-auto my-[1rem] sm:my-[2rem] md:my-[2.5rem] lg:my-[8rem]">
             <div>
-              <div className="font--dm-serif-display text-[1.6rem]">
+              <div className="font--dm-serif-display text-[1.3rem] lg:text-[1.6rem]">
                 Log-in to Admin Panel
               </div>
-              <div className="font--marriweather">
+              <div className="font--marriweather text-[.9rem] md:text-[1rem] leading-[1.4rem] md:leading-normal">
                 Enter your credentials below to use the admin panel of gardenia
                 convention center
               </div>
             </div>
-            <div className="flex flex-col gap-4">
-              <div className="space-y-1.5">
+            <div className="flex flex-col gap-4 text-[.9rem] md:text-[1rem]">
+              <div className="space-y-1.5 ">
                 <div className="flex items-baseline justify-between">
                   <div>Email</div>
                   {errors.email && (
@@ -56,7 +56,7 @@ const Login = () => {
                   )}
                 </div>
                 <input
-                  className="border border-neutral-400/70 p-2 rounded-[.3rem] w-full"
+                  className="border border-neutral-400/70 p-2 rounded-[.3rem] w-full placeholder:text-neutral-200"
                   type="email"
                   name="email"
                   placeholder="Eg: simon002@gmail.com"

@@ -12,4 +12,6 @@ export const events = [
 
 export const stages = ["Main Hall", "Mini Hall", "Outdoor Space"];
 
+export const status = ["Pending", "Completed", "Cancelled"];
+
 export const event_slots = [];
