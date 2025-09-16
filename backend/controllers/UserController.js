@@ -79,19 +79,47 @@ export const clientEnquiry = async (req, res) => {
     enquiry_date,
   } = req.body;
 
+  let EMAIL_ID = process.env.EMAIL_ID;
+  let APP_PASSWORD = process.env.APP_PASSWORD;
+
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "muhammedbinramli@gmail.com",
-        pass: "euay gczf vjsw botq",
+        user: EMAIL_ID,
+        pass: APP_PASSWORD,
       },
     });
     await transporter.sendMail({
-      from: client_email,
-      to: "muhammedbinramli@gmail.com",
-      subject: `New Hall Enquiry from ${client_name}.`,
-      text: "",
+      from: `"${client_name}" <${EMAIL_ID}>`,
+      replyTo: client_email,
+      to: EMAIL_ID,
+      subject: `New Enquiry from ${client_name}.`,
+      html: `
+      <div style="max-width:600px; margin:auto; font-family: Arial, sans-serif; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden; background:#ffffff;">
+  <div style="width:100%; height:.4rem; background-color:green;"></div>
+  
+  <!-- Header -->
+  <div style="padding:1rem">
+    
+    <div style="">
+      <div style="margin-bottom:10px; text-transform:capitalize; font-weight:bold">Gardenia Convention Center Enquiry</div>
+    <div style="margin-bottom:5px;">Client Name: ${client_name}</div>
+      <div style="margin-bottom:20px;">Event Interested : ${event_name}</div>
+    <div style="margin-bottom:5px;">Client Email: ${client_email}</div>
+    <div style="margin-bottom:5px;">Phone Number: ${phone_number}</div>
+    <div style="margin-bottom:5px;">Event Date: ${event_date}</div>
+  </div>
+  
+  
+  <!-- Footer -->
+  <p style="margin-top:50px; font-size:12px; color:#777; text-align:center;">
+    This enquiry was submitted via your website contact form.
+  </p>
+  </div>
+  
+</div>
+      `,
     });
     console.log(`Email send from ${client_email}`);
     res.status(200).json({ message: "email successfully send" });
