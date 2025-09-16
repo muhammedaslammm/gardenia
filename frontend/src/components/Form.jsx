@@ -8,9 +8,11 @@ import formSchema from "../utils/formSchema";
 import formatDate from "../utils/formatDate";
 import events from "../data/events";
 import FormButton from "./FormButton";
+import getFullDateString from "../utils/getDateFullString";
 
 const Form = () => {
   const [buttonStatus, setButtonStatus] = useState("idle");
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const {
     register,
     formState: { errors },
@@ -20,30 +22,28 @@ const Form = () => {
 
   const onSubmit = async (data) => {
     console.log("enquiry data:", data);
-    data.enquiry_date = new Date().toISOString().split("T")[0];
-    data.event_date = new Date(data.event_date).toISOString().split("T")[0];
+    data.enquiry_date = getFullDateString(new Date());
+    data.event_date = getFullDateString(data.event_date);
+    console.log("eventDate: ", data.enquiry_date);
     setButtonStatus("loading");
     try {
-      const response = await fetch(
-        `https://gardenia-bj8g.onrender.com/api/enquiries`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ data }),
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/api/users/client-enquiry`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
       const result = await response.json();
-      console.log("response result:", result);
-      if (result?.data?.id) {
+      if (response.ok) {
+        console.log("response result:", result);
         setButtonStatus("success");
         toast.success("Enquiry Successfully sent");
         reset();
         setTimeout(() => {
           setButtonStatus("idle");
         }, 1500);
-      } else throw new Error(result.error.message);
+      } else throw new Error();
     } catch (error) {
       setButtonStatus("failed");
       setTimeout(() => {
@@ -79,6 +79,19 @@ const Form = () => {
             />
             {errors.client_name && (
               <p className="error--form__input">{errors.client_name.message}</p>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              type="email"
+              className="form__input"
+              placeholder="Enter Email"
+              {...register("client_email")}
+            />
+            {errors.client_email && (
+              <p className="error--form__input">
+                {errors.client_email.message}
+              </p>
             )}
           </div>
           <div className="relative">

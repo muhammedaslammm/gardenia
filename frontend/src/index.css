@@ -83,7 +83,7 @@ button {
 }
 
 .error--form__input {
-  @apply absolute text-[.8rem] xl:text-[1rem] left-[.3rem] xl:left-[.5rem] text-red-700;
+  @apply absolute text-[.8rem] xl:text-[.9rem] right-[.3rem] xl:right-[.5rem] text-red-700;
 }
 
 input::placeholder {
