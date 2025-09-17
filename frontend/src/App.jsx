@@ -14,6 +14,8 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const App = () => {
   const [fullNavState, setFullNavState] = useState(false);
   const [isContentReady, setIsContentReady] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [hideLoader, setHideLoader] = useState(false);
   const containerRef = useRef();
   const animatedHeaderRef = useRef();
   const navigation = useNavigation();
@@ -39,6 +41,13 @@ const App = () => {
     if (smoother) smoother.scrollTo(0, true);
   }, [pathname, id]);
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timeout);
+  }, []);
+
   const handleButtonClick = () => {
     setFullNavState(!fullNavState);
   };
@@ -58,7 +67,11 @@ const App = () => {
   };
 
   return (
-    <main id="smooth-wrapper" className="relative" ref={containerRef}>
+    <main
+      id="smooth-wrapper"
+      className="relative website__content"
+      ref={containerRef}
+    >
       <div id="smooth-content">
         <Header func={handleButtonClick} />
         {navigation.state === "loading" ? (

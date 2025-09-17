@@ -36,6 +36,18 @@ body.content-loaded #smooth-content {
   font-family: "Whisper", cursive;
 }
 
+.website__content {
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
 img,
 .image,
 .space-fade,
@@ -63,7 +75,8 @@ button {
 }
 
 .banner-image {
-  animation: fade-in 1.5s ease-out;
+  animation: fade-in 1.7s ease-out;
+  animation-delay: 1s;
 }
 /* bg for card - #0f592e14 */
 .heading--section {

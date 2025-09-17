@@ -10,25 +10,6 @@ const Banner = () => {
   const imageRef = useRef();
   const isMobile = useIsMobile();
 
-  // useLayoutEffect(() => {
-  //   if (isMobile) return;
-  //   const context = gsap.context(() => {
-  //     const onLoad = () => {
-  //       ScrollTrigger.create({
-  //         trigger: bannerContainer.current,
-  //         start: "top top",
-  //         pin: imageRef.current,
-  //         pinSpacing: false,
-  //       });
-  //     };
-  //     if (document.readyState === "complete") onLoad();
-  //     else {
-  //       window.addEventListener("load", onLoad);
-  //       return () => window.removeEventListener("load", onLoad);
-  //     }
-  //   });
-  //   return () => context.revert();
-  // }, []);
   return (
     <section
       className="relative w-full h-[80svh] md:h-[100svh] overflow-hidden"
