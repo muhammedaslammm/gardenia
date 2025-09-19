@@ -70,14 +70,7 @@ export const userLogout = (req, res) => {
 // client enquiry
 export const clientEnquiry = async (req, res) => {
   console.log("user enquiry:", req.body);
-  const {
-    client_name,
-    client_email,
-    phone_number,
-    event_name,
-    event_date,
-    enquiry_date,
-  } = req.body;
+  const { client_name, client_email, phone_number } = req.body;
 
   let EMAIL_ID = process.env.EMAIL_ID;
   let APP_PASSWORD = process.env.APP_PASSWORD;
@@ -105,10 +98,8 @@ export const clientEnquiry = async (req, res) => {
     <div style="">
       <div style="margin-bottom:10px; text-transform:capitalize; font-weight:bold">Gardenia Convention Center Enquiry</div>
     <div style="margin-bottom:5px;">Client Name: ${client_name}</div>
-      <div style="margin-bottom:20px;">Event Interested : ${event_name}</div>
     <div style="margin-bottom:5px;">Client Email: ${client_email}</div>
     <div style="margin-bottom:5px;">Phone Number: ${phone_number}</div>
-    <div style="margin-bottom:5px;">Event Date: ${event_date}</div>
   </div>
   
   
@@ -121,7 +112,6 @@ export const clientEnquiry = async (req, res) => {
 </div>
       `,
     });
-    console.log(`Email send from ${client_email}`);
     res.status(200).json({ message: "email successfully send" });
   } catch (error) {
     console.log("error", error.message);

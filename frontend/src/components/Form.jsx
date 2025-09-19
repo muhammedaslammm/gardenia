@@ -108,37 +108,6 @@ const Form = () => {
             )}
           </div>
 
-          <div className="relative">
-            <select
-              name=""
-              id=""
-              className="form__input"
-              {...register("event_name")}
-            >
-              <option value="" disabled selected>
-                Select the Event
-              </option>
-              {events.map(({ title }) => (
-                <option value={title}>{title}</option>
-              ))}
-            </select>
-            {errors.event_name && (
-              <p className="error--form__input">{errors.event_name.message}</p>
-            )}
-          </div>
-          <div className="relative">
-            <input
-              type="date"
-              placeholder="Add Event Date"
-              id=""
-              className="form__input"
-              {...register("event_date")}
-            />
-            {errors.event_date && (
-              <p className="error--form__input">{errors.event_date.message}</p>
-            )}
-          </div>
-
           <button
             className={`submit-button text-[.9rem] md:text-[1rem] w-full  self-center flex justify-center items-center font-semibold py-2 md:py-3 mt-5 md:mt-8 text-[#0f592e] border   
             ${
