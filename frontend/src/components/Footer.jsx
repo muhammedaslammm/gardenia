@@ -1,9 +1,13 @@
 import footer from "../data/footer";
+import getHeaderContent from "../utils/getHeaderContent";
+import { Link } from "react-router-dom";
+import toSection from "../utils/toSection";
 
 const Footer = () => {
+  let { headerContent } = getHeaderContent();
   return (
     <footer className="mt-6 xl:mt-10 mx-auto pt-4 xl:pt-4 space-y-8 xl:space-y-8 bg-[#081e10] text-white ">
-      <div className="w-[90%] xl:w-[80%] mx-auto space-y-4">
+      <div className="w-[90%] xl:w-[85%] mx-auto space-y-4">
         <div
           className="top flex justify-between items-center"
           style={{ fontFamily: "DM Serif Display, serif" }}
@@ -26,12 +30,23 @@ const Footer = () => {
           <div className="middle__top text-[.8rem] md:text-[.9rem] xl:text-[1rem] flex flex-col xl:flex-row gap-2 md:gap-4 xl:gap-8 uppercase  ">
             <p className="text-neutral-400 ">{footer.links.label}</p>
             <ul className="flex flex-col xl:flex-row gap-2 md:gap-3 xl:gap-4">
-              {footer.links.links.map((link, index) => {
-                return (
-                  <li className="cursor-pointer" key={index}>
-                    {link}
-                  </li>
-                );
+              {headerContent.map((n) => {
+                if (n.path.startsWith("/")) {
+                  return (
+                    <Link to={`${n.path}`} className="tracking-[.1rem]">
+                      {n.title}
+                    </Link>
+                  );
+                } else {
+                  return (
+                    <li
+                      className="cursor-pointer tracking-[.1rem]"
+                      onClick={() => toSection(n.path)}
+                    >
+                      {n.title}
+                    </li>
+                  );
+                }
               })}
             </ul>
           </div>

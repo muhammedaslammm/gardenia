@@ -1,13 +1,9 @@
-import { ScrollTrigger, ScrollSmoother } from "gsap/all";
-import { useLayoutEffect, useRef } from "react";
 import toSection from "../utils/toSection";
-import navigation from "../data/navigation";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import getHeaderContent from "../utils/getHeaderContent";
 import { Phone } from "phosphor-react";
 
 const Header = ({ func }) => {
-  const containerRef = useRef();
   const { currentPath, headerContent } = getHeaderContent();
 
   return (
@@ -17,7 +13,6 @@ const Header = ({ func }) => {
           ? "absolute text-white/70 lg:text-white"
           : "fixed h-[3rem] lg:h-[3.3rem] bg-[#fffef7] text-[#0f592e] border-b border-[#e2ece5] "
       } left-0 w-full top-0 z-500`}
-      ref={containerRef}
     >
       <nav
         className={`relative lg:static flex justify-center sm:justify-between sm:items-center md:items-center xl:items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 mx-auto ${
@@ -33,7 +28,7 @@ const Header = ({ func }) => {
           <i className="fa-solid fa-bars text-[1.1rem] sm:text-[1.2rem] md:text-[1.3rem]"></i>
         </div>
         <Link
-          className={`absolute left-[50%] -translate-x-[50%] lg:-translate-x-[20px] top-2 ${
+          className={`absolute left-[50%] -translate-x-[50%] lg:-translate-x-[4px] xl:-translate-x-[15px] top-2 ${
             currentPath === "home" ? "sm:top-0" : "sm:top-2"
           } lg:static`}
           style={{ fontFamily: "Playfair Display, serif" }}
@@ -43,13 +38,13 @@ const Header = ({ func }) => {
             <img
               src="/logo/gardenia-logo-2.png"
               alt="gardenia logo"
-              className="w-[8.5rem] sm:w-[10rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3.2rem] xl:w-[11.5rem] h-auto object-cover -translate-y-[1.4rem] lg:translate-y-0"
+              className="w-[8.5rem] sm:w-[10rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3.2rem] xl:w-[11.5rem] h-auto object-cover -translate-y-[1.4rem] lg:-translate-x-[1.5rem] xl:-translate-x-[1.4rem] lg:translate-y-0"
             />
           ) : (
             <img
               src="/logo/gardenia-logo.png"
               alt="gardenia logo"
-              className="w-[5rem] lg:h-[2.5rem] lg:w-[7rem] h-auto  object-contain -translate-y-[.1rem]"
+              className="w-[5rem] lg:h-[2.5rem] lg:w-[6rem] xl:w-[8rem] h-auto  object-contain -translate-y-[.2rem]"
             />
           )}
         </Link>

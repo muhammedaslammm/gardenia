@@ -37,7 +37,7 @@ const About = () => {
       className="pt-4 pb-2 md:py-6 lg:py-8 xl:pb-12 space-y-2 lg:space-y-2"
       ref={containerRef}
     >
-      <h1 className="heading--section about-fade">who are we ?</h1>
+      <h1 className="heading--section">who are we ?</h1>
       <div className="space-y-8 xl:space-y-10">
         <div>
           <p

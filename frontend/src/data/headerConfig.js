@@ -46,6 +46,12 @@ const headerConfig = {
       path: "/",
     },
   ],
+  terms: [
+    {
+      title: "Home",
+      path: "/",
+    },
+  ],
 };
 
 export default headerConfig;

@@ -26,7 +26,7 @@ const App = () => {
         ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
           content: "#smooth-content",
-          smooth: 1.5,
+          smooth: 3.5,
           smoothTouch: false,
         });
       });

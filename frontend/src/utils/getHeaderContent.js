@@ -4,7 +4,6 @@ import headerConfig from "../data/headerConfig";
 const getHeaderContent = () => {
   let { pathname } = useLocation();
   let currentPath = pathname.split("/").filter(Boolean)[0] || "home";
-  console.log("current path:", currentPath);
   let headerContent = headerConfig[currentPath] || [];
   return { currentPath, headerContent };
 };
