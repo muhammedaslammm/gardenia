@@ -4,13 +4,13 @@ import {
   deleteEvent,
   getEvents,
   updateEvent,
-} from "../controllers/EventController.js";
-import { adminAccess, authenticate } from "../middlewares/authentication.js";
+} from "../controllers/eventController.js";
+import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
-router.post("/", authenticate, adminAccess, createEvent);
-router.put("/:eventid", authenticate, adminAccess, updateEvent);
+router.post("/", authenticate, createEvent);
+router.put("/:eventid", authenticate, updateEvent);
 router.get("/", getEvents);
-router.delete("/:id", authenticate, adminAccess, deleteEvent);
+router.delete("/:id", authenticate, deleteEvent);
 
 export default router;

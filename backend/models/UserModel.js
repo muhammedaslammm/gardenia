@@ -5,7 +5,16 @@ const userSchema = new mongoose.Schema({
   username: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, unique: true },
-  role: { type: String, enum: ["admin", "user"] },
+  role: { type: String, enum: ["md", "staff"], default: "staff" },
+});
+
+userSchema.add({
+  permission: {
+    type: Boolean,
+    default: function () {
+      return this.role === "md" ? true : false;
+    },
+  },
 });
 
 userSchema.pre("save", async function (next) {

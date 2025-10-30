@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
 import { useUser } from "../hooks/useUser";
 import { Fingerprint, Spinner } from "phosphor-react";
 
-const Sidebar = ({ content, page_slug, stat }) => {
+const Sidebar = ({ content, page_slug, stat, username }) => {
   const [selectedSlug, setSelectedSlug] = useState(page_slug);
-  const { user } = useContext(AuthContext);
   const { handleLogout } = useUser();
   return (
     <aside className="fixed left-0 bottom-0 w-full sm:top-0 sm:h-screen sm:w-[12rem] py-4 sm:py-1.5 px-2 bg-[#081e10] flex flex-col justify-between font--inter-tight z-1000">
@@ -37,7 +35,7 @@ const Sidebar = ({ content, page_slug, stat }) => {
       <div className="hidden pt-4 border-t pl-0 border-neutral-600 sm:flex flex-col gap-2">
         <div className="text-[.9rem] text-neutral-300 font-semibold flex items-center gap-2">
           <Fingerprint weight="bold" className="w-4 h-4" />
-          <span>{user.userName}</span>
+          <span>{username}</span>
         </div>
         <button
           className={`text-white font-semibold text-[.9rem] p-1.5 rounded-[.2rem] bg-[#081e10] ${

@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
 
-const getToken = (user) => {
-  const { userID, userName, userRole } = user;
-  return jwt.sign({ userID, userName, userRole }, process.env.JWT_SECRET, {
-    expiresIn: "2d",
+const getToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
   });
 };
 

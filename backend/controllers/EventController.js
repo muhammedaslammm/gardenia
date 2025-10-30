@@ -1,4 +1,4 @@
-import Event from "../models/EventModel.js";
+import Event from "../models/eventModel.js";
 
 export const createEvent = async (req, res) => {
   const { iso_date, start_time, end_time, ...rest } = req.body;

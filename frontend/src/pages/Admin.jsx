@@ -22,7 +22,12 @@ const Admin = () => {
       <>
         <Toaster position="top-center" richColors />
         <section className="admin flex relative font--inter-tight">
-          <Sidebar content={content} page_slug={data?.slug} stat={logoutStat} />
+          <Sidebar
+            content={content}
+            page_slug={data?.slug}
+            stat={logoutStat}
+            username={user?.username}
+          />
           <AdminHeader stat={logoutStat} />
           <div className="absolute top-9 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-3 sm:px-5 py-3 space-y-3 sm:space-y-4 pb-[5rem]">
             <Outlet />
