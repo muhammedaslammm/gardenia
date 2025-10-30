@@ -5,9 +5,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  console.log("backend url:", BACKEND_URL);
   useEffect(() => {
-    let isMounted = true;
     const fetchAdminDetails = async () => {
       try {
         const response = await fetch(`${BACKEND_URL}/api/users/me`, {
@@ -16,24 +14,17 @@ const AuthProvider = ({ children }) => {
         });
         const data = await response.json();
         console.log("user data at /me request:", data?.user || data?.message);
-        if (!response.ok) {
-          throw new Error(data.message);
-        } else {
-          if (isMounted) {
-            setUser(data.user);
-          }
+        if (!response.ok) throw new Error(data.message);
+        else {
+          setUser(data.user);
         }
       } catch (error) {
         console.error("error:", error.message);
-        if (isMounted) setUser(false);
+        setUser(null);
       }
     };
     fetchAdminDetails();
-    return () => {
-      isMounted = false;
-    };
   }, []);
-  console.log("user:", user);
 
   const userLogin = async (userData, setButtonState) => {
     try {

@@ -4,13 +4,13 @@ import {
   deleteJob,
   getJobs,
   updateJob,
-} from "../controllers/AdminController.js";
-import { authenticate, adminAccess } from "../middlewares/authentication.js";
+} from "../controllers/adminController.js";
+import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
-router.post("/", authenticate, adminAccess, createJob);
+router.post("/", authenticate, createJob);
 router.get("/", getJobs);
-router.put("/:id", authenticate, adminAccess, updateJob);
-router.delete("/:id", authenticate, adminAccess, deleteJob);
+router.put("/:id", authenticate, updateJob);
+router.delete("/:id", authenticate, deleteJob);
 
 export default router;

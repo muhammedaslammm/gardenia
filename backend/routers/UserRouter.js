@@ -5,11 +5,11 @@ import {
   userLogin,
   userLogout,
   userRegistration,
-} from "../controllers/UserController.js";
-import { authenticate, adminAccess } from "../middlewares/authentication.js";
+} from "../controllers/userController.js";
+import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
-router.get("/me", authenticate, adminAccess, myDetails);
+router.get("/me", authenticate, myDetails);
 router.post("/register", userRegistration);
 router.post("/login", userLogin);
 router.post("/logout", userLogout);

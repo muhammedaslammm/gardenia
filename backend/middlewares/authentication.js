@@ -8,18 +8,12 @@ const authenticate = (req, res, next) => {
       .json({ message: "authentication failed, unauthorized" });
   try {
     const token_decoded = getVerified(token);
-    req.user = token_decoded;
+    req.userId = token_decoded.userId;
     next();
   } catch (error) {
+    console.log("Error:", error.message);
     return res.status(401).json({ message: "Unauthorization" });
   }
 };
 
-const adminAccess = (req, res, next) => {
-  const user_role = req.user?.userRole;
-  if (user_role !== "admin")
-    res.status(403).json({ message: "Authorization denied" });
-  else next();
-};
-
-export { authenticate, adminAccess };
+export { authenticate };

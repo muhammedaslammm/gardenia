@@ -1,30 +1,24 @@
-import User from "../models/UserModel.js";
+import User from "../models/userModel.js";
 import { getToken } from "../utils/jwt.js";
 import nodemailer from "nodemailer";
 
-export const myDetails = (req, res) => {
-  console.log("user at myDetails:", req.user);
-  res.status(200).json({ user: req.user });
+export const myDetails = async (req, res) => {
+  try {
+    let user = await User.findById(req.userId).select("-password");
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 
 export const userRegistration = async (req, res) => {
   try {
     const data = req.body;
-    const user = await User.create({ ...data, role: "admin" });
-    const token = getToken({
-      userID: user._id,
-      userName: user.username,
-      userRole: user.role,
-    });
-    return res
-      .cookie("token", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      })
-      .status(200)
-      .json({ message: "user created" });
+    console.log("user data:", data);
+    const user = await User.create({ ...data });
+    return res.status(200).json({ message: "user created" });
   } catch (error) {
+    console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -34,11 +28,9 @@ export const userLogin = async (req, res) => {
   try {
     const match = await User.findOne({ email });
     if (match && (await match.comparePassword(password))) {
-      const token = getToken({
-        userID: match._id,
-        userName: match.username,
-        userRole: match.role,
-      });
+      const token = getToken(match._id);
+      let user = match.toObject();
+      delete user.password;
       return res
         .cookie("token", token, {
           httpOnly: true,
@@ -48,11 +40,7 @@ export const userLogin = async (req, res) => {
         .status(200)
         .json({
           message: "user authenticated",
-          user: {
-            userId: match._id,
-            userName: match.username,
-            userRole: match.role,
-          },
+          user,
         });
     } else return res.status(401).json({ message: "authentication failed" });
   } catch (error) {

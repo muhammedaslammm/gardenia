@@ -2,7 +2,7 @@ import app from "./app.js";
 import mongoose from "mongoose";
 
 const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING;
-const PORT = process.env.PORT || 4009;
+const PORT = process.env.PORT || 4000;
 
 const connectDB = async () => {
   try {
