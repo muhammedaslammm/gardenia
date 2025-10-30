@@ -56,7 +56,6 @@ img,
 .fade {
   will-change: opacity, transform;
   transform: translateZ(0);
-  opacity: 0.98;
 }
 
 h1,
