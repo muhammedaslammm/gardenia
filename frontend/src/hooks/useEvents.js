@@ -26,9 +26,7 @@ const useEvents = () => {
     phone_number: "",
   };
 
-  const dateString = `${months[month].head} ${year}, ${currentDate.getDate()} ${
-    weekDays[currentDate.getDay()]
-  }`;
+  const dateString = `${months[month].head} ${year}`;
 
   const [eventTitle, setEventTitle] = useState(initialEventTitle);
   const [eventTime, setEventTime] = useState(initialEventTime);

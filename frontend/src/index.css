@@ -121,6 +121,7 @@ input::placeholder {
 .a--input {
   @apply w-full text-[.9rem] sm:text-[1rem] border border-neutral-500 p-[.4rem] sm:p-[.6rem] outline-none;
 }
+
 .a--input::placeholder {
   color: rgb(75, 75, 75);
 }

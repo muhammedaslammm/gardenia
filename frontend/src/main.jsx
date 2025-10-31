@@ -17,6 +17,7 @@ import Admin from "./pages/Admin.jsx";
 import Events from "./adminComponents/Events.jsx";
 import Jobs from "./adminComponents/Jobs.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import EventManagement from "./adminComponents/EventManagement.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="events" /> },
       { path: "events", element: <Events /> },
+      { path: "events/event-management", element: <EventManagement /> },
       { path: "jobs", element: <Jobs /> },
     ],
   },

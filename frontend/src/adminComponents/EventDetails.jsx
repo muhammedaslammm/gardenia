@@ -3,6 +3,7 @@ import SlideinForm from "./SlideinForm";
 
 import { months } from "../data/days";
 import { TrashSimple, PencilSimpleLine } from "phosphor-react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import convertTo12hour from "../utils/convertTo12hour";
 
@@ -11,7 +12,7 @@ const EventDetails = ({ utils }) => {
   const formUtils = { eventFormData };
 
   const { day, monthname, year, past, events } = dateDetails || {};
-  const current_date = `${day} ${monthname}, ${year}`;
+  const current_date = `${monthname} ${day}, ${year}`;
 
   return (
     <div className="pt-6  border-t border-neutral-300 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
@@ -31,13 +32,22 @@ const EventDetails = ({ utils }) => {
       {/* bottom block */}
       {events && !events.length ? (
         <div className="border border-neutral-300 h-full flex flex-col justify-between gap-4">
-          <div className="p-2 leading-[1.3rem]">
+          <div className="p-2 leading-[1.3rem] flex flex-col">
             <p className="font-medium text-[1rem] sm:text-[1.1rem]">
-              No events found for {current_date}
+              {current_date}
             </p>
-            <p className="text-[.9rem] text-neutral-800">
-              There are no events added on this date.
-            </p>
+            <div className="text-[.9rem] mt-4">
+              <div className="text-[1rem]">No Events added on this date</div>
+              <p className=" text-neutral-800">
+                Click "add event" button to add a new event on this date.
+              </p>
+            </div>
+            <Link
+              to="/admin/events/event-management"
+              className="py-1 px-3 bg-green-800 text-white text-[.9rem] mt-8 self-end hover:bg-green-900 transition-colors cursor-pointer"
+            >
+              Add Event
+            </Link>
           </div>
           <div className="background-image--admin h-[10rem]"></div>
         </div>

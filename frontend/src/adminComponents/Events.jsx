@@ -21,8 +21,9 @@ const Events = () => {
     <section className="">
       <div className="flex flex-col lg:flex-row sm:gap-4">
         <div className="w-full pb-6 sm:pb-0 lg:w-8/12 space-y-2 sm:space-y-2">
+          <div className="text-[.9rem]">Events</div>
           <div className="text-[1rem] font-medium flex justify-between items-end">
-            <div className="text-[.9rem] sm:text-[1rem] font-semibold">
+            <div className="text-[.9rem] sm:text-[1.2rem] font-semibold">
               {dateString}
             </div>
             <div className="flex gap-1">
