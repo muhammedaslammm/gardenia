@@ -19,20 +19,20 @@ const EventDetails = ({ utils }) => {
       {/* top block */}
       <div className="flex justify-between items-end">
         <div className="font-medium sm:text-[1rem]">Event Details</div>
-        <button
+        {/* <button
           className={
             "a-button !text-[.9rem] sm:!text-[.9rem] block text-green-700 underline hover:text-violet-700"
           }
           onClick={eventFormData.handleSlideinform}
         >
           Add Event
-        </button>
+        </button> */}
       </div>
 
       {/* bottom block */}
       {events && !events.length ? (
         <div className="border border-neutral-300 h-full flex flex-col justify-between gap-4">
-          <div className="p-2 leading-[1.3rem] flex flex-col">
+          <div className="p-2 leading-[1.3rem] flex flex-col h-full">
             <p className="font-medium text-[1rem] sm:text-[1.1rem]">
               {current_date}
             </p>
@@ -43,8 +43,8 @@ const EventDetails = ({ utils }) => {
               </p>
             </div>
             <Link
-              to="/admin/events/event-management"
-              className="py-1 px-3 bg-green-800 text-white text-[.9rem] mt-8 self-end hover:bg-green-900 transition-colors cursor-pointer"
+              to={`/admin/events/event-management?date=${dateDetails?.iso_date}`}
+              className="py-1 px-3 bg-green-800 text-white text-[.9rem] mt-auto  self-end hover:bg-green-900 transition-colors cursor-pointer"
             >
               Add Event
             </Link>

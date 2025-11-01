@@ -2,18 +2,42 @@ import mongoose from "mongoose";
 
 const Schema = new mongoose.Schema(
   {
-    event: { type: String },
+    booking_number: { type: Number },
+    date: { type: Date },
     stage: { type: String },
-    event_title: { type: String },
-    event_date: {
-      date: { type: Date },
-      iso_date: { type: String },
-      start_time: { type: String },
-      end_time: { type: String },
+    event: { type: String },
+    start_time: { type: Date },
+    end_time: { type: Date },
+    event_name: { type: String },
+    contact_details: {
+      booker_name: { type: String },
+      address: { type: String },
+      phone_number_1: { type: Number },
+      phone_number_2: { type: Number },
     },
-    phone_number: { type: String },
-    contract_number: { type: String },
-    updated_by: { type: String },
+    payment: {
+      _id: false,
+      total_amount: Number,
+      payment_timeline: [
+        {
+          payment_type: {
+            type: String,
+            enum: ["advance", "partial", "final"],
+          },
+          paid_amount: { type: Number },
+        },
+      ],
+      remaining_amount: { type: Number },
+      amount_settled: { type: Boolean, default: false },
+    },
+    timeline: [
+      {
+        _id: false,
+        action: { type: String, enum: ["create", "update"], default: "create" },
+        author: { type: String },
+        date: { type: String },
+      },
+    ],
   },
   { strict: true }
 );

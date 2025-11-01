@@ -15,6 +15,7 @@ const useEvents = () => {
   const [month, setMonth] = useState(currentDate.getMonth());
 
   const dates = generateDateObjects(year, month, events);
+  
   const initialEventTitle = { event: "", stage: "", event_title: "" };
   const initialEventTime = {
     iso_date: currentDateDetails?.iso_date,

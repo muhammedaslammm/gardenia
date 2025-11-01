@@ -1,6 +1,5 @@
 import { weekDays, months } from "../data/days";
 import getDateString from "./getDateString";
-import getDatestring from "./getDateString";
 
 const generateDateObjects = (year, month, events) => {
   let dates = [];
@@ -18,9 +17,14 @@ const generateDateObjects = (year, month, events) => {
 
   while (current <= calendarEnd) {
     const current_iso_date = getDateString(current);
+    let current_timeStart = new Date(current);
+    current_timeStart.setHours(0, 0, 0, 0);
+    let current_timeEnd = new Date(current);
+    current_timeEnd.setHours(23, 59, 59, 999);
 
     const dateEvents = events.filter(
-      (event) => current_iso_date === event.event_date.iso_date
+      (event) =>
+        event.date >= current_timeStart && event.date <= current_timeEnd
     );
 
     dates.push({
@@ -33,8 +37,7 @@ const generateDateObjects = (year, month, events) => {
       monthname: months[current.getMonth()].head,
       isToday: isCurrentDate(today, current),
       isMonth: current.getMonth() === month,
-      past:
-        current.toLocaleDateString("en-US") < today.toLocaleDateString("en-US"),
+      past: current < today,
       events: dateEvents,
     });
     current.setDate(current.getDate() + 1);
