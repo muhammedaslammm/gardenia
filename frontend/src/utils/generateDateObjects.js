@@ -14,17 +14,18 @@ const generateDateObjects = (year, month, events) => {
   calendarEnd.setDate(calendarEnd.getDate() + (6 - calendarEnd.getDay()));
 
   let current = new Date(calendarStart);
+  let flag = true;
 
   while (current <= calendarEnd) {
     const current_iso_date = getDateString(current);
-    let current_timeStart = new Date(current);
-    current_timeStart.setHours(0, 0, 0, 0);
-    let current_timeEnd = new Date(current);
-    current_timeEnd.setHours(23, 59, 59, 999);
 
+    let currentISO = current.toISOString().split("T")[0];
+    if (flag) {
+      console.log("first date:", currentISO, " first current:", current);
+    }
+    flag = false;
     const dateEvents = events.filter(
-      (event) =>
-        event.date >= current_timeStart && event.date <= current_timeEnd
+      (event) => event.dateString === currentISO
     );
 
     dates.push({
@@ -40,6 +41,7 @@ const generateDateObjects = (year, month, events) => {
       past: current < today,
       events: dateEvents,
     });
+
     current.setDate(current.getDate() + 1);
   }
 

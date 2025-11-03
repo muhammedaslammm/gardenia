@@ -21,9 +21,11 @@ export const createEvent = async (req, res) => {
     }
     let current_user = await User.findOne({ _id: req.userId }); // be cautious - user data
     let remaining_amount = rest.total_amount - rest.paid_amount;
+    let dateString = new Date(date).toISOString().split("T")[0];
     let data = {
       booking_number: rest.booking_number,
       date,
+      dateString,
       stage: rest.stage,
       event: rest.event,
       start_time,
@@ -52,8 +54,6 @@ export const createEvent = async (req, res) => {
         },
       ],
     };
-    console.log("full data:", req.body);
-    console.log("event:", data);
     let new_event = await Event.create(data);
     console.log("new event:", new_event);
     return res.json({ message: "new event created" });
@@ -89,7 +89,6 @@ export const updateEvent = async (req, res) => {
 export const getEvents = async (req, res) => {
   try {
     const events = await Event.find();
-    console.log("events accessed", events);
     res.status(200).json({ message: "success", events });
   } catch (error) {
     console.error(error.message);

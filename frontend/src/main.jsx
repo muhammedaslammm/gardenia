@@ -18,6 +18,7 @@ import Events from "./adminComponents/Events.jsx";
 import Jobs from "./adminComponents/Jobs.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import EventManagement from "./adminComponents/EventManagement.jsx";
+import EventData from "./adminComponents/EventData.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="events" /> },
       { path: "events", element: <Events /> },
       { path: "events/event-management", element: <EventManagement /> },
+      { path: "events/event-data/:event", element: <EventData /> },
       { path: "jobs", element: <Jobs /> },
     ],
   },
