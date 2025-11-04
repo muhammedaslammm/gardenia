@@ -15,6 +15,7 @@ const useEvents = () => {
   const [month, setMonth] = useState(currentDate.getMonth());
 
   const dates = generateDateObjects(year, month, events);
+  
   const initialEventTitle = { event: "", stage: "", event_title: "" };
   const initialEventTime = {
     iso_date: currentDateDetails?.iso_date,
@@ -26,9 +27,7 @@ const useEvents = () => {
     phone_number: "",
   };
 
-  const dateString = `${months[month].head} ${year}, ${currentDate.getDate()} ${
-    weekDays[currentDate.getDay()]
-  }`;
+  const dateString = `${months[month].head} ${year}`;
 
   const [eventTitle, setEventTitle] = useState(initialEventTitle);
   const [eventTime, setEventTime] = useState(initialEventTime);

@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("error:", error.message);
-        setUser(null);
+        setUser(false);
       }
     };
     fetchAdminDetails();

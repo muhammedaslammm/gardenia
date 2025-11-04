@@ -1,6 +1,5 @@
 import { weekDays, months } from "../data/days";
 import getDateString from "./getDateString";
-import getDatestring from "./getDateString";
 
 const generateDateObjects = (year, month, events) => {
   let dates = [];
@@ -15,12 +14,18 @@ const generateDateObjects = (year, month, events) => {
   calendarEnd.setDate(calendarEnd.getDate() + (6 - calendarEnd.getDay()));
 
   let current = new Date(calendarStart);
+  let flag = true;
 
   while (current <= calendarEnd) {
     const current_iso_date = getDateString(current);
 
+    let currentISO = current.toISOString().split("T")[0];
+    if (flag) {
+      console.log("first date:", currentISO, " first current:", current);
+    }
+    flag = false;
     const dateEvents = events.filter(
-      (event) => current_iso_date === event.event_date.iso_date
+      (event) => event.dateString === currentISO
     );
 
     dates.push({
@@ -33,10 +38,10 @@ const generateDateObjects = (year, month, events) => {
       monthname: months[current.getMonth()].head,
       isToday: isCurrentDate(today, current),
       isMonth: current.getMonth() === month,
-      past:
-        current.toLocaleDateString("en-US") < today.toLocaleDateString("en-US"),
+      past: current < today,
       events: dateEvents,
     });
+
     current.setDate(current.getDate() + 1);
   }
 
