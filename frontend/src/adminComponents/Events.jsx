@@ -1,22 +1,16 @@
 import useEvents from "../hooks/useEvents";
 import { weekDays } from "../data/days.js";
-import { ArrowSquareRight, ArrowSquareLeft } from "phosphor-react";
+import { ArrowSquareRight, ArrowSquareLeft, Circle } from "phosphor-react";
 import EventDetails from "./EventDetails.jsx";
 import CustomModal from "./CustomModal.jsx";
+import dayjs from "dayjs";
 
 const Events = () => {
-  const {
-    dates,
-    currentDate,
-    month,
-    dateString,
-    handleDate,
-    dateDetails,
-    eventFormData,
-    eventDelete,
-  } = useEvents();
+  const { dates, selectedDate, month, handleDate, dateDetails, eventDelete } =
+    useEvents();
 
-  const eventUtils = { dateDetails, eventFormData, eventDelete };
+  const eventUtils = { dateDetails };
+
   return (
     <section className="">
       <div className="flex flex-col lg:flex-row sm:gap-4">
@@ -24,7 +18,7 @@ const Events = () => {
           <div className="text-[.9rem]">Events</div>
           <div className="text-[1rem] font-medium flex justify-between items-end">
             <div className="text-[.9rem] sm:text-[1.2rem] font-semibold">
-              {dateString}
+              {selectedDate.format("MMMM YYYY")}
             </div>
             <div className="flex gap-1">
               <ArrowSquareLeft
@@ -45,33 +39,34 @@ const Events = () => {
                 {day}
               </div>
             ))}
-            {dates.map((d) => (
-              <div
-                className={`h-[3.5rem] sm:h-[5rem] border border-[#0f592e]/10 bg-[#0f592e]/15 flex flex-col justify-between ${
-                  d.isToday
-                    ? "bg-[#0f592e]/80 text-white"
-                    : d.iso_date === dateDetails?.iso_date
-                    ? "border-[#0f592e]/80 bg-[#0f592e]/25"
-                    : d.isMonth
-                    ? "border-[#0f592e]/25 hover:border-[#0f592e]/80"
-                    : "opacity-55 border-[#0f592e]/10"
-                } active:bg-[#0f592e]/30 transition cursor-pointer p-1`} //bg-[#0f592e]/10
-                onClick={() => handleDate(d)}
-              >
-                <div className="text-[.7rem] sm:text-[.8rem] font-medium">
-                  {d.day}
+            {dates.map((d) => {
+              let isToday = d.date.isSame(dayjs(), "day");
+              let isSelected = selectedDate.isSame(d.date, "day");
+              let isCurrentMonth = d.date.month() === selectedDate.month();
+              let events = d.events.length;
+              return (
+                <div
+                  className={`h-[3.5rem] sm:h-[5rem] border border-[#0f592e]/10  flex flex-col justify-between transition cursor-pointer p-1 ${
+                    !isCurrentMonth ? "opacity-15 bg-neutral-300" : ""
+                  } ${events ? "bg-yellow-400/10" : ""} ${
+                    isSelected
+                      ? "border border-green-900/20 bg-green-900/5"
+                      : ""
+                  }`}
+                  onClick={() => handleDate(d)}
+                >
+                  <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between">
+                    {d.date.date()}{" "}
+                    {isToday && (
+                      <Circle weight="fill" className="text-green-900" />
+                    )}
+                  </div>
+                  {d.events.length > 0 && (
+                    <div className="text-[.8rem] text-green-800 font-medium self-end">{`${d.events.length} Booking`}</div>
+                  )}
                 </div>
-                {d.events.length > 0 && (
-                  <div
-                    className={`text-[.5rem] sm:text-[.8rem] ${
-                      d.isToday ? "text-white" : "text-[#0f592e]"
-                    } font-medium self-end leading-[.8rem]`}
-                  >{`${d.events.length} ${
-                    d.events.length > 1 ? "bookings" : "booking"
-                  }`}</div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         <EventDetails utils={eventUtils} />
@@ -89,3 +84,5 @@ const Events = () => {
 };
 
 export default Events;
+
+// [#0f592e]/15

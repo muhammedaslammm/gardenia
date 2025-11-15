@@ -114,6 +114,11 @@ input::placeholder {
   @apply text-[1.3rem] leading-[2rem];
 }
 
+/* admin */
+.event--today {
+  @apply text-3xl;
+}
+
 .admin_form--label {
   @apply flex justify-between items-end text-[.9rem] sm:text-[1rem];
 }

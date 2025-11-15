@@ -4,6 +4,7 @@ import User from "../models/userModel.js";
 export const createEvent = async (req, res) => {
   try {
     let { date, start_time, end_time, ...rest } = req.body;
+    console.log(" date:", date);
     start_time = new Date(`${date}T${start_time}:00`);
     end_time = new Date(`${date}T${end_time}:00`);
     date = new Date(date);
@@ -53,7 +54,7 @@ export const createEvent = async (req, res) => {
           date: new Date(),
         },
       ],
-    };
+    }; 
     let new_event = await Event.create(data);
     console.log("new event:", new_event);
     return res.json({ message: "new event created" });
