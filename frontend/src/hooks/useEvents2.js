@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import inputValidation from "../utils/inputValidation";
 
 const useEvents2 = () => {
   let [generalData, setGeneralData] = useState({
@@ -63,6 +64,7 @@ const useEvents2 = () => {
 
   const submitEvent = async (event, date) => {
     event.preventDefault();
+    let { errors } = inputValidation(generalData, contactData, paymentData);
     try {
       setStat("loading");
       let response = await fetch(`${BACKEND_URL}/api/events`, {
