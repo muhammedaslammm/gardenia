@@ -12,8 +12,9 @@ const EventManagement = () => {
     useEvents2();
 
   const [searchParams] = useSearchParams();
-  let date = dayjs(searchParams.get("date"));
-  let date_string = date.format("Do MMMM, YYYY");
+  let raw_date = dayjs(searchParams.get("date"));
+  let date = dayjs(raw_date).format("YYYY-MM-DD");
+  let date_string = raw_date.format("Do MMMM, YYYY");
 
   return (
     <main>
@@ -32,7 +33,7 @@ const EventManagement = () => {
         <ContactInfo data={contactData} change={handleInputField} />
         <PaymentInfo data={paymentData} change={handleInputField} />
         <button
-          className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium"
+          className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium cursor-pointer"
           onClick={(event) => submitEvent(event, date)}
         >
           Create Event
