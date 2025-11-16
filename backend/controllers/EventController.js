@@ -1,13 +1,23 @@
 import EventDate from "../models/eventDateModel.js";
 import Event from "../models/eventModel.js";
 import User from "../models/userModel.js";
+import getData from "../utils/getData.js";
+import handleDayEvent from "../utils/handleDayEvent.js";
 
 export const createEvent = async (req, res) => {
   try {
-    let { date, start_time, end_time, ...rest } = req.body;
-    // 1 find matching date object
-    let date_object = await EventDate.findOne({ date });
-    console.log("frontend data:", req.body);
+    let client_data = req.body;
+    let user = await User.findOne({ _id: req.userId });
+    let new_event = getData(client_data, user);
+
+    let event = await Event.create(new_event);
+    let result = handleDayEvent(
+      event.date,
+      event.stage,
+      event.start_time,
+      event.end_time
+    );
+
     return res.json({ message: "event reached at backend" });
   } catch (error) {
     console.log("error:", error.message);

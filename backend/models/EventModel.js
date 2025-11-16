@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const Schema = new mongoose.Schema(
   {
     booking_number: { type: Number },
-    date: { type: Date },
-    dateString: { type: String },
+    date: { type: String },
     stage: { type: String },
     event: { type: String },
     start_time: { type: Date },
@@ -29,7 +28,7 @@ const Schema = new mongoose.Schema(
         },
       ],
       remaining_amount: { type: Number },
-      amount_settled: { type: Boolean, default: false },
+      payment_closed: { type: Boolean, default: false },
     },
     timeline: [
       {
