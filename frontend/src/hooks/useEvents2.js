@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import inputValidation from "../utils/inputValidation";
 import dayjs from "dayjs";
 
@@ -27,9 +27,34 @@ const useEvents2 = () => {
   let [generalData, setGeneralData] = useState(generalSchema);
   let [contactData, setContactData] = useState(contactSchema);
   let [paymentData, setPaymentData] = useState(paymentSchema);
+
+  let [searchParams] = useSearchParams();
+  let date = dayjs(searchParams.get("date")).format("YYYY-MM-DD");
+  let [dateInfo, setDateInfo] = useState(null);
+
   let [stat, setStat] = useState("idle");
   let navigate = useNavigate();
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    let getData = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/event-dates?date=${date}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        let result = await response.json();
+        if (!response.ok) throw new Error(result.message);
+        setDateInfo(result.date_result);
+      } catch (error) {
+        console.log("event management fetch error:", error.message);
+      }
+    };
+    getData();
+  }, [date]);
 
   const handleInputField = (event) => {
     const { name, value } = event.target;
@@ -66,7 +91,7 @@ const useEvents2 = () => {
     }
   };
 
-  const submitEvent = async (event, date) => {
+  const submitEvent = async (event) => {
     event.preventDefault();
     let { errors } = inputValidation(generalData, contactData, paymentData);
     let start_time = dayjs(
@@ -87,7 +112,6 @@ const useEvents2 = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          date,
           ...generalData,
           ...contactData,
           ...paymentData,
@@ -109,6 +133,7 @@ const useEvents2 = () => {
   };
 
   return {
+    dateInfo,
     handleInputField,
     generalData,
     contactData,

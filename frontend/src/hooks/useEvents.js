@@ -32,6 +32,7 @@ const useEvents = () => {
         );
         const result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        console.log("result:", result.dates[0]);
         setEventDates(result.dates);
       } catch (error) {
         console.error(error.message);

@@ -8,13 +8,18 @@ import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
 
 const EventManagement = () => {
-  let { handleInputField, generalData, contactData, paymentData, submitEvent } =
-    useEvents2();
+  let {
+    dateInfo,
+    handleInputField,
+    generalData,
+    contactData,
+    paymentData,
+    submitEvent,
+  } = useEvents2();
 
   const [searchParams] = useSearchParams();
-  let raw_date = dayjs(searchParams.get("date"));
-  let date = dayjs(raw_date).format("YYYY-MM-DD");
-  let date_string = raw_date.format("Do MMMM, YYYY");
+  let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
+  let message = getEventMessage();
 
   return (
     <main>
@@ -34,7 +39,7 @@ const EventManagement = () => {
         <PaymentInfo data={paymentData} change={handleInputField} />
         <button
           className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium cursor-pointer"
-          onClick={(event) => submitEvent(event, date)}
+          onClick={(event) => submitEvent(event)}
         >
           Create Event
         </button>

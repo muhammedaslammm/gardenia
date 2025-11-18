@@ -1,6 +1,11 @@
 import EventDate from "../models/eventDateModel.js";
 
 const handleDayEvent = async (date, stage, start_time, end_time) => {
+  let ERROR_MESSAGE = (message = null) => {
+    if (message)
+      return `Event Creation Failed : ${message} is not available on this date`;
+    return "Event Creation Failed : Given event time is overlapping an existing event time";
+  };
   try {
     let event_date = await EventDate.findOne({
       date: {
@@ -13,12 +18,6 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
       mainhall_stat: event_date?.mainhall_stat || 1,
       minihall_stat: event_date?.minihall_stat || 1,
       events: event_date?.events.length ? event_date?.events : [],
-    };
-
-    let ERROR_MESSAGE = (message = null) => {
-      if (message)
-        return `Event Creation Failed : ${message} is not available on this date`;
-      return "Event Creation Failed : Given event time is overlapping an existing event time";
     };
 
     if (stage === "main_hall") {
