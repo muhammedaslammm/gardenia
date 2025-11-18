@@ -43,7 +43,6 @@ const useEvents = () => {
 
   useEffect(() => {
     let match = dates.find((d) => dayjs(d.date).isSame(selectedDate, "day"));
-    console.log("match:", match);
     setselectedDateDetails(match);
   }, [eventDates]);
 
@@ -57,7 +56,6 @@ const useEvents = () => {
     setMonth(d.date.month());
     setselectedDate(d.date);
     setselectedDateDetails(d);
-    setShowForm(false);
   };
 
   const incrementMonth = () => {

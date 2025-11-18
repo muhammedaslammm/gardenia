@@ -1,12 +1,19 @@
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { Link } from "react-router-dom";
+import getEventMessage from "../utils/getEventMessage";
 
 dayjs.extend(advancedFormat);
 
 const EventDetails = ({ utils }) => {
   const { dateDetails = {} } = utils;
-  let { events = [], date = null } = dateDetails;
+  let {
+    events = [],
+    date = null,
+    mainhall_stat = 1,
+    minihall_stat = 1,
+  } = dateDetails;
+  let message = getEventMessage(mainhall_stat, minihall_stat);
 
   const formatted_date = date ? date.format("Do MMMM, YYYY - dddd") : "";
   const date_string = date ? date.format("YYYY-MM-DD") : "";
@@ -19,44 +26,35 @@ const EventDetails = ({ utils }) => {
       </div>
 
       {/* bottom block */}
-      {!events.length ? (
-        <div className="border border-neutral-300 h-full flex flex-col justify-between gap-4">
-          <div className="p-2 leading-[1.3rem] flex flex-col h-full">
-            <p className="font-medium text-[1rem] sm:text-[1.1rem]">
-              {formatted_date}
-            </p>
-            <div className="text-[.9rem] mt-4">
-              <div className="text-[1rem]">No Events added on this date</div>
+      <div className="border border-neutral-300 h-full flex flex-col gap-2 p-2">
+        <div className="font-medium text-[1rem] sm:text-[1.1rem]">
+          {formatted_date}
+        </div>
+        {!events.length ? (
+          <div className=" flex flex-col h-full">
+            <div className="text-[.9rem] bg-green-800/5 p-2">
+              <div className="text-[1rem] font-medium">
+                No Events added on this date
+              </div>
               <p className=" text-neutral-800">
                 Click "add event" button to add a new event on this date.
               </p>
             </div>
-            <Link
-              to={`/admin/events/event-management?date=${date_string}`}
-              className="py-1 px-3 bg-green-800 text-white text-[.9rem] mt-8 self-end hover:bg-green-900 transition-colors cursor-pointer"
-            >
-              Add Event
-            </Link>
           </div>
-        </div>
-      ) : (
-        <div className="border border-neutral-300 flex-1 mt-1 p-2">
-          <div className="pb-2 sm:pb-4">
-            <div className="font-medium text-[.9rem] sm:text-[1rem]">{``}</div>
-            <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${events.length}`}</div>
-          </div>
+        ) : (
           <div>
-            {events.map(
-              (
-                event //limit the event data
-              ) => (
+            <div className="pb-2 sm:pb-2">
+              <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${events.length}`}</div>
+            </div>
+            <div className="space-y-4">
+              {events.map((event) => (
                 <Link
-                  className="space-y-4 sm:space-y-4 p-2 flex justify-between bg-[#0f592e]/9 cursor-pointer hover:-translate-y-1 transition-transform"
+                  className="space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-200"
                   to={`/admin/events/event-data/${event._id}`}
                 >
                   <div className="space-y-8">
                     <div className="leading-[1.4rem]">
-                      <div className="text-[1.1rem] font-medium">
+                      <div className="text-[1rem] uppercase font-medium">
                         {event.event_name}
                       </div>
                       <div className="text-[.9rem] text-neutral-600">
@@ -64,31 +62,43 @@ const EventDetails = ({ utils }) => {
                       </div>
                     </div>
                     <div>
-                      <div className="text-[.9rem]">
-                        Stage:{" "}
-                        <span className="font-medium">{event.stage}</span>
+                      <div className="text-[.9rem] capitalize">
+                        Stage: {event.stage.split("_").join(" ")}
                       </div>
+                      <div className="text-[.9rem]">{`${dayjs(
+                        event.start_time
+                      ).format("hh:mm a")} - ${dayjs(event.end_time).format(
+                        "hh:mm a"
+                      )}`}</div>
                     </div>
                   </div>
                   <div>
                     <div className="text-end leading-[1.1rem]">
-                      <div className="text-[1.2rem] font-medium">
+                      <div className="text-[1rem] font-medium">
                         # {event.booking_number}
                       </div>
                     </div>
                   </div>
                 </Link>
-              )
-            )}
-          </div>
-          {events.length > 0 && (
-            <div className="p-4 bg-red-50 text-red-900 mt-[17rem] font-medium">
-              Note: No events can be added on this date. Already a booking found
-              on this date
+              ))}
             </div>
-          )}
+          </div>
+        )}
+        <div className="mt-auto flex flex-col gap-4">
+          <div
+            className=" p-4"
+            style={{ color: message.color, backgroundColor: message.bg }}
+          >
+            {message.text}
+          </div>
+          <Link
+            to={`/admin/events/event-management?date=${date_string}`}
+            className="w-full py-2 px-3 bg-green-900 text-white text-[.9rem] font-medium text-center hover:bg-green-800 transition-colors cursor-pointer uppercase"
+          >
+            Add Event
+          </Link>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -9,9 +9,33 @@ export const getDates = async (req, res) => {
     let month_start = new Date(year, month - 1, 1);
     let month_end = new Date(year, month, 1);
 
-    let dates = await EventDate.find({
-      date: { $gte: month_start, $lt: month_end },
-    });
+    let dates = await EventDate.aggregate([
+      { $match: { date: { $gte: month_start, $lt: month_end } } },
+      {
+        $lookup: {
+          from: "events",
+          localField: "events",
+          foreignField: "_id",
+          as: "events",
+        },
+      },
+      {
+        $project: {
+          date: 1,
+          mainhall_stat: 1,
+          minihall_stat: 1,
+          "events._id": 1,
+          "events.booking_number": 1,
+          "events.date": 1,
+          "events.event_name": 1,
+          "events.stage": 1,
+          "events.event": 1,
+          "events.start_time": 1,
+          "events.end_time": 1,
+          "events.name": 1,
+        },
+      },
+    ]);
     res.json({ dates });
   } catch (error) {
     console.log("date controller error:", error.message);

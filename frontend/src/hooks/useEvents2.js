@@ -72,11 +72,11 @@ const useEvents2 = () => {
     let start_time = dayjs(
       `${date} ${generalData.start_time}`,
       "YYYY-MM-DD HH:mm"
-    ).toISOString();
+    ).format();
     let end_time = dayjs(
       `${date} ${generalData.end_time}`,
       "YYYY-MM-DD HH:mm"
-    ).toISOString();
+    ).format();
     generalData.start_time = start_time;
     generalData.end_time = end_time;
     try {
@@ -96,12 +96,12 @@ const useEvents2 = () => {
       });
       let result = await response.json();
       if (response.status == 409) {
-        toast.error(
-          "Event Creation Failed : An event is already booked on this date"
-        );
+        toast.error(result.message);
       } else if (!response.ok) throw new Error(result.message);
       else {
         console.log(result.message);
+        toast.success(result.message);
+        navigate("/admin/events");
       }
     } catch (error) {
       console.log("error:", error.message);

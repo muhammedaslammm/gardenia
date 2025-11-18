@@ -28,8 +28,12 @@ const GeneralData = ({ data, change }) => {
             <option value="" selected disabled>
               Select a Stage
             </option>
-            {stages.map((stage) => (
-              <option>{stage}</option>
+            {[
+              ["main_hall", "Main Hall"],
+              ["mini_hall", "Mini Hall"],
+              ["outdoor_space", "Out Door Space"],
+            ].map(([key, value]) => (
+              <option value={key}>{value}</option>
             ))}
           </select>
         </div>

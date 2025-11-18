@@ -21,8 +21,8 @@ const getData = (client_data, user) => {
     date,
     stage,
     event,
-    start_time,
-    end_time,
+    start_time: new Date(start_time),
+    end_time: new Date(end_time),
     event_name,
     contact_details: {
       booker_name,

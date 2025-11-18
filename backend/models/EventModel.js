@@ -4,7 +4,7 @@ const Schema = new mongoose.Schema(
   {
     booking_number: { type: Number },
     date: { type: String },
-    stage: { type: String },
+    stage: { type: String, enum: ["main_hall", "mini_hall", "outdoor_space"] },
     event: { type: String },
     start_time: { type: Date },
     end_time: { type: Date },

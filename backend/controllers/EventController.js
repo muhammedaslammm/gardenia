@@ -1,8 +1,8 @@
 import EventDate from "../models/eventDateModel.js";
 import Event from "../models/eventModel.js";
 import User from "../models/userModel.js";
-import getData from "../utils/getData.js";
 import handleDayEvent from "../utils/handleDayEvent.js";
+import getData from "../utils/getData.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -10,15 +10,24 @@ export const createEvent = async (req, res) => {
     let user = await User.findOne({ _id: req.userId });
     let new_event = getData(client_data, user);
 
-    let event = await Event.create(new_event);
-    let result = handleDayEvent(
-      event.date,
-      event.stage,
-      event.start_time,
-      event.end_time
+    let day_result = await handleDayEvent(
+      new_event.date,
+      new_event.stage,
+      new_event.start_time,
+      new_event.end_time
     );
+    if (day_result?.message) {
+      return res.status(409).json({ message: day_result.message });
+    }
 
-    return res.json({ message: "event reached at backend" });
+    let event = await Event.create(new_event);
+    let new_event_date = await EventDate.create({
+      ...day_result,
+      events: [...day_result.events.map((ev) => ev._id), event._id],
+      date: new Date(new_event.date),
+    });
+
+    return res.json({ message: "event created" });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
