@@ -3,6 +3,7 @@ import Event from "../models/eventModel.js";
 import User from "../models/userModel.js";
 import handleDayEvent from "../utils/handleDayEvent.js";
 import getData from "../utils/getData.js";
+import mongoose from "mongoose";
 
 export const createEvent = async (req, res) => {
   try {
@@ -54,6 +55,18 @@ export const updateEvent = async (req, res) => {
   } catch (error) {
     console.log("error:", error.message);
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getEvent = async (req, res) => {
+  let { id } = req.params;
+  try {
+    let event = await Event.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
+    ]);
+    return res.json({ event: event[0] });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };
 

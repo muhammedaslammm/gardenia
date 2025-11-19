@@ -38,6 +38,7 @@ const Schema = new mongoose.Schema(
         date: { type: String },
       },
     ],
+    restricted: { type: Boolean, default: true },
   },
   { strict: true }
 );

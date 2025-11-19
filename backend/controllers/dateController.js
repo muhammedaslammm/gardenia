@@ -11,7 +11,7 @@ export const getDates = async (req, res) => {
           $match: {
             date: {
               $gte: new Date(`${date}T00:00:00.000Z`),
-              $lte: new Date(`${date}T23:59:59:999Z`),
+              $lte: new Date(`${date}T23:59:59.000Z`),
             },
           },
         },
@@ -34,7 +34,7 @@ export const getDates = async (req, res) => {
         },
       ]);
       date_result = date_result.length
-        ? date_result
+        ? date_result[0]
         : {
             date: new Date(date),
             events: [],

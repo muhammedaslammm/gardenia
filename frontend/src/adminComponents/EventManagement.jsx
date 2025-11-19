@@ -6,6 +6,7 @@ import PaymentInfo from "./form/PaymentInfo";
 
 import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
+import getEventMessage from "../utils/getEventMessage.js";
 
 const EventManagement = () => {
   let {
@@ -19,7 +20,11 @@ const EventManagement = () => {
 
   const [searchParams] = useSearchParams();
   let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
-  let message = getEventMessage();
+  let message = getEventMessage(
+    dateInfo?.mainhall_stat,
+    dateInfo?.minihall_stat,
+    dateInfo?.events
+  );
 
   return (
     <main>
@@ -28,12 +33,18 @@ const EventManagement = () => {
         <CaretRight className="inline-block w-4 h-4 mb-1 mx-1" />
         <span>Event Management</span>
       </div>
-      <div className="mt-6 flex justify-between items-end">
+      <div className="mt-6 flex justify-between items-start">
         {/* title */}
         <div className="text-[1.4rem] font-medium">Create New Event</div>
         <div className="text-[1.2rem] font-medium">{date_string}</div>
       </div>
-      <form action="" className="flex flex-col gap-12 my-8">
+      <div
+        className="my-4 p-2"
+        style={{ color: message.color, backgroundColor: message.bg }}
+      >
+        {message.text}
+      </div>
+      <form action="" className="flex flex-col gap-12 my-6">
         <GeneralData data={generalData} change={handleInputField} />
         <ContactInfo data={contactData} change={handleInputField} />
         <PaymentInfo data={paymentData} change={handleInputField} />

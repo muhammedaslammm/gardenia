@@ -54,7 +54,7 @@ const useEvents2 = () => {
       }
     };
     getData();
-  }, [date]);
+  }, []);
 
   const handleInputField = (event) => {
     const { name, value } = event.target;
@@ -112,6 +112,7 @@ const useEvents2 = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          date,
           ...generalData,
           ...contactData,
           ...paymentData,

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { Link } from "react-router-dom";
 import getEventMessage from "../utils/getEventMessage";
+import { PencilSimple } from "phosphor-react";
 
 dayjs.extend(advancedFormat);
 
@@ -52,7 +53,7 @@ const EventDetails = ({ utils }) => {
                   className="space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-200"
                   to={`/admin/events/event-data/${event._id}`}
                 >
-                  <div className="space-y-8">
+                  <div className="space-y-8 my-0">
                     <div className="leading-[1.4rem]">
                       <div className="text-[1rem] uppercase font-medium">
                         {event.event_name}
@@ -72,11 +73,12 @@ const EventDetails = ({ utils }) => {
                       )}`}</div>
                     </div>
                   </div>
-                  <div>
-                    <div className="text-end leading-[1.1rem]">
-                      <div className="text-[1rem] font-medium">
-                        # {event.booking_number}
-                      </div>
+                  <div className="flex flex-col justify-between">
+                    <div className="text-[1rem] font-medium">
+                      # {event.booking_number}
+                    </div>
+                    <div onClick={() => window.alert()} className="z-100">
+                      <PencilSimple className="w-[1rem] h-[1rem] text-neutral-700" />
                     </div>
                   </div>
                 </Link>
