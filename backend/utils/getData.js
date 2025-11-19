@@ -32,8 +32,17 @@ const getData = (client_data, user) => {
     },
     payment: {
       total_amount,
-      payment_timeline: [{ payment_type, paid_amount }],
+      payment_timeline: [
+        {
+          payment_type,
+          paid_amount,
+          timeline: [
+            { user: user.username, note: `Created By ${user.username}` },
+          ],
+        },
+      ],
       remaining_amount: total_amount - paid_amount,
+      timeline: [{ user: user.username }],
     },
     timeline: [{ action: "create", author: user.username, date: new Date() }],
   };

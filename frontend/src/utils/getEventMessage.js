@@ -3,11 +3,13 @@ import dayjs from "dayjs";
 const getEventMessage = (mainhall_stat, minihall_stat, events) => {
   let message = { text: "", color: "#C79A00", bg: "#fef9c2" };
   if (!mainhall_stat && !minihall_stat) {
-    message.text = "Stage Unavailable : No Stage is available for booking";
+    message.text =
+      "Stage Unavailable : No Stage is available for booking on this date.";
     message.color = "#9f0712";
     message.bg = "#ffe2e2";
   } else if (mainhall_stat === 1 && minihall_stat === 1) {
-    message.text = "Main Hall and Mini Hall are available for booking";
+    message.text =
+      "Main Hall and Mini Hall are available for booking on this date.";
     message.color = "#016630";
     message.bg = "#dcfce7";
   } else if (!mainhall_stat && minihall_stat === 3) {

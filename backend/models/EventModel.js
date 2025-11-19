@@ -18,6 +18,7 @@ const Schema = new mongoose.Schema(
     payment: {
       _id: false,
       total_amount: Number,
+      remaining_amount: Number,
       payment_timeline: [
         {
           payment_type: {
@@ -25,10 +26,22 @@ const Schema = new mongoose.Schema(
             enum: ["advance", "partial", "final"],
           },
           paid_amount: { type: Number },
+          timeline: [
+            {
+              user: String,
+              date: { type: Date, default: Date.now },
+              note: String,
+            },
+          ],
         },
       ],
-      remaining_amount: { type: Number },
-      payment_closed: { type: Boolean, default: false },
+      timeline: [
+        {
+          user: String,
+          date: { type: Date, default: Date.now },
+          note: String,
+        },
+      ],
     },
     timeline: [
       {
@@ -40,7 +53,7 @@ const Schema = new mongoose.Schema(
     ],
     restricted: { type: Boolean, default: true },
   },
-  { strict: true }
+  { strict: true, timestamps: true }
 );
 
 const Event = mongoose.model("event", Schema);
