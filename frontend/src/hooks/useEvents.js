@@ -39,7 +39,7 @@ const useEvents = () => {
       }
     };
     fetchEvents();
-  }, []);
+  }, [month, year]);
 
   useEffect(() => {
     let match = dates.find((d) => dayjs(d.date).isSame(selectedDate, "day"));

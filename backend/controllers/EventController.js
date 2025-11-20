@@ -45,6 +45,17 @@ export const updateEvent = async (req, res) => {
 export const getEvent = async (req, res) => {
   let { id } = req.params;
   try {
+    if (req.query.date) {
+      let event = await Event.aggregate([
+        { $match: { _id: new mongoose.Types.Schema(id) } },
+        {
+          $project: {
+            timeline: 0,
+            "payment.update_timeline": 0,
+          },
+        },
+      ]);
+    }
     let event = await Event.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(id) } },
     ]);
