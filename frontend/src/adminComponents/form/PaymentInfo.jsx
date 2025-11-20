@@ -1,26 +1,26 @@
-const PaymentInfo = ({ data, change }) => {
+import InputLabel from "../InputLabel";
+
+const PaymentInfo = ({ register, errors }) => {
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">Payment Information</div>
       <div className="grid grid-cols-3 gap-x-4 gap-y-2">
         <div>
-          <label htmlFor="">Total Amount</label>
+          <InputLabel title="Total Amount" error={errors.total_amount} />
           <input
             type="number"
-            className="a--input"
+            className={`a--input`}
             name="total_amount"
-            value={data.total_amount}
-            onChange={change}
+            {...register("total_amount", { required: true })}
           />
         </div>
         <div>
-          <label htmlFor="">Payment Type</label>
+          <InputLabel title="Payment Type" error={errors.payment_type} />
           <select
             name="payment_type"
             id=""
-            className="a--input"
-            value={data.payment_type}
-            onChange={change}
+            className={`a--input`}
+            {...register("payment_type", { required: true })}
           >
             <option value="" disabled>
               Select Payment Type
@@ -31,13 +31,12 @@ const PaymentInfo = ({ data, change }) => {
           </select>
         </div>
         <div>
-          <label htmlFor="">Amount Paid</label>
+          <InputLabel title="Amount Paid" error={errors.paid_amount} />
           <input
             type="number"
-            className="a--input"
+            className={`a--input`}
             name="paid_amount"
-            value={data.paid_amount}
-            onChange={change}
+            {...register("paid_amount", { required: true })}
           />
         </div>
         <div></div>

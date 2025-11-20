@@ -46,9 +46,11 @@ const EventData = () => {
             <div className="space-y-2">
               {Object.entries(data?.contact_details || {}).map(
                 ([key, value], i) => (
-                  <div key={i} className="flex justify-between items-end">
-                    <div className="capitalize">{key.split("_").join(" ")}</div>
-                    <div className="">{value}</div>
+                  <div key={i} className="flex justify-between items-start">
+                    <div className="capitalize font-medium">
+                      {key.split("_").join(" ")}
+                    </div>
+                    <div className="w-[65%]">{value}</div>
                   </div>
                 )
               )}

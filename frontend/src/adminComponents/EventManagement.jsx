@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { CaretRight } from "phosphor-react";
+import { CaretRight, Spinner } from "phosphor-react";
 import GeneralData from "./form/GeneralData";
 import ContactInfo from "./form/ContactInfo";
 import PaymentInfo from "./form/PaymentInfo";
@@ -13,14 +13,8 @@ const EventManagement = () => {
   const [searchParams] = useSearchParams();
   let eventId = searchParams.get("event");
 
-  let {
-    dateInfo,
-    handleInputField,
-    generalData,
-    contactData,
-    paymentData,
-    submitEvent,
-  } = useEvents2(eventId);
+  let { dateInfo, register, watch, handleSubmit, submitEvent, errors, stat } =
+    useEvents2(eventId);
 
   let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
   let message = getEventMessage(
@@ -50,15 +44,25 @@ const EventManagement = () => {
         </div>
       )}
 
-      <form action="" className="flex flex-col gap-12 my-6">
-        <GeneralData data={generalData} change={handleInputField} />
-        <ContactInfo data={contactData} change={handleInputField} />
-        <PaymentInfo data={paymentData} change={handleInputField} />
+      <form
+        className="flex flex-col gap-12 my-6"
+        onSubmit={handleSubmit(submitEvent)}
+      >
+        <GeneralData register={register} errors={errors} watch={watch} />
+        <ContactInfo register={register} errors={errors} />
+        <PaymentInfo register={register} errors={errors} />
         <button
-          className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium cursor-pointer"
-          onClick={(event) => submitEvent(event)}
+          className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium cursor-pointer "
+          type="submit"
         >
-          Create Event
+          {stat === "loading" ? (
+            <div className="flex items-center justify-center gap-2">
+              <div>{eventId ? "Updating" : "Creating"}</div>
+              <Spinner className="w-[1.5rem] h-[1.5rem] animate-spin" />
+            </div>
+          ) : (
+            <div>{eventId ? "Update Event" : "Create Event"}</div>
+          )}
         </button>
       </form>
     </main>

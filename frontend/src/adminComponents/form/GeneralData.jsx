@@ -1,29 +1,32 @@
 import { events, stages } from "../../data/admin.js";
+import InputLabel from "../InputLabel.jsx";
 
-const GeneralData = ({ data, change }) => {
+const GeneralData = ({ register, watch, errors }) => {
+  let start_time = watch("start_time");
+  let end_time = watch("end_time");
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">General Information</div>
       <div className="flex gap-4">
         <div className="w-[10rem]">
-          <label htmlFor="">Booking Number</label>
+          <InputLabel title="Booking Number" error={errors.booking_number} />
           <input
             type="number"
-            className="a--input"
+            className={`a--input`}
             placeholder="Eg: 0001"
             name="booking_number"
-            value={data.booking_number}
-            onChange={change}
+            {...register("booking_number", {
+              required: true,
+            })}
           />
         </div>
         <div className="flex-1">
-          <label htmlFor="">Stage</label>
+          <InputLabel title="Stage" error={errors.stage} />
           <select
             name="stage"
             id=""
-            className="a--input"
-            value={data.stage}
-            onChange={change}
+            className={`a--input`}
+            {...register("stage", { required: true })}
           >
             <option value="" selected disabled>
               Select a Stage
@@ -31,20 +34,18 @@ const GeneralData = ({ data, change }) => {
             {[
               ["main_hall", "Main Hall"],
               ["mini_hall", "Mini Hall"],
-              ["outdoor_space", "Out Door Space"],
             ].map(([key, value]) => (
               <option value={key}>{value}</option>
             ))}
           </select>
         </div>
         <div className="flex-1">
-          <label htmlFor="">Event</label>
+          <InputLabel title="Event" error={errors.event} />
           <select
             name="event"
             id=""
-            className="a--input"
-            value={data.event}
-            onChange={change}
+            className={`a--input`}
+            {...register("event", { required: true })}
           >
             <option value="" disabled selected>
               Select an Event
@@ -57,35 +58,39 @@ const GeneralData = ({ data, change }) => {
       </div>
       <div className="flex gap-4">
         <div className="flex-1">
-          <label htmlFor="">Couple Name</label>
+          <InputLabel title="Event Name" error={errors.event_name} />
           <input
             type="text"
-            className="a--input"
+            className={`a--input`}
             placeholder="Eg: Zami and Laya"
             name="event_name"
-            value={data.event_name}
-            onChange={change}
+            {...register("event_name", { required: true })}
           />
         </div>
 
         <div className="w-[10rem]">
-          <label htmlFor="">Start Time</label>
+          <InputLabel title="Start Time" error={errors.start_time} />
           <input
             type="time"
             name="start_time"
-            className="a--input"
-            value={data.start_time}
-            onChange={change}
+            className={`a--input`}
+            {...register("start_time", { required: true })}
           />
         </div>
         <div className="w-[10rem]">
-          <label htmlFor="">End Time</label>
+          <InputLabel title="End Time" error={errors.end_time} />
           <input
             type="time"
             name="end_time"
-            className="a--input"
-            value={data.end_time}
-            onChange={change}
+            className={`a--input`}
+            {...register("end_time", {
+              required: true,
+              validate: {
+                func: (value) => {
+                  return value > start_time;
+                },
+              },
+            })}
           />
         </div>
       </div>
