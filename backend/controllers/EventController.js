@@ -36,25 +36,9 @@ export const createEvent = async (req, res) => {
 };
 
 export const updateEvent = async (req, res) => {
-  const { eventid } = req.params;
-  const { iso_date, start_time, end_time, ...rest } = req.body;
-  const event_date = {
-    date: new Date(iso_date),
-    iso_date,
-    start_time,
-    end_time,
-  };
-
   try {
-    await Event.updateOne({ _id: eventid }, { $set: { ...rest, event_date } });
-    const updated_event = await Event.findOne({ _id: eventid });
-    console.log("updated event:", updated_event);
-    res
-      .status(200)
-      .json({ message: "success", event: updated_event, update: true });
   } catch (error) {
-    console.log("error:", error.message);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 

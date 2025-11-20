@@ -35,10 +35,11 @@ const Schema = new mongoose.Schema(
           ],
         },
       ],
-      timeline: [
+      payment_settled: { type: Boolean, default: false },
+      update_timeline: [
         {
           user: String,
-          date: { type: Date, default: Date.now },
+          date: { type: Date },
           note: String,
         },
       ],
@@ -46,9 +47,9 @@ const Schema = new mongoose.Schema(
     timeline: [
       {
         _id: false,
-        action: { type: String, enum: ["create", "update"], default: "create" },
-        author: { type: String },
-        date: { type: String },
+        author: String,
+        date: Date,
+        note: String,
       },
     ],
     restricted: { type: Boolean, default: true },

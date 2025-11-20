@@ -41,30 +41,73 @@ const EventData = () => {
           >{`Event : ${data?.event}`}</div>
         </div>
         <div className="flex gap-4 my-4">
-          <section className="w-1/2 p-2 border border-neutral-200 space-y-4">
+          <section className="w-1/2 p-2 border border-neutral-300 space-y-4">
             <div>Contact Information</div>
-            <div>
+            <div className="space-y-2">
               {Object.entries(data?.contact_details || {}).map(
                 ([key, value], i) => (
                   <div key={i} className="flex justify-between items-end">
                     <div className="capitalize">{key.split("_").join(" ")}</div>
-                    <div className="font-medium">{value}</div>
+                    <div className="">{value}</div>
                   </div>
                 )
               )}
             </div>
           </section>
-          <section className="w-full p-2 border border-neutral-200">
+          <section className="w-full p-2 border border-neutral-300 space-y-4">
             <div>Payment Information</div>
+            <div>
+              <div className="flex justify-between items-end p-2 border-b border-neutral-300">
+                <div>Total Amount</div>
+                <div>{data?.payment.total_amount}</div>
+              </div>
+              {data?.payment.payment_timeline.map((tl) => (
+                <div
+                  className="flex justify-between items-start p-2 border-b border-neutral-300"
+                  key={tl._id}
+                >
+                  <div className="">
+                    <div className="capitalize">{`${tl.payment_type} Amount`}</div>
+                    <div>
+                      {tl.timeline.map((tl2) => (
+                        <div className="text-[.9rem] flex justify-between gap-4 italic text-neutral-700">
+                          <div>
+                            {tl2.note ? tl2.note : `Created by ${tl2.user}`}
+                          </div>
+                          <div>{`${dayjs(tl2.date).format(
+                            "DD-MM-YYYY"
+                          )}, ${dayjs(tl2.date).format("hh:mm a")}`}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div>{tl.paid_amount}</div>
+                </div>
+              ))}
+              <div className="flex justify-between items-end p-2">
+                {data?.payment.payment_settled ? (
+                  <div
+                    className={`ml-auto ${green_style} bg-green-100 text-green-800`}
+                  >
+                    Amount Settled
+                  </div>
+                ) : (
+                  <>
+                    <div>Remaining Amount</div>
+                    <div>{data?.payment.remaining_amount}</div>
+                  </>
+                )}
+              </div>
+            </div>
           </section>
         </div>
-        {/* <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
+        <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
           <Link
-            to={`/admin/events/event-management?type=update&date=${data?.date}&event=${id}`}
+            to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
           >
             Update this Event
           </Link>
-        </div> */}
+        </div>
       </div>
     </main>
   );

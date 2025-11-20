@@ -7,8 +7,12 @@ import PaymentInfo from "./form/PaymentInfo";
 import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage.js";
+import { useEffect } from "react";
 
 const EventManagement = () => {
+  const [searchParams] = useSearchParams();
+  let eventId = searchParams.get("event");
+
   let {
     dateInfo,
     handleInputField,
@@ -16,9 +20,8 @@ const EventManagement = () => {
     contactData,
     paymentData,
     submitEvent,
-  } = useEvents2();
+  } = useEvents2(eventId);
 
-  const [searchParams] = useSearchParams();
   let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
   let message = getEventMessage(
     dateInfo?.mainhall_stat,
@@ -38,12 +41,15 @@ const EventManagement = () => {
         <div className="text-[1.4rem] font-medium">Create New Event</div>
         <div className="text-[1.2rem] font-medium">{date_string}</div>
       </div>
-      <div
-        className="my-4 p-2"
-        style={{ color: message.color, backgroundColor: message.bg }}
-      >
-        {message.text}
-      </div>
+      {!eventId && (
+        <div
+          className="my-4 p-2"
+          style={{ color: message.color, backgroundColor: message.bg }}
+        >
+          {message.text}
+        </div>
+      )}
+
       <form action="" className="flex flex-col gap-12 my-6">
         <GeneralData data={generalData} change={handleInputField} />
         <ContactInfo data={contactData} change={handleInputField} />

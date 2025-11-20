@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import inputValidation from "../utils/inputValidation";
 import dayjs from "dayjs";
 
-const useEvents2 = () => {
+const useEvents2 = (eventId = null) => {
   let generalSchema = {
     booking_number: "",
     stage: "",
@@ -54,6 +54,17 @@ const useEvents2 = () => {
       }
     };
     getData();
+  }, []);
+
+  useEffect(() => {
+    let getEventData = async () => {
+      try {
+        // fetch event data!
+      } catch (error) {
+        console.log("error:", error.message);
+      }
+    };
+    getEventData();
   }, []);
 
   const handleInputField = (event) => {
