@@ -36,8 +36,41 @@ export const createEvent = async (req, res) => {
 };
 
 export const updateEvent = async (req, res) => {
+  let { id } = req.params;
+  let { date } = req.query;
+  let { start_time, end_time, stage, ...rest } = req.body;
   try {
+    let start = new Date(`${date}T00:00:00.000Z`);
+    let end = new Date(`${date}T23:59:59.000Z`);
+    let matching_date = await EventDate.aggregate([
+      { $match: { date: { $gte: start, $lte: end } } },
+      {
+        $lookup: {
+          from: "events",
+          localField: "events",
+          foreignField: "_id",
+          as: "events",
+        },
+      },
+      {
+        $project: {
+          date: 1,
+          mainhall_stat: 1,
+          minihall_stat: 1,
+          "events._id": 1,
+          "events.stage": 1,
+          "events.start_time": 1,
+          "events.end_time": 1,
+        },
+      },
+    ]);
+    let matching_event = matching_date[0].events.find(
+      (ev) => ev._id.toString() === id
+    );
+    let { mainhall_stat, minihall_stat } = matching_date;
+    console.log("start time:", start_time);
   } catch (error) {
+    console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };

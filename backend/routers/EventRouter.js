@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/", getEvents);
 router.get("/:id", getEvent);
 router.post("/", authenticate, createEvent);
-router.put("/:eventid", authenticate, updateEvent);
+router.patch("/:id", authenticate, updateEvent);
 router.delete("/:id", authenticate, deleteEvent);
 
 export default router;

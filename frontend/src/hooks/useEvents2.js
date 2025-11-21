@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import inputValidation from "../utils/inputValidation";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 
@@ -69,6 +68,10 @@ const useEvents2 = (eventId = null) => {
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        result.event.start_time = dayjs(result.event.start_time).format(
+          "HH:mm"
+        );
+        result.event.end_time = dayjs(result.event.end_time).format("HH:mm");
         reset({
           ...result.event,
           total_amount: "",
@@ -90,11 +93,11 @@ const useEvents2 = (eventId = null) => {
         values.start_time = dayjs(
           `${date} ${values.start_time}`,
           "YYYY-MM-DD HH:mm"
-        ).format();
+        ).toISOString();
         values.end_time = dayjs(
           `${date} ${values.end_time}`,
           "YYYY-MM-DD HH:mm"
-        ).format();
+        ).toISOString();
         values.date = date;
 
         setStat("loading");
@@ -115,9 +118,51 @@ const useEvents2 = (eventId = null) => {
           toast.success(result.message);
           navigate("/admin/events");
         }
+      } else {
+        let update_data = {};
+        let flag = false;
+        for (let key in dirtyFields) {
+          if (!flag) flag = true;
+          if (key === "start_time" || key === "end_time") {
+            update_data[key] = dayjs(
+              `${date} ${values[key]}`,
+              "YYYY-MM-DD HH:mm"
+            ).toISOString();
+          } else {
+            update_data[key] = values[key];
+          }
+        }
+        if (flag) {
+          let response = await fetch(
+            `${BACKEND_URL}/api/events/${eventId}?date=${date}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(update_data),
+              credentials: "include",
+            }
+          );
+          let result = await response.json();
+          if (response.status === 401) {
+            toast.error(
+              "Event Updation Restricted : Failed to authenticate the user."
+            );
+            return navigate("/admin-login");
+          } else if (response.status === 400) {
+            return toast.warning(result.message);
+          } else if (!response.ok) throw new Error(result.message);
+
+          toast.success("Event Updated");
+          navigate(`/admin/events/${eventId}`);
+        } else
+          toast.warning(
+            "Update Dismissed : No fields found with an updated value."
+          );
       }
     } catch (error) {
-      console.log("create or update error:", error.message);
+      console.log("create or update error:", error);
     }
   };
 
