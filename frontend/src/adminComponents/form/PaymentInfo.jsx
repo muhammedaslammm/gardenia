@@ -1,6 +1,6 @@
 import InputLabel from "../InputLabel";
 
-const PaymentInfo = ({ register, errors }) => {
+const PaymentInfo = ({ register, errors, id }) => {
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">Payment Information</div>
@@ -11,7 +11,7 @@ const PaymentInfo = ({ register, errors }) => {
             type="number"
             className={`a--input`}
             name="total_amount"
-            {...register("total_amount", { required: true })}
+            {...register("total_amount", { required: !id ? true : false })}
           />
         </div>
         <div>
@@ -20,7 +20,7 @@ const PaymentInfo = ({ register, errors }) => {
             name="payment_type"
             id=""
             className={`a--input`}
-            {...register("payment_type", { required: true })}
+            {...register("payment_type", { required: !id ? true : false })}
           >
             <option value="" disabled>
               Select Payment Type
@@ -36,7 +36,7 @@ const PaymentInfo = ({ register, errors }) => {
             type="number"
             className={`a--input`}
             name="paid_amount"
-            {...register("paid_amount", { required: true })}
+            {...register("paid_amount", { required: !id ? true : false })}
           />
         </div>
         <div></div>

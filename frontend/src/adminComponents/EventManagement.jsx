@@ -7,7 +7,6 @@ import PaymentInfo from "./form/PaymentInfo";
 import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage.js";
-import { useEffect } from "react";
 
 const EventManagement = () => {
   const [searchParams] = useSearchParams();
@@ -50,7 +49,10 @@ const EventManagement = () => {
       >
         <GeneralData register={register} errors={errors} watch={watch} />
         <ContactInfo register={register} errors={errors} />
-        <PaymentInfo register={register} errors={errors} />
+        {!eventId && (
+          <PaymentInfo register={register} errors={errors} id={eventId} />
+        )}
+
         <button
           className="w-1/6 self-end py-2 px-2 bg-green-800 text-white font-medium cursor-pointer "
           type="submit"

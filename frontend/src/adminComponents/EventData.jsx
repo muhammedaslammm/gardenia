@@ -2,10 +2,13 @@ import { CaretRight } from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
 import useEventData from "../hooks/useEventData";
 import dayjs from "dayjs";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 const EventData = () => {
   let { id } = useParams();
   let { data = {}, loading } = useEventData(id);
+  let { user } = useContext(AuthContext);
 
   let green_style = "font-medium px-4 py-2";
 
@@ -103,13 +106,16 @@ const EventData = () => {
             </div>
           </section>
         </div>
-        <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
-          <Link
-            to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
-          >
-            Update this Event
-          </Link>
-        </div>
+        {(user?.role === "md" ||
+          (user?.role === "staff" && !data?.restricted)) && (
+          <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
+            <Link
+              to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
+            >
+              Update this Event
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   );

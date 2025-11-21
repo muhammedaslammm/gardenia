@@ -40,7 +40,11 @@ export const userLogin = async (req, res) => {
         .status(200)
         .json({
           message: "user authenticated",
-          user,
+          user: {
+            username: user.username,
+            email: user.email,
+            role: user.role,
+          },
         });
     } else return res.status(401).json({ message: "authentication failed" });
   } catch (error) {

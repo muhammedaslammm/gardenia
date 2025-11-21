@@ -68,6 +68,13 @@ const useEvents2 = (eventId = null) => {
           }
         );
         let result = await response.json();
+        if (!response.ok) throw new Error(result.message);
+        reset({
+          ...result.event,
+          total_amount: "",
+          payment_type: "",
+          paid_amount: "",
+        });
       } catch (error) {
         console.log("error:", error.message);
       }
