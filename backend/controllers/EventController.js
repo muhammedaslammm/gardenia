@@ -121,7 +121,7 @@ export const updateEvent = async (req, res) => {
     //
     else if (start_time || end_time || stage) {
       let result = getDateUpdate(
-        stage,
+        event_stage,
         event_start_time,
         event_end_time,
         matching_event.date

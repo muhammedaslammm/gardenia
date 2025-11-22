@@ -93,7 +93,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           ) {
             day_stat.mainhall_stat = 3;
             day_stat.minihall_stat = 3;
-          } else if (start_time >= new Date(`${date}T14:00:00+05:30`)) {
+          } else if (start_time >= new Date(`${date}T12:00:00+05:30`)) {
             day_stat.minihall_stat = 2;
             day_stat.mainhall_stat = 2;
           } else {
