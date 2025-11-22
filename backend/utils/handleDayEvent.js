@@ -15,10 +15,25 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
     }).populate("events");
 
     let day_stat = {
-      mainhall_stat: event_date?.mainhall_stat || 1,
-      minihall_stat: event_date?.minihall_stat || 1,
+      mainhall_stat:
+        event_date?.mainhall_stat === 0
+          ? 0
+          : event_date?.mainhall_stat
+          ? event_date.mainhall_stat
+          : 1,
+      minihall_stat:
+        event_date?.minihall_stat === 0
+          ? 0
+          : event_date?.minihall_stat
+          ? event_date.minihall_stat
+          : 1,
       events: event_date?.events.length ? event_date?.events : [],
     };
+
+    console.log(
+      `db time: ${day_stat.events[0]?.start_time} | client start: ${start_time}`
+    );
+    console.log("stage:", stage);
 
     if (stage === "main_hall") {
       switch (day_stat.mainhall_stat) {
@@ -29,7 +44,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 1:
           if (
             start_time <= new Date(`${date}T12:00:00+05:30`) &&
-            end_time <= new Date(`${date}T15:30:00+05:30`)
+            end_time <= new Date(`${date}T16:00:00+05:30`)
           ) {
             day_stat.mainhall_stat = 0;
             day_stat.minihall_stat = 3;
@@ -98,7 +113,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 3:
           let intersecting_time_2 = day_stat.events.find(
             (ev) =>
-              start_time <= new Date(ev.end_time).getDate() + 2 * 60 * 60 * 1000
+              start_time <= new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000
           );
           if (intersecting_time_2) return { message: ERROR_MESSAGE() };
           day_stat.minihall_stat = 0;

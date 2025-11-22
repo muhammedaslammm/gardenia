@@ -13,7 +13,7 @@ const getEventMessage = (mainhall_stat, minihall_stat, events) => {
     message.color = "#016630";
     message.bg = "#dcfce7";
   } else if (!mainhall_stat && minihall_stat === 3) {
-    let time = dayjs(events[0].end_time).add(90, "minutes").format("hh:mm a");
+    let time = dayjs(events[0].end_time).add(120, "minutes").format("hh:mm a");
     message.text = `Mini Hall Available - only after ${time}`;
   } else if (!mainhall_stat && minihall_stat === 2) {
     let time = dayjs(events[0].start_time)
@@ -26,7 +26,7 @@ const getEventMessage = (mainhall_stat, minihall_stat, events) => {
       .format("hh:mm a");
     message.text = `Main Hall and Mini Hall Available - only before ${time}`;
   } else if (mainhall_stat === 3 && minihall_stat === 3) {
-    let time = dayjs(events[0].end_time).add(90, "minutes").format("hh:mm a");
+    let time = dayjs(events[0].end_time).add(120, "minutes").format("hh:mm a");
     message.text = `Main Hall and Mini Hall Available - only after ${time}`;
   }
 
