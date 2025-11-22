@@ -13,7 +13,6 @@ router.get("/me", authenticate, myDetails);
 router.post("/register", userRegistration);
 router.post("/login", userLogin);
 router.post("/logout", userLogout);
-
 router.post("/client-enquiry", clientEnquiry);
 
 export default router;
