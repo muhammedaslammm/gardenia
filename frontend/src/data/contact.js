@@ -1,5 +1,5 @@
 const contact = [
-  { label: "contact us", value: "+91 9997879978, +91 9972874529" },
+  { label: "contact us", value: "+91 8891813666, +91 8891813555" },
   { label: "location", value: "Njekkad, Kallambalam, Trivandrum" },
   { label: "email", value: "gardeniaconventioncenter@gmail.com" },
 ];

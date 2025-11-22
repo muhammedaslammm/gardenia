@@ -8,20 +8,20 @@ const AnimatedHeader = forwardRef((props, ref) => {
   const { headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#fffef7] border-t-1 border-b-1 border-[#c5d8cd] z-500 -translate-y-full"
+      className="fixed left-0 top-0 w-full bg-[#fffef7] shadow-md z-500 -translate-y-[150%]"
       ref={ref}
     >
-      <nav className="relative lg:static h-[3rem] text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto py-[.1rem]">
+      <nav className="relative lg:static h-auto text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto">
         <div className="absolute left-2 top-3 lg:hidden text-[#0f592e]">
           <i
             className="fa-solid fa-bars text-[1.1rem]"
             onClick={props.func}
           ></i>
         </div>
-        <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[3.2rem] lg:w-[11.5rem] -translate-y-[1rem] lg:-translate-x-[2.5rem]  lg:translate-y-0">
+        <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[5rem] lg:w-[11.5rem] -translate-y-[1rem] lg:-translate-x-[2.5rem]  lg:translate-y-0 bg-green-900 rounded-b-[1rem]">
           <img
             className="w-full h-full object-cover"
-            src="/logo/gardenia-logo-3.png"
+            src="/logo/gardenia-logo-2.png"
             alt="gardenia logo"
           />
         </div>
@@ -34,7 +34,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
         </a>
 
         <ul
-          className="hidden lg:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase"
+          className="hidden lg:flex items-center gap-5 lg:gap-7 xl:gap-8 text-[.8rem] md:text-[.85rem] xl:text-[.9rem] text-[#0f592e] uppercase py-[1.5rem]"
           style={{ fontFamily: "Inter Tight, serif" }}
         >
           {headerContent.map((n) => {

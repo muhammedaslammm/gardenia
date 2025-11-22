@@ -26,7 +26,7 @@ const App = () => {
         ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
           content: "#smooth-content",
-          smooth: 3.5,
+          smooth: 2.5,
           smoothTouch: false,
         });
       });
@@ -61,7 +61,7 @@ const App = () => {
 
   const onAboutLeaveBack = () => {
     gsap.to(animatedHeaderRef.current, {
-      y: -100,
+      y: -150,
       duration: 1,
     });
   };

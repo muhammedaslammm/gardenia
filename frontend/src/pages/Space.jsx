@@ -12,7 +12,7 @@ const Space = () => {
     features,
   } = getSpace();
   return (
-    <main className="min-h-screen pt-[3.5rem] md:pt-[3.5rem] lg:pt-[4.5rem] w-[90%] xl:w-[85%] mx-auto space-y-8">
+    <main className="min-h-screen pt-[3.5rem] md:pt-[3.5rem] lg:pt-[6.5rem] w-[90%] xl:w-[85%] mx-auto space-y-8">
       <div className="space-y-4 md:space-y-5">
         <div className="flex flex-col lg:flex-row items-baseline lg:items-baseline-last  lg:justify-between">
           <h1 className="text-[1.4rem] lg:text-[2rem] lg:leading-[2.3rem] xl:text-[2.7rem] text-[#0f592e] uppercase font-semibold font--marriweather">
