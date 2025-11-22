@@ -76,6 +76,7 @@ export const updateEvent = async (req, res) => {
           mainhall_stat: 1,
           minihall_stat: 1,
           "events._id": 1,
+          "events.date": 1,
           "events.stage": 1,
           "events.start_time": 1,
           "events.end_time": 1,
@@ -105,6 +106,17 @@ export const updateEvent = async (req, res) => {
     let event_stage = stage || matching_event.stage;
 
     if ((stage || start_time || end_time) && date_events.length) {
+      if (
+        stage &&
+        stage === "main_hall" &&
+        date_events.find((ev) => ev.stage === stage)
+      )
+        return res
+          .status(409)
+          .json({
+            message:
+              "Update Failed : Main Hall event already booked on this date",
+          });
       let overlap = date_events.find(
         (ev) =>
           event_start_time <=

@@ -1,6 +1,6 @@
 const getDateUpdate = (stage, start_time, end_time, date) => {
   let obj = { mainhall_stat: 1, minihall_stat: 1 };
-  
+
   let noon = new Date(`${date}T12:00:00+05:30`);
   let forteen = new Date(`${date}T14:00:00+05:30`);
   let sixteen = new Date(`${date}T16:00:00+05:30`);
