@@ -4,6 +4,7 @@ import User from "../models/userModel.js";
 import handleDayEvent from "../utils/handleDayEvent.js";
 import getData from "../utils/getData.js";
 import mongoose from "mongoose";
+import getDateUpdate from "../utils/getDateUpdate.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -95,16 +96,15 @@ export const updateEvent = async (req, res) => {
         .status(404)
         .json({ message: "Update Failed : Credential not found" });
 
-    let { mainhall_stat, minihall_stat } = matching_date;
     let date_events = matching_date[0].events.filter(
       (ev) => ev._id.toString() !== id
     );
 
     let event_start_time = start_time || matching_event.start_time;
     let event_end_time = end_time || matching_event.end_time;
-    let stage = "";
+    let event_stage = stage || matching_event.stage;
 
-    if ((start_time || end_time) && date_events.length) {
+    if ((stage || start_time || end_time) && date_events.length) {
       let overlap = date_events.find(
         (ev) =>
           event_start_time <=
@@ -117,10 +117,22 @@ export const updateEvent = async (req, res) => {
           message:
             "Updation Failed : Provided time is overlapping an existing event time.",
         });
-      await Event.updateOne({ _id: id }, { $set: req.body });
-      return res.json({ message: "Event Updated" });
-    } else if (start_time || end_time) {
     }
+    //
+    else if (start_time || end_time || stage) {
+      let result = getDateUpdate(
+        stage,
+        event_start_time,
+        event_end_time,
+        matching_event.date
+      );
+      await EventDate.updateOne(
+        { _id: matching_date[0]._id },
+        { $set: result }
+      );
+    }
+    await Event.updateOne({ _id: id }, { $set: req.body });
+    return res.json({ message: "Event Updated" });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
