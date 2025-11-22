@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="events" /> },
       { path: "events", element: <Events /> },
       { path: "events/event-management", element: <EventManagement /> },
-      { path: "events/event-data/:id", element: <EventData /> },
+      { path: "events/:id", element: <EventData /> },
       { path: "jobs", element: <Jobs /> },
     ],
   },

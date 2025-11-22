@@ -55,6 +55,10 @@ export const updateEvent = async (req, res) => {
   try {
     let day_start = new Date(`${date}T00:00:00.000Z`);
     let day_end = new Date(`${date}T23:59:59.000Z`);
+
+    start_time = start_time ? new Date(start_time) : undefined;
+    end_time = end_time ? new Date(end_time) : undefined;
+
     let matching_date = await EventDate.aggregate([
       { $match: { date: { $gte: day_start, $lte: day_end } } },
       {
@@ -92,14 +96,30 @@ export const updateEvent = async (req, res) => {
         .json({ message: "Update Failed : Credential not found" });
 
     let { mainhall_stat, minihall_stat } = matching_date;
-    let date_events = matching_date.events.filter(
+    let date_events = matching_date[0].events.filter(
       (ev) => ev._id.toString() !== id
     );
 
-    if (date_events.length) {
-      let time_contradict = date_events.find((ev) => {
-        console.log(`db time: ${ev.start_time} | client time: ${start_time}`);
-      });
+    let event_start_time = start_time || matching_event.start_time;
+    let event_end_time = end_time || matching_event.end_time;
+    let stage = "";
+
+    if ((start_time || end_time) && date_events.length) {
+      let overlap = date_events.find(
+        (ev) =>
+          event_start_time <=
+            new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000 &&
+          event_end_time >=
+            new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000
+      );
+      if (overlap)
+        return res.status(409).json({
+          message:
+            "Updation Failed : Provided time is overlapping an existing event time.",
+        });
+      await Event.updateOne({ _id: id }, { $set: req.body });
+      return res.json({ message: "Event Updated" });
+    } else if (start_time || end_time) {
     }
   } catch (error) {
     console.log("error:", error.message);

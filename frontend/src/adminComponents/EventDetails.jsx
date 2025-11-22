@@ -51,7 +51,7 @@ const EventDetails = ({ utils }) => {
               {events.map((event) => (
                 <Link
                   className="space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-200 hover:bg-green-300/10 transition-colors duration-500"
-                  to={`/admin/events/event-data/${event._id}`}
+                  to={`/admin/events/${event._id}`}
                 >
                   <div className="space-y-8 my-0">
                     <div className="leading-[1.4rem]">

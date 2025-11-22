@@ -127,7 +127,7 @@ const useEvents2 = (eventId = null) => {
             update_data[key] = dayjs(
               `${date} ${values[key]}`,
               "YYYY-MM-DD HH:mm"
-            ).toISOString();
+            ).format();
           } else {
             update_data[key] = values[key];
           }
@@ -150,11 +150,13 @@ const useEvents2 = (eventId = null) => {
               "Event Updation Restricted : Failed to authenticate the user."
             );
             return navigate("/admin-login");
-          } else if (response.status === 400) {
+          } else if (response.status === 404) {
             return toast.warning(result.message);
+          } else if (response.status === 409) {
+            return toast.error(result.message);
           } else if (!response.ok) throw new Error(result.message);
 
-          toast.success("Event Updated");
+          toast.success(result.message);
           navigate(`/admin/events/${eventId}`);
         } else
           toast.warning(
