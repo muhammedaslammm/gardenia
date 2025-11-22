@@ -1,8 +1,12 @@
 import dayjs from "dayjs";
 
-const getEventMessage = (mainhall_stat, minihall_stat, events) => {
+const getEventMessage = (mainhall_stat, minihall_stat, events, date) => {
   let message = { text: "", color: "#C79A00", bg: "#fef9c2" };
-  if (!mainhall_stat && !minihall_stat) {
+  let isPast = date && date.isBefore(dayjs(), "day");
+
+  if (isPast)
+    message.text = "Events Not Found : No events are added on this date";
+  else if (!mainhall_stat && !minihall_stat) {
     message.text =
       "Stage Unavailable : No Stage is available for booking on this date.";
     message.color = "#9f0712";

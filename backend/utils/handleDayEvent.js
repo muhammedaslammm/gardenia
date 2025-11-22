@@ -30,11 +30,6 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
       events: event_date?.events.length ? event_date?.events : [],
     };
 
-    console.log(
-      `db time: ${day_stat.events[0]?.start_time} | client start: ${start_time}`
-    );
-    console.log("stage:", stage);
-
     if (stage === "main_hall") {
       switch (day_stat.mainhall_stat) {
         case 0:

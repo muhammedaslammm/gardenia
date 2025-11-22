@@ -1,6 +1,11 @@
 import useEvents from "../hooks/useEvents";
 import { weekDays } from "../data/days.js";
-import { ArrowSquareRight, ArrowSquareLeft, Circle } from "phosphor-react";
+import {
+  ArrowSquareRight,
+  ArrowSquareLeft,
+  Circle,
+  Star,
+} from "phosphor-react";
 import EventDetails from "./EventDetails.jsx";
 import CustomModal from "./CustomModal.jsx";
 import dayjs from "dayjs";
@@ -43,14 +48,15 @@ const Events = () => {
               let isToday = d.date.isSame(dayjs(), "day");
               let isSelected = selectedDate.isSame(d.date, "day");
               let isCurrentMonth = d.date.month() === selectedDate.month();
+              let isPast = d.date.isBefore(dayjs, "day");
               let events = d.events.length;
               return (
                 <div
                   className={`h-[3.5rem] sm:h-[5rem] border border-[#0f592e]/10  flex flex-col justify-between transition cursor-pointer p-1 ${
                     !isCurrentMonth ? "opacity-15 bg-neutral-300" : ""
-                  } ${events ? "bg-yellow-400/10" : ""} ${
+                  } ${events ? "bg-yellow-400/20" : ""} ${
                     isSelected
-                      ? "border border-green-900/20 bg-green-900/5"
+                      ? "border border-green-900/50 bg-green-900/5 shadow-inner"
                       : ""
                   }`}
                   onClick={() => handleDate(d)}
@@ -58,7 +64,7 @@ const Events = () => {
                   <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between">
                     {d.date.date()}{" "}
                     {isToday && (
-                      <Circle weight="fill" className="text-green-900" />
+                      <Star weight="fill" className="text-green-900" />
                     )}
                   </div>
                   {d.events.length > 0 && (

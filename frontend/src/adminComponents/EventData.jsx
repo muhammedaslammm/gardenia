@@ -11,6 +11,7 @@ const EventData = () => {
   let { user } = useContext(AuthContext);
 
   let green_style = "font-medium px-4 py-2";
+  let isPast = dayjs(data?.date).isBefore(dayjs());
 
   return (
     <main>
@@ -107,15 +108,16 @@ const EventData = () => {
           </section>
         </div>
         {(user?.role === "md" ||
-          (user?.role === "staff" && !data?.restricted)) && (
-          <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
-            <Link
-              to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
-            >
-              Update this Event
-            </Link>
-          </div>
-        )}
+          (user?.role === "staff" && !data?.restricted)) &&
+          !isPast && (
+            <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
+              <Link
+                to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
+              >
+                Update this Event
+              </Link>
+            </div>
+          )}
       </div>
     </main>
   );
