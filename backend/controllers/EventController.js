@@ -22,11 +22,24 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
-    let new_event_date = await EventDate.create({
-      ...day_result,
-      events: [...day_result.events.map((ev) => ev._id), event._id],
-      date: new Date(new_event.date),
+    let event_date = await EventDate.findOne({
+      date: {
+        $gte: new Date(`${new_event.date}T00:00:00.000Z`),
+        $lte: new Date(`${new_event.date}T23:59:59.000Z`),
+      },
     });
+    if (!event_date) {
+      await EventDate.create({
+        ...day_result,
+        events: [event._id],
+        date: new Date(`${new_event.date}T00:00:00.000Z`),
+      });
+    } else {
+      event_date.events.push(event._id);
+      event_date.mainhall_stat = day_result.mainhall_stat;
+      event_date.minihall_stat = day_result.minihall_stat;
+      await event_date.save();
+    }
 
     return res.json({ message: "event created" });
   } catch (error) {
@@ -40,10 +53,10 @@ export const updateEvent = async (req, res) => {
   let { date } = req.query;
   let { start_time, end_time, stage, ...rest } = req.body;
   try {
-    let start = new Date(`${date}T00:00:00.000Z`);
-    let end = new Date(`${date}T23:59:59.000Z`);
+    let day_start = new Date(`${date}T00:00:00.000Z`);
+    let day_end = new Date(`${date}T23:59:59.000Z`);
     let matching_date = await EventDate.aggregate([
-      { $match: { date: { $gte: start, $lte: end } } },
+      { $match: { date: { $gte: day_start, $lte: day_end } } },
       {
         $lookup: {
           from: "events",
@@ -64,11 +77,30 @@ export const updateEvent = async (req, res) => {
         },
       },
     ]);
+    if (!matching_date.length)
+      return res
+        .status(404)
+        .json({ message: "Updation Failed : Credential not found" });
+
     let matching_event = matching_date[0].events.find(
       (ev) => ev._id.toString() === id
     );
+
+    if (!matching_event)
+      return res
+        .status(404)
+        .json({ message: "Update Failed : Credential not found" });
+
     let { mainhall_stat, minihall_stat } = matching_date;
-    console.log("start time:", start_time);
+    let date_events = matching_date.events.filter(
+      (ev) => ev._id.toString() !== id
+    );
+
+    if (date_events.length) {
+      let time_contradict = date_events.find((ev) => {
+        console.log(`db time: ${ev.start_time} | client time: ${start_time}`);
+      });
+    }
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });

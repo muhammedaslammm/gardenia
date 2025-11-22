@@ -93,11 +93,11 @@ const useEvents2 = (eventId = null) => {
         values.start_time = dayjs(
           `${date} ${values.start_time}`,
           "YYYY-MM-DD HH:mm"
-        ).toISOString();
+        ).format();
         values.end_time = dayjs(
           `${date} ${values.end_time}`,
           "YYYY-MM-DD HH:mm"
-        ).toISOString();
+        ).format();
         values.date = date;
 
         setStat("loading");
