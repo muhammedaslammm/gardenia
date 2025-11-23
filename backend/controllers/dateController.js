@@ -49,7 +49,7 @@ export const getDates = async (req, res) => {
       let month_start = new Date(year, month - 1, 1);
       let month_end = new Date(year, month, 1);
 
-      let dates = await EventDate.aggregate([
+      let query = [
         { $match: { date: { $gte: month_start, $lt: month_end } } },
         {
           $lookup: {
@@ -59,7 +59,20 @@ export const getDates = async (req, res) => {
             as: "events",
           },
         },
-        {
+      ];
+
+      if (req.query.destination) {
+        query.push({
+          $project: {
+            date: 1,
+            mainhall_stat: 1,
+            minihall_stat: 1,
+            "events.start_time": 1,
+            "events.end_time": 1,
+          },
+        });
+      } else {
+        query.push({
           $project: {
             date: 1,
             mainhall_stat: 1,
@@ -74,8 +87,10 @@ export const getDates = async (req, res) => {
             "events.end_time": 1,
             "events.name": 1,
           },
-        },
-      ]);
+        });
+      }
+
+      let dates = await EventDate.aggregate(query);
       res.json({ dates });
     }
   } catch (error) {

@@ -14,9 +14,11 @@ const EventDetails = ({ utils }) => {
     mainhall_stat = 1,
     minihall_stat = 1,
   } = dateDetails;
+  console.log("event details date:", date);
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
 
-  let isPast = date ? date.isBefore(dayjs()) : false;
+  let isPast = date ? date.isBefore(dayjs(), "day") : false;
+  let isToday = date ? date.isSame(dayjs(), "day") : false;
 
   const formatted_date = date ? date.format("Do MMMM, YYYY - dddd") : "";
   const date_string = date ? date.format("YYYY-MM-DD") : "";
@@ -95,14 +97,16 @@ const EventDetails = ({ utils }) => {
           >
             {message.text}
           </div>
-          {(mainhall_stat !== 0 || minihall_stat !== 0) && !isPast && (
-            <Link
-              to={`/admin/events/event-management?date=${date_string}`}
-              className="w-full py-2 px-3 bg-green-900 text-white text-[.9rem] font-medium text-center hover:bg-green-800 transition-colors cursor-pointer uppercase"
-            >
-              Add Event
-            </Link>
-          )}
+          {(mainhall_stat !== 0 || minihall_stat !== 0) &&
+            !isPast &&
+            !isToday && (
+              <Link
+                to={`/admin/events/event-management?date=${date_string}`}
+                className="w-full py-2 px-3 bg-green-900 text-white text-[.9rem] font-medium text-center hover:bg-green-800 transition-colors cursor-pointer uppercase"
+              >
+                Add Event
+              </Link>
+            )}
         </div>
       </div>
     </div>

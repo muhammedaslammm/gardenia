@@ -3,12 +3,13 @@ import dayjs from "dayjs";
 const getEventMessage = (mainhall_stat, minihall_stat, events, date) => {
   let message = { text: "", color: "#C79A00", bg: "#fef9c2" };
   let isPast = date && date.isBefore(dayjs(), "day");
+  let isToday = date && date.isSame(dayjs(), "day");
 
-  if (isPast)
-    message.text = "Events Not Found : No events are added on this date";
+  if (isPast || isToday)
+    message.text = "Blocked : Dates unavailable for booking on this date.";
   else if (!mainhall_stat && !minihall_stat) {
     message.text =
-      "Stage Unavailable : No Stage is available for booking on this date.";
+      "Stage Spaces not Available : No Stage is available for booking on this date.";
     message.color = "#9f0712";
     message.bg = "#ffe2e2";
   } else if (mainhall_stat === 1 && minihall_stat === 1) {

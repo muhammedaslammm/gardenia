@@ -1,5 +1,31 @@
+import useCalendar from "../hooks/useCalendar";
+import CalendarForm from "./CalendarForm";
+import CalendarGrid from "./CalendarGrid";
+
 const Calendar = () => {
-  return <main className="min-h-[50vh]"></main>;
+  let {
+    dates,
+    selectedDate,
+    dateDetails,
+    incrementMonth,
+    decrementMonth,
+    selectDate,
+    form,
+  } = useCalendar();
+  let grid_util = {
+    dates,
+    selectedDate,
+    incrementMonth,
+    decrementMonth,
+    selectDate,
+  };
+  let form_util = { dateDetails, form };
+  return (
+    <main className="min-h-[50vh] w-[80rem] mx-auto pt-[7rem] flex gap-8">
+      <CalendarGrid util={grid_util} />
+      <CalendarForm util={form_util} />
+    </main>
+  );
 };
 
 export default Calendar;

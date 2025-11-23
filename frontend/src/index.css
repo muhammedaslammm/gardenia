@@ -71,7 +71,7 @@ button {
 }
 
 .banner-button {
-  @apply self-center text-[1.2rem] font-semibold py-2 px-8   uppercase cursor-pointer;
+  @apply self-center text-[1rem] font-semibold py-2 px-4   uppercase cursor-pointer;
 }
 
 .banner-image {
@@ -92,7 +92,7 @@ button {
 }
 
 .form__input {
-  @apply w-full py-3 xl:py-3 px-2 text-[.9rem] xl:text-[1rem] text-black border border-gray-400 rounded-[.0rem] xl:rounded-[.0rem] outline-0;
+  @apply w-full text-[.9rem] sm:text-[1rem] border border-neutral-500 p-[.4rem] sm:p-[.6rem] outline-none;
 }
 
 .error--form__input {

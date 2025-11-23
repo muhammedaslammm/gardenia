@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/all";
 import { useLayoutEffect, useRef } from "react";
 import toSection from "../utils/toSection";
 import useIsMobile from "../customhooks/useIsMobile";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const bannerContainer = useRef();
@@ -25,7 +26,7 @@ const Banner = () => {
         />
       </picture>
 
-      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[20rem] xl:bottom-[40%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 xl:gap-5 z-20 items-center justify-center ">
+      <div className="absolute bottom-[5rem] sm:bottom-[15rem] md:bottom-[20rem] lg:bottom-[20rem] xl:bottom-[30%] left-[50%] w-full max-w-[90rem] -translate-x-[50%] text-white sm:flex flex-col gap-3 xl:gap-5 z-20 items-center justify-center ">
         <h1 className="text-[2rem] leading-[2.8rem] font--dm-serif-display text-center sm:hidden">
           Space & Memories
         </h1>
@@ -42,14 +43,28 @@ const Banner = () => {
         >
           Weddings, expos, summits—we shape the space to fit your story.
         </h2>
+        <div className="mt-[1rem] flex gap-4">
+          <div
+            className="banner-button bg-white/80 text-green-800 hover:bg-white transition-colors font--inter-tight"
+            onClick={() => toSection("contact")}
+          >
+            Contact Now
+          </div>
+          <Link
+            className="banner-button bg-green-800/50 hover:bg-green-800 transition-colors text-white font--inter-tight"
+            to="/calendar"
+          >
+            View Our Calendar
+          </Link>
+        </div>
       </div>
       <div className="space-x-8 absolute bottom-[1rem] xl:bottom-[3rem] left-[50%] -translate-x-[50%] z-20">
-        <button
+        {/* <button
           className="text-whtie font-semibold text-[.6rem] text-white uppercase tracking-[.1rem] cursor-pointer" //#12522c
           onClick={() => toSection("contact")}
         >
           Contact Us Now
-        </button>
+        </button> */}
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 sm:from-black/70 z-10"></div>
       <div className="absolute inset-0 bg-black/20"></div>
