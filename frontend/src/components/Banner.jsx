@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 const Banner = () => {
   const bannerContainer = useRef();
   const imageRef = useRef();
-  const isMobile = useIsMobile();
 
   return (
     <section
@@ -31,11 +30,11 @@ const Banner = () => {
           Space & Memories
         </h1>
         <h1
-          className="hidden sm:block sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[6.5rem] xl:max-w-[90rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[6rem] sm:text-center"
+          className="hidden sm:block sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[6rem] xl:max-w-[90rem] font-semibold uppercase leading-[2.4rem] sm:leading-[2.7rem] md:leading-[3.7rem] lg:leading-[4.2rem] xl:leading-[5.5rem] sm:text-center"
           style={{ fontFamily: "Playfair Display, serif" }}
         >
-          the <span className="text-[#76a560]">space</span> that speaks your{" "}
-          <span className="text-[#76a560]">memories</span>
+          the <span className="text-[#22a85a]">space</span> that speaks your{" "}
+          <span className="text-[#22a85a]">memories</span>
         </h1>
         <h2
           className="mx-auto w-[80%] sm:w-[85%] xl:w-full text-[1rem] sm:text-[1.2rem] xl:text-[1.35rem] text-neutral-400 leading-[1.3rem] sm:text-neutral-200 xl:uppercase text-center"
@@ -43,7 +42,7 @@ const Banner = () => {
         >
           Weddings, expos, summits—we shape the space to fit your story.
         </h2>
-        <div className="mt-[1rem] flex gap-4">
+        <div className="mt-[1rem] flex justify-center gap-2 sm:gap-4">
           <div
             className="banner-button bg-white/80 text-green-800 hover:bg-white transition-colors font--inter-tight"
             onClick={() => toSection("contact")}
@@ -51,7 +50,7 @@ const Banner = () => {
             Contact Now
           </div>
           <Link
-            className="banner-button bg-green-800/50 hover:bg-green-800 transition-colors text-white font--inter-tight"
+            className="banner-button bg-green-900 hover:bg-green-800 transition-colors text-white font--inter-tight"
             to="/calendar"
           >
             View Our Calendar
@@ -66,8 +65,7 @@ const Banner = () => {
           Contact Us Now
         </button> */}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 sm:from-black/70 z-10"></div>
-      <div className="absolute inset-0 bg-black/20"></div>
+      <div className="absolute inset-0 bg-black/40"></div>
     </section>
   );
 };

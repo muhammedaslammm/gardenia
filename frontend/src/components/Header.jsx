@@ -35,11 +35,11 @@ const Header = ({ func }) => {
           to="/"
         >
           {currentPath === "home" ? (
-            <div className="bg-green-900/50 pt-6 pb-4 rounded-b-[1.5rem]">
+            <div className="bg-green-900 pt-4 pb-4 rounded-b-[1.5rem]">
               <img
                 src="/logo/gardenia-logo-2.png"
                 alt="gardenia logo"
-                className="w-[8.5rem] sm:w-[10rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3.2rem] xl:w-[11.5rem] h-auto object-cover"
+                className="w-[7.5rem] sm:w-[10rem] h-[2rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3rem] xl:w-[10rem]  object-cover"
               />
             </div>
           ) : (

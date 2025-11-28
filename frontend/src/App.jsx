@@ -31,6 +31,9 @@ const App = () => {
         });
       });
     }, containerRef);
+    gsap.set(animatedHeaderRef.current, {
+      y: -150,
+    });
     return () => context.revert();
   }, [isContentReady]);
 
@@ -40,13 +43,6 @@ const App = () => {
     const smoother = ScrollSmoother.get();
     if (smoother) smoother.scrollTo(0, true);
   }, [pathname, id]);
-
-  useEffect(() => {
-    let timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-    return () => clearTimeout(timeout);
-  }, []);
 
   const handleButtonClick = () => {
     setFullNavState(!fullNavState);

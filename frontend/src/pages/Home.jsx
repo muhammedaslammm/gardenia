@@ -13,12 +13,12 @@ const Home = () => {
     <main>
       <Banner />
       <div className="relative z-100">
-        <div className="w-[95%] sm:w-[90%] xl:w-[85%]  mx-auto ">
+        <div className="w-[90%] sm:w-[90%] xl:w-[85%]  mx-auto ">
           <About />
           <Spaces />
           <Facilities />
           <Events />
-          <Images />
+          {/* <Images /> */}
           <ChooseUs />
           <TermsBanner />
           <Contact />

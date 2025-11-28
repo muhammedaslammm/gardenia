@@ -8,7 +8,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
   const { headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#fffef7] shadow-md z-500 -translate-y-[150%]"
+      className="fixed left-0 top-0 w-full bg-[#fffef7] shadow-md z-500 -translate-y-full pb-1"
       ref={ref}
     >
       <nav className="relative lg:static h-auto text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto">
@@ -18,7 +18,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
             onClick={props.func}
           ></i>
         </div>
-        <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[5rem] lg:w-[11.5rem] -translate-y-[1rem] lg:-translate-x-[2.5rem]  lg:translate-y-0 bg-green-900 rounded-b-[1rem]">
+        <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[5rem] lg:w-[10rem] -translate-y-[1rem] lg:-translate-x-[2.5rem]  lg:translate-y-0 bg-green-900 rounded-b-[1.5rem]">
           <img
             className="w-full h-full object-cover"
             src="/logo/gardenia-logo-2.png"
