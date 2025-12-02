@@ -19,7 +19,10 @@ import Jobs from "./adminComponents/Jobs.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import EventManagement from "./adminComponents/EventManagement.jsx";
 import EventData from "./adminComponents/EventData.jsx";
-import Calendar from "./components/Calendar.jsx";
+import Calendar from "./pages/Calendar.jsx";
+import Enquiries from "./adminComponents/Enquiries.jsx";
+import Gallery from "./adminComponents/Gallery.jsx";
+import Staffs from "./adminComponents/Staffs.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,9 @@ const router = createBrowserRouter([
       { path: "events", element: <Events /> },
       { path: "events/event-management", element: <EventManagement /> },
       { path: "events/:id", element: <EventData /> },
+      { path: "enquiries", element: <Enquiries /> },
+      { path: "gallery", element: <Gallery /> },
+      { path: "staffs", element: <Staffs /> },
       { path: "jobs", element: <Jobs /> },
     ],
   },

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import generateDateObjects from "../utils/generateDateObjects";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const useCalendar = () => {
   let [bookedDates, setBookedDates] = useState([]);
@@ -20,7 +21,7 @@ const useCalendar = () => {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: { username: "", email: "", contact_number: "" },
+    defaultValues: { name: "", email: "", contact_number: "" },
   });
 
   useEffect(() => {
@@ -52,6 +53,10 @@ const useCalendar = () => {
     setYear(selectedDate.year());
   }, [selectedDate]);
 
+  let daysInMonth = useMemo(() => {
+    return dayjs().year(year).month(month).daysInMonth();
+  }, [month, year]);
+
   const incrementMonth = () => setSelectedDate((prev) => prev.add(1, "month"));
   const decrementMonth = () =>
     setSelectedDate((prev) => prev.subtract(1, "month"));
@@ -63,8 +68,27 @@ const useCalendar = () => {
     setYear(d.date.year());
   };
 
-  const submitForm = (values) => {
-    console.log(values);
+  let [loading, setLoading] = useState(false);
+
+  const submitForm = async (values) => {
+    try {
+      setLoading(true);
+      let response = await fetch(`${BACKEND_URL}/api/enquiries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...values, event_date: selectedDate }),
+        credentials: "include",
+      });
+      setLoading(false);
+      let result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      toast.success(result.message);
+      reset();
+    } catch (error) {
+      console.log("enquiry creation error:", error.message);
+    }
   };
 
   return {
@@ -74,11 +98,13 @@ const useCalendar = () => {
     incrementMonth,
     decrementMonth,
     selectDate,
+    daysInMonth,
     form: {
       register,
       handleSubmit,
       submitForm,
       errors,
+      loading,
     },
   };
 };

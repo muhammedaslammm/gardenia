@@ -7,8 +7,8 @@ const authenticate = (req, res, next) => {
       .status(401)
       .json({ message: "authentication failed, unauthorized" });
   try {
-    const token_decoded = getVerified(token);
-    req.userId = token_decoded.userId;
+    const payload = getVerified(token);
+    req.userId = payload.userId;
     next();
   } catch (error) {
     console.log("Error:", error.message);

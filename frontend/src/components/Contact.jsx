@@ -1,6 +1,5 @@
 import ConventionMap from "./ConventionMap";
 import contact from "../data/contact";
-import Form from "./Form.jsx";
 
 const Contact = () => {
   return (
@@ -8,7 +7,7 @@ const Contact = () => {
       id="contact"
       className="w-full pt-0 pb-10 md:pb-12 flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-3 border-t-0 border-[#0f592e]"
     >
-      <div className="lg:w-8/12 space-y-1">
+      <div className="space-y-1">
         <h3 className="heading--section">reach out to us</h3>
         <p className="paragraph--section !text-left">
           We're here to assist you with bookings, inquiries, or any
@@ -30,7 +29,6 @@ const Contact = () => {
         </div>
         <ConventionMap />
       </div>
-      <Form />
     </section>
   );
 };

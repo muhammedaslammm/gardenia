@@ -3,27 +3,35 @@ import { weekDays } from "../data/days";
 import { CaretLeft, CaretRight, Star } from "phosphor-react";
 
 const CalendarGrid = ({ util }) => {
-  let { dates, selectedDate, incrementMonth, decrementMonth, selectDate } =
-    util;
+  let {
+    dates,
+    selectedDate,
+    incrementMonth,
+    decrementMonth,
+    selectDate,
+    daysInMonth,
+  } = util;
   return (
     <div className="w-full space-y-4">
       <div>
+        <div className="font--inter-tight text-[1.4rem] font-medium">
+          {dayjs(selectedDate).format("Do MMMM YYYY, dddd")}
+        </div>
         <div className="flex justify-between items-center">
-          <div className="font--dm-serif-display text-[1.5rem]">
-            {dayjs(selectedDate).format("MMMM YYYY")}
-          </div>
+          <div></div>
           <div className="flex gap-2">
             <CaretLeft
-              className="w-[1.2rem] h-[1.2rem] cursor-pointer"
+              className="w-[1rem] h-[1rem] cursor-pointer"
+              weight="bold"
               onClick={decrementMonth}
             />
             <CaretRight
-              className="w-[1.2rem] h-[1.2rem] cursor-pointer"
+              className="w-[1rem] h-[1rem] cursor-pointer"
+              weight="bold"
               onClick={incrementMonth}
             />
           </div>
         </div>
-        <div></div>
       </div>
 
       <div className="grid grid-cols-7 gap-1">

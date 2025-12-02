@@ -5,9 +5,10 @@ const getEventMessage = (mainhall_stat, minihall_stat, events, date) => {
   let isPast = date && date.isBefore(dayjs(), "day");
   let isToday = date && date.isSame(dayjs(), "day");
 
-  if (isPast || isToday)
-    message.text = "Blocked : Dates unavailable for booking on this date.";
-  else if (!mainhall_stat && !minihall_stat) {
+  if (isPast || isToday) {
+    message.text = "Blocked : Date not available for any booking.";
+    message.blocked = true;
+  } else if (!mainhall_stat && !minihall_stat) {
     message.text =
       "Stage Spaces not Available : No Stage is available for booking on this date.";
     message.color = "#9f0712";

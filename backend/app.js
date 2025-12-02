@@ -6,6 +6,7 @@ import userRouter from "./routers/userRouter.js";
 import jobRouter from "./routers/jobRouter.js";
 import eventRouter from "./routers/eventRouter.js";
 import eventDateRouter from "./routers/eventDateRouter.js";
+import enquiryRouter from "./routers/EnquiryRouter.js";
 
 const app = express();
 const allowedOrigins = [
@@ -34,5 +35,6 @@ app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/event-dates", eventDateRouter);
+app.use("/api", enquiryRouter);
 
 export default app;
