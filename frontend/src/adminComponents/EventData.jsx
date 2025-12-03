@@ -2,8 +2,10 @@ import { CaretRight } from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
 import useEventData from "../hooks/useEventData";
 import dayjs from "dayjs";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { createPortal } from "react-dom";
+import NewPaymentModal from "./modals/NewPaymentModal";
 
 const EventData = () => {
   let { id } = useParams();
@@ -12,6 +14,13 @@ const EventData = () => {
 
   let green_style = "font-medium px-4 py-2";
   let isPast = dayjs(data?.date).isBefore(dayjs());
+
+  let getCurrency = (amount) => Intl.NumberFormat("en-IN").format(amount);
+  let [mode, setMode] = useState(null);
+
+  const handleMode = (type) => {
+    setMode(type);
+  };
 
   return (
     <main>
@@ -60,12 +69,24 @@ const EventData = () => {
               )}
             </div>
           </section>
-          <section className="w-full p-2 border border-neutral-300 space-y-4">
-            <div>Payment Information</div>
+          <section className="w-full p-2 border border-neutral-300 space-y-6">
+            <div className="flex justify-between items-center">
+              <div>Payment Information</div>
+              {!data?.payment.payment_settled &&
+                data?.payment.remaining_amount && (
+                  <button
+                    className="text-red-700 underline cursor-pointer"
+                    onClick={() => handleMode("new")}
+                  >
+                    Add new payment
+                  </button>
+                )}
+            </div>
+
             <div>
               <div className="flex justify-between items-end p-2 border-b border-neutral-300">
                 <div>Total Amount</div>
-                <div>{data?.payment.total_amount}</div>
+                <div>{getCurrency(data?.payment.total_amount)}</div>
               </div>
               {data?.payment.payment_timeline.map((tl) => (
                 <div
@@ -87,7 +108,7 @@ const EventData = () => {
                       ))}
                     </div>
                   </div>
-                  <div>{tl.paid_amount}</div>
+                  <div>{getCurrency(tl.paid_amount)}</div>
                 </div>
               ))}
               <div className="flex justify-between items-end p-2">
@@ -100,7 +121,7 @@ const EventData = () => {
                 ) : (
                   <>
                     <div>Remaining Amount</div>
-                    <div>{data?.payment.remaining_amount}</div>
+                    <div>{getCurrency(data?.payment.remaining_amount)}</div>
                   </>
                 )}
               </div>
@@ -119,6 +140,13 @@ const EventData = () => {
             </div>
           )}
       </div>
+      {mode &&
+        createPortal(
+          <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-200">
+            {mode === "new" && <NewPaymentModal handleMode={handleMode} />}
+          </div>,
+          document.getElementById("modal--payment")
+        )}
     </main>
   );
 };

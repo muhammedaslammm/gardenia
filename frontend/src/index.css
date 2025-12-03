@@ -152,6 +152,14 @@ input::placeholder {
   @apply text-black;
 }
 
+/* modal  */
+.modal {
+  @apply w-[40rem] bg-white space-y-8 p-6 mb-[7rem];
+}
+.modal--input {
+  @apply border border-neutral-500 p-2 outline-0;
+}
+
 .shimmer--box {
   @apply h-[15rem] w-full bg-neutral-400 rounded-[.5rem] relative overflow-x-hidden;
 }
