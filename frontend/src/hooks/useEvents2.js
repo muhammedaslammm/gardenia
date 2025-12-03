@@ -121,6 +121,7 @@ const useEvents2 = (eventId = null) => {
       } else {
         let update_data = {};
         let flag = false;
+        console.log("dirty fields:", dirtyFields);
         for (let key in dirtyFields) {
           if (!flag) flag = true;
           if (key === "start_time" || key === "end_time") {

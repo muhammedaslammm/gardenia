@@ -28,7 +28,7 @@ const Schema = new mongoose.Schema(
           paid_amount: { type: Number },
           timeline: [
             {
-              user: String,
+              username: String,
               date: { type: Date, default: Date.now },
               note: String,
             },
@@ -38,7 +38,7 @@ const Schema = new mongoose.Schema(
       payment_settled: { type: Boolean, default: false },
       update_timeline: [
         {
-          user: String,
+          username: String,
           date: { type: Date },
           note: String,
         },
@@ -47,7 +47,7 @@ const Schema = new mongoose.Schema(
     timeline: [
       {
         _id: false,
-        author: String,
+        username: String,
         date: Date,
         note: String,
       },

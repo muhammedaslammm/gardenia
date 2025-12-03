@@ -14,7 +14,6 @@ const EventDetails = ({ utils }) => {
     mainhall_stat = 1,
     minihall_stat = 1,
   } = dateDetails;
-  console.log("event details date:", date);
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
 
   let isPast = date ? date.isBefore(dayjs(), "day") : false;

@@ -1,6 +1,8 @@
 import InputLabel from "../InputLabel";
 
-const PaymentInfo = ({ register, errors, id }) => {
+const PaymentInfo = ({ register, errors, id, watch }) => {
+  let total_amount = watch("total_amount");
+  let paid_amount = watch("paid_amount");
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">Payment Information</div>
@@ -43,7 +45,14 @@ const PaymentInfo = ({ register, errors, id }) => {
         <div></div>
         <div className="">
           <label htmlFor="">Remaining Amount</label>
-          <input type="text" className="a--input" value={""} disabled />
+          <input
+            type="text"
+            className="a--input"
+            value={Intl.NumberFormat("en-IN").format(
+              (Number(total_amount) || 0) - (Number(paid_amount) || 0)
+            )}
+            disabled
+          />
         </div>
       </div>
     </section>

@@ -36,13 +36,13 @@ const getData = (client_data, user) => {
         {
           payment_type,
           paid_amount,
-          timeline: [{ user: user.username }],
+          timeline: [{ username: user.username }],
         },
       ],
       remaining_amount: total_amount - paid_amount,
-      timeline: [{ user: user.username }],
+      timeline: [{ username: user.username }],
     },
-    timeline: [{ author: user.username, date: new Date() }],
+    timeline: [{ username: user.username, date: new Date() }],
   };
 
   return event_data;

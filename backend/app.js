@@ -33,7 +33,7 @@ dotenv.config();
 
 app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
-app.use("/api/events", eventRouter);
+app.use("/api", eventRouter);
 app.use("/api/event-dates", eventDateRouter);
 app.use("/api", enquiryRouter);
 

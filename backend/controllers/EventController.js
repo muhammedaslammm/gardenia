@@ -111,12 +111,10 @@ export const updateEvent = async (req, res) => {
         stage === "main_hall" &&
         date_events.find((ev) => ev.stage === stage)
       )
-        return res
-          .status(409)
-          .json({
-            message:
-              "Update Failed : Main Hall event already booked on this date",
-          });
+        return res.status(409).json({
+          message:
+            "Update Failed : Main Hall event already booked on this date",
+        });
       let overlap = date_events.find(
         (ev) =>
           event_start_time <=
@@ -201,6 +199,38 @@ export const deleteEvent = async (req, res) => {
     await Event.deleteOne({ _id: id });
     res.status(200).json({ message: "success" });
   } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const addPayment = async (req, res) => {
+  try {
+    let eventId = req.params.id;
+    let data = req.body;
+    let user = await User.findById(req.userId).select("username -_id");
+    let event = await Event.findById(eventId).select(
+      "payment.remaining_amount"
+    );
+    let remaining_amount = event.payment.remaining_amount;
+    remaining_amount = remaining_amount - parseInt(data.paid_amount);
+
+    let new_payment_data = { ...data, timeline: [user] };
+
+    let db_query = {
+      $set: { "payment.remaining_amount": remaining_amount },
+      $push: { "payment.payment_timeline": new_payment_data },
+    };
+
+    if (remaining_amount === 0) {
+      if (data.payment_type !== "final") data.payment_type = "final";
+      db_query.$set["payment.payment_settled"] = true;
+    }
+
+    await Event.findByIdAndUpdate(eventId, db_query);
+
+    res.json({ message: "payment updated" });
+  } catch (error) {
+    console.log("payment update error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

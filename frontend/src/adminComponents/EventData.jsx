@@ -9,7 +9,7 @@ import NewPaymentModal from "./modals/NewPaymentModal";
 
 const EventData = () => {
   let { id } = useParams();
-  let { data = {}, loading } = useEventData(id);
+  let { data = {}, loading, getEventData } = useEventData(id);
   let { user } = useContext(AuthContext);
 
   let green_style = "font-medium px-4 py-2";
@@ -54,7 +54,7 @@ const EventData = () => {
           >{`Event : ${data?.event}`}</div>
         </div>
         <div className="flex gap-4 my-4">
-          <section className="w-1/2 p-2 border border-neutral-300 space-y-4">
+          <section className="w-1/2 self-start p-2 border border-neutral-300 space-y-4">
             <div>Contact Information</div>
             <div className="space-y-2">
               {Object.entries(data?.contact_details || {}).map(
@@ -73,7 +73,7 @@ const EventData = () => {
             <div className="flex justify-between items-center">
               <div>Payment Information</div>
               {!data?.payment.payment_settled &&
-                data?.payment.remaining_amount && (
+                data?.payment.remaining_amount > 0 && (
                   <button
                     className="text-red-700 underline cursor-pointer"
                     onClick={() => handleMode("new")}
@@ -97,9 +97,11 @@ const EventData = () => {
                     <div className="capitalize">{`${tl.payment_type} Amount`}</div>
                     <div>
                       {tl.timeline.map((tl2) => (
-                        <div className="text-[.9rem] flex justify-between gap-4 italic text-neutral-700">
+                        <div className="text-[.9rem] flex justify-between items-center gap-2 italic text-neutral-700">
                           <div>
-                            {tl2.note ? tl2.note : `Created by ${tl2.user}`}
+                            {tl2.note
+                              ? tl2.note
+                              : `Recorded by ${tl2.username}`}
                           </div>
                           <div>{`${dayjs(tl2.date).format(
                             "DD-MM-YYYY"
@@ -143,7 +145,14 @@ const EventData = () => {
       {mode &&
         createPortal(
           <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-200">
-            {mode === "new" && <NewPaymentModal handleMode={handleMode} />}
+            {mode === "new" && (
+              <NewPaymentModal
+                handleMode={handleMode}
+                remainingAmount={data?.payment.remaining_amount}
+                eventId={data?._id}
+                refetch={getEventData}
+              />
+            )}
           </div>,
           document.getElementById("modal--payment")
         )}

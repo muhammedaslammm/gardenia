@@ -50,7 +50,12 @@ const EventManagement = () => {
         <GeneralData register={register} errors={errors} watch={watch} />
         <ContactInfo register={register} errors={errors} />
         {!eventId && (
-          <PaymentInfo register={register} errors={errors} id={eventId} />
+          <PaymentInfo
+            register={register}
+            errors={errors}
+            id={eventId}
+            watch={watch}
+          />
         )}
 
         <button

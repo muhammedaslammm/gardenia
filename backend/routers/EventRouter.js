@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addPayment,
   createEvent,
   deleteEvent,
   getEvent,
@@ -9,10 +10,12 @@ import {
 import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
-router.get("/", getEvents);
-router.get("/:id", getEvent);
-router.post("/", authenticate, createEvent);
-router.patch("/:id", authenticate, updateEvent);
-router.delete("/:id", authenticate, deleteEvent);
+router.get("/events", getEvents);
+router.get("/events/:id", getEvent);
+router.post("/events", authenticate, createEvent);
+router.patch("/events/:id", authenticate, updateEvent);
+router.delete("/events/:id", authenticate, deleteEvent);
+
+router.post("/events/:id/payments", authenticate, addPayment);
 
 export default router;
