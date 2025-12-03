@@ -16,8 +16,6 @@ const generateDateObjects = (year, month, eventDates) => {
       (e) => dayjs(e.date).format("YYYY-MM-DD") === currentISO
     );
 
-    if (matching_date) console.log("matching date:", matching_date);
-
     dates.push({
       date: dayjs(currentISO),
       events: matching_date?.events || [],
