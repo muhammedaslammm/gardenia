@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import userRouter from "./routers/userRouter.js";
 import jobRouter from "./routers/jobRouter.js";
-import eventRouter from "./routers/eventRouter.js";
+import eventRouter from "./routers/EventRouter.js";
 import eventDateRouter from "./routers/eventDateRouter.js";
 import enquiryRouter from "./routers/EnquiryRouter.js";
 
