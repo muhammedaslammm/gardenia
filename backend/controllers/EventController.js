@@ -235,3 +235,36 @@ export const addPayment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getCharges = async (req, res) => {
+  try {
+    let charges = await Event.findById(req.params.id).select(
+      "addon_charges -_id"
+    );
+    res.json({ charges });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const createCharges = async (req, res) => {
+  try {
+    let { total_amount, items } = req.body;
+    let { id } = req.params;
+
+    let data = {
+      total_amount,
+      remaining_amount: total_amount,
+      items,
+    };
+
+    let user = await User.findById(req.userId).select("username -_id");
+    let new_charge = await Event.findByIdAndUpdate(id, {
+      $set: { addon_charges: data },
+    });
+    return res.json({ message: "charges updated" });
+  } catch (error) {
+    console.log("adding charges failed:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};

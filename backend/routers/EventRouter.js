@@ -1,8 +1,10 @@
 import express from "express";
 import {
   addPayment,
+  createCharges,
   createEvent,
   deleteEvent,
+  getCharges,
   getEvent,
   getEvents,
   updateEvent,
@@ -17,5 +19,9 @@ router.patch("/events/:id", authenticate, updateEvent);
 router.delete("/events/:id", authenticate, deleteEvent);
 
 router.post("/events/:id/payments", authenticate, addPayment);
+
+// right now
+router.post("/events/:id/add-ons", authenticate, createCharges);
+router.get("/events/:id/add-ons", authenticate, getCharges);
 
 export default router;

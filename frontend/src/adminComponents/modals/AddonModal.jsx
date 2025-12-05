@@ -2,24 +2,73 @@ import { X } from "phosphor-react";
 import ModalLabel from "./ModalLabel";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
-const AddonModal = ({ handleMode }) => {
-  let [expenses, setExpenses] = useState([]);
+const AddonModal = ({ handleMode, eventId, refetch }) => {
+  let [items, setItems] = useState([]);
   let [totalAmount, setTotalAmount] = useState(0);
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ defaultValues: { return_name: "", amount: "" } });
+  } = useForm({ defaultValues: { charge_name: "", amount: "" } });
 
   const addExpense = (values) => {
     console.log("submitted values:", values);
-    setExpenses((prev) => [...prev, values]);
+    setItems((prev) => [...prev, values]);
     setTotalAmount((prev) => Number(prev) + Number(values.amount));
     reset();
   };
+
+  useEffect(() => {
+    let getItems = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/events/${eventId}/add-ons`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        let result = await response.json();
+        if (!response.ok) throw new Error(result.message);
+        console.log("event extra charges:", result.charges);
+        setItems(result.charges.addon_charges.items);
+        setTotalAmount(result.charges.addon_charges.total_amount || 0);
+      } catch (error) {
+        console.log("add on fetch errors:", error.message);
+      }
+    };
+    getItems();
+  }, []);
+
+  const submitItems = async () => {
+    try {
+      let data = { total_amount: totalAmount, items };
+      let response = await fetch(
+        `${BACKEND_URL}/api/events/${eventId}/add-ons`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
+        }
+      );
+      let result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      console.log(result.message);
+      handleMode(null);
+      refetch();
+    } catch (error) {
+      console.log("add on post failed:", error.message);
+    }
+  };
+
   return (
     <div className="relative w-[40rem] bg-white space-y-8 mb-[2rem] p-4">
       <div className="font--dm-serif-display font-medium text-[1.6rem]">
@@ -31,12 +80,12 @@ const AddonModal = ({ handleMode }) => {
           onSubmit={handleSubmit(addExpense)}
         >
           <div className="space-y-1">
-            <ModalLabel title="Return Name" error={errors?.return_name} />
+            <ModalLabel title="Return Name" error={errors?.charge_name} />
             <input
               type="text"
               className="modal--input placeholder:!text-neutral-500 "
               placeholder="Eg: Additional A/C"
-              {...register("return_name", { required: true })}
+              {...register("charge_name", { required: true })}
             />
           </div>
           <div className="space-y-1">
@@ -55,13 +104,13 @@ const AddonModal = ({ handleMode }) => {
           </button>
         </form>
         <div className="mt-8 py-6 border-t border-neutral-400 font--inter-tight">
-          {!expenses.length ? (
+          {!items.length ? (
             <div className="space-y-1">
               <div className="font-medium uppercase">
-                Add-ons / Supplemental Charges
+                Add-ons / Supplemental charges
               </div>
               <div className="text-neutral-900">
-                Miscellaneous expenses are not added so far. If any expenses
+                Miscellaneous charges are not added so far. If any charges
                 incurred, fill them above and submit.
               </div>
             </div>
@@ -73,9 +122,9 @@ const AddonModal = ({ handleMode }) => {
                   <div>Amount</div>
                 </div>
                 <div className="">
-                  {expenses.map((expense) => (
+                  {items.map((expense) => (
                     <div className="flex justify-between py-1 border-b border-neutral-300 last:border-0">
-                      <div>{expense.return_name}</div>
+                      <div>{expense.charge_name}</div>
                       <div>{expense.amount}</div>
                     </div>
                   ))}
@@ -85,7 +134,10 @@ const AddonModal = ({ handleMode }) => {
                   </div>
                 </div>
               </div>
-              <button className="p-3 bg-black text-white font-medium cursor-pointer self-end">
+              <button
+                className="p-3 bg-black text-white font-medium cursor-pointer self-end"
+                onClick={submitItems}
+              >
                 Submit this return
               </button>
             </div>

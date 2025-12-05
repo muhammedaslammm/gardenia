@@ -91,7 +91,7 @@ const EventData = () => {
               </div>
 
               <div>
-                <div className="flex justify-between items-end py-2 border-b border-neutral-300">
+                <div className="flex justify-between items-end py-2 border-b border-neutral-300 font-medium">
                   <div>Total Amount</div>
                   <div>{getCurrency(data?.payment.total_amount)}</div>
                 </div>
@@ -120,7 +120,7 @@ const EventData = () => {
                     <div>{getCurrency(tl.paid_amount)}</div>
                   </div>
                 ))}
-                <div className="flex justify-between items-end py-2">
+                <div className="flex justify-between items-end font-medium py-2">
                   {data?.payment.payment_settled ? (
                     <div
                       className={`ml-auto ${green_style} bg-green-100 text-green-800`}
@@ -136,7 +136,7 @@ const EventData = () => {
                 </div>
               </div>
             </section>
-            <section className="p-4 border border-neutral-400 bg-white space-y-2">
+            <section className="p-4 border border-neutral-400 bg-white space-y-6">
               <div className="flex justify-between items-end ">
                 <div className="">Add-ons / Supplemental Charges</div>
                 <button
@@ -147,8 +147,25 @@ const EventData = () => {
                 </button>
               </div>
 
-              {data?.miscellaneous_expenses.total_amount ? (
-                <div></div>
+              {data?.addon_charges?.total_amount ? (
+                <div>
+                  <div className="flex justify-between pb-1 border-b border-neutral-300 font-medium">
+                    <div>Charges</div>
+                    <div>Amount</div>
+                  </div>
+                  <div>
+                    {data.addon_charges.items.map((item, i) => (
+                      <div className="flex justify-between py-1 border-b border-neutral-300">
+                        <div>{item.charge_name}</div>
+                        <div>{item.amount}</div>
+                      </div>
+                    ))}
+                    <div className="flex justify-between font-medium py-1">
+                      <div>Total Amount</div>
+                      <div>{data.addon_charges.total_amount}</div>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="border border-neutral-400 bg-white p-4">
                   <div className="font-medium">
@@ -185,7 +202,13 @@ const EventData = () => {
                 refetch={getEventData}
               />
             )}
-            {mode === "expence" && <AddonModal handleMode={handleMode} />}
+            {mode === "expence" && (
+              <AddonModal
+                handleMode={handleMode}
+                eventId={data._id}
+                refetch={getEventData}
+              />
+            )}
           </div>,
           document.getElementById("modal--payment")
         )}

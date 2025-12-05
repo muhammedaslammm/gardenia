@@ -44,10 +44,10 @@ const Schema = new mongoose.Schema(
         },
       ],
     },
-    miscellaneous_expenses: {
+    addon_charges: {
       total_amount: Number,
       remaining_amount: Number,
-      expenses: [{ expense_name: String, amount: Number }],
+      items: [{ charge_name: String, amount: Number, _id: false }],
       payment_summary: [{ username: String, paid_amount: Number }],
     },
     timeline: [
