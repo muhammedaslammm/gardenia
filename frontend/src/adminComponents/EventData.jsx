@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { createPortal } from "react-dom";
 import NewPaymentModal from "./modals/NewPaymentModal";
+import AddonModal from "./modals/AddonModal";
 
 const EventData = () => {
   let { id } = useParams();
@@ -29,32 +30,37 @@ const EventData = () => {
         <CaretRight className="inline-block w-4 h-4 mb-1 mx-1" />
         <span>Event Details</span>
       </div>
-      <div className="mt-8 flex flex-col gap-4 min-h-[20rem]">
+      <div className="mt-8 flex flex-col gap-4">
         {/* general data */}
-        <div className="flex justify-between">
-          <div>
-            <div className="text-[1.4rem] font-medium">{data?.event_name}</div>
-            <div>{`Booking Number : ${data?.booking_number}`}</div>
-          </div>
-          <div className="text-end">
-            <div className="text-[1.4rem] font-medium">
-              {dayjs(data?.date).format("Do MMMM, YYYY")}
+        <div className="bg-white border border-neutral-400 p-4 space-y-4">
+          <div className="flex justify-between">
+            <div>
+              <div className="text-[1.4rem] font-medium">
+                {data?.event_name}
+              </div>
+              <div>{`Booking Number : ${data?.booking_number}`}</div>
             </div>
-            <div>{`${dayjs(data?.start_time).format("hh:mm a")} - ${dayjs(
-              data?.end_time
-            ).format("hh:mm a")}`}</div>
+            <div className="text-end">
+              <div className="text-[1.4rem] font-medium">
+                {dayjs(data?.date).format("Do MMMM, YYYY")}
+              </div>
+              <div>{`${dayjs(data?.start_time).format("hh:mm a")} - ${dayjs(
+                data?.end_time
+              ).format("hh:mm a")}`}</div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div
+              className={`capitalize ${green_style} bg-green-100 text-green-800`}
+            >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
+            <div
+              className={`${green_style} bg-orange-100 text-orange-800`}
+            >{`Event : ${data?.event}`}</div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <div
-            className={`capitalize ${green_style} bg-green-100 text-green-800`}
-          >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
-          <div
-            className={`${green_style} bg-orange-100 text-orange-800`}
-          >{`Event : ${data?.event}`}</div>
-        </div>
-        <div className="flex gap-4 my-4">
-          <section className="w-1/2 self-start p-2 border border-neutral-300 space-y-4">
+
+        <div className="flex gap-4">
+          <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
             <div>Contact Information</div>
             <div className="space-y-2">
               {Object.entries(data?.contact_details || {}).map(
@@ -69,65 +75,91 @@ const EventData = () => {
               )}
             </div>
           </section>
-          <section className="w-full p-2 border border-neutral-300 space-y-6">
-            <div className="flex justify-between items-center">
-              <div>Payment Information</div>
-              {!data?.payment.payment_settled &&
-                data?.payment.remaining_amount > 0 && (
-                  <button
-                    className="text-red-700 underline cursor-pointer"
-                    onClick={() => handleMode("new")}
-                  >
-                    Add new payment
-                  </button>
-                )}
-            </div>
+          <section className="w-full space-y-4">
+            <section className="p-4 bg-white border border-neutral-400 space-y-6">
+              <div className="flex justify-between items-center">
+                <div>Payment Information</div>
+                {!data?.payment.payment_settled &&
+                  data?.payment.remaining_amount > 0 && (
+                    <button
+                      className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
+                      onClick={() => handleMode("new")}
+                    >
+                      Add new payment
+                    </button>
+                  )}
+              </div>
 
-            <div>
-              <div className="flex justify-between items-end p-2 border-b border-neutral-300">
-                <div>Total Amount</div>
-                <div>{getCurrency(data?.payment.total_amount)}</div>
-              </div>
-              {data?.payment.payment_timeline.map((tl) => (
-                <div
-                  className="flex justify-between items-start p-2 border-b border-neutral-300"
-                  key={tl._id}
-                >
-                  <div className="">
-                    <div className="capitalize">{`${tl.payment_type} Amount`}</div>
-                    <div>
-                      {tl.timeline.map((tl2) => (
-                        <div className="text-[.9rem] flex justify-between items-center gap-2 italic text-neutral-700">
-                          <div>
-                            {tl2.note
-                              ? tl2.note
-                              : `Recorded by ${tl2.username}`}
-                          </div>
-                          <div>{`${dayjs(tl2.date).format(
-                            "DD-MM-YYYY"
-                          )}, ${dayjs(tl2.date).format("hh:mm a")}`}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div>{getCurrency(tl.paid_amount)}</div>
+              <div>
+                <div className="flex justify-between items-end py-2 border-b border-neutral-300">
+                  <div>Total Amount</div>
+                  <div>{getCurrency(data?.payment.total_amount)}</div>
                 </div>
-              ))}
-              <div className="flex justify-between items-end p-2">
-                {data?.payment.payment_settled ? (
+                {data?.payment.payment_timeline.map((tl) => (
                   <div
-                    className={`ml-auto ${green_style} bg-green-100 text-green-800`}
+                    className="flex justify-between items-start py-2 border-b border-neutral-300"
+                    key={tl._id}
                   >
-                    Amount Settled
+                    <div className="">
+                      <div className="capitalize">{`${tl.payment_type} Amount`}</div>
+                      <div>
+                        {tl.timeline.map((tl2) => (
+                          <div className="text-[.9rem] flex justify-between items-center gap-2 italic text-neutral-700">
+                            <div>
+                              {tl2.note
+                                ? tl2.note
+                                : `Recorded by ${tl2.username}`}
+                            </div>
+                            <div>{`${dayjs(tl2.date).format(
+                              "DD-MM-YYYY"
+                            )}, ${dayjs(tl2.date).format("hh:mm a")}`}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>{getCurrency(tl.paid_amount)}</div>
                   </div>
-                ) : (
-                  <>
-                    <div>Remaining Amount</div>
-                    <div>{getCurrency(data?.payment.remaining_amount)}</div>
-                  </>
-                )}
+                ))}
+                <div className="flex justify-between items-end py-2">
+                  {data?.payment.payment_settled ? (
+                    <div
+                      className={`ml-auto ${green_style} bg-green-100 text-green-800`}
+                    >
+                      Amount Settled
+                    </div>
+                  ) : (
+                    <>
+                      <div>Remaining Amount</div>
+                      <div>{getCurrency(data?.payment.remaining_amount)}</div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            </section>
+            <section className="p-4 border border-neutral-400 bg-white space-y-2">
+              <div className="flex justify-between items-end ">
+                <div className="">Add-ons / Supplemental Charges</div>
+                <button
+                  className="hover:text-violet-800 transition-colors cursor-pointer underline"
+                  onClick={() => handleMode("expence")}
+                >
+                  Add Returns
+                </button>
+              </div>
+
+              {data?.miscellaneous_expenses.total_amount ? (
+                <div></div>
+              ) : (
+                <div className="border border-neutral-400 bg-white p-4">
+                  <div className="font-medium">
+                    No Add-ons / Supplemental Charges for this event
+                  </div>
+                  <div>
+                    This event haven't cost any add-ons or supplemental charges.
+                  </div>
+                </div>
+              )}
+            </section>
           </section>
         </div>
         {(user?.role === "md" ||
@@ -153,6 +185,7 @@ const EventData = () => {
                 refetch={getEventData}
               />
             )}
+            {mode === "expence" && <AddonModal handleMode={handleMode} />}
           </div>,
           document.getElementById("modal--payment")
         )}

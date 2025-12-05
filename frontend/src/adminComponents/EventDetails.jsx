@@ -23,14 +23,14 @@ const EventDetails = ({ utils }) => {
   const date_string = date ? date.format("YYYY-MM-DD") : "";
 
   return (
-    <div className="pt-6  border-t border-neutral-300 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
+    <div className="pt-6 border-t border-neutral-400 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
       {/* top block */}
       <div className="flex justify-between items-end">
         <div className="font-medium sm:text-[1rem]">Event Details</div>
       </div>
 
       {/* bottom block */}
-      <div className="border border-neutral-300 h-full flex flex-col gap-2 p-2">
+      <div className="border bg-white border-neutral-400 h-full flex flex-col gap-2 p-2">
         <div className="font-medium text-[1rem] sm:text-[1.1rem]">
           {formatted_date}
         </div>
@@ -53,7 +53,7 @@ const EventDetails = ({ utils }) => {
             <div className="space-y-4">
               {events.map((event) => (
                 <Link
-                  className="space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-200 hover:bg-green-300/10 transition-colors duration-500"
+                  className="space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:-translate-y-[.2rem] transition-transform z-10"
                   to={`/admin/events/${event._id}`}
                 >
                   <div className="space-y-8 my-0">

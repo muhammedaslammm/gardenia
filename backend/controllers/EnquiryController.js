@@ -17,7 +17,9 @@ export const getEnquiries = async (req, res) => {
     let enquiries = [];
     switch (filter) {
       case "all":
-        enquiries = await Enquiry.find();
+        enquiries = await Enquiry.find()
+          .sort({ createdAt: -1 })
+          .select("-updatedAt -__v");
         return res.json({ enquiries });
       default:
         return res.status(400).json({ message: "Invalid filter option" });

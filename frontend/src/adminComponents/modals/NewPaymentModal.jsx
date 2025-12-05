@@ -43,7 +43,7 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
   };
 
   return (
-    <div className="w-[40rem] bg-white space-y-8 py-4 px-6 mb-[7rem] relative">
+    <div className="w-[40rem] bg-white space-y-8 py-4 px-6 mb-[2rem] relative">
       <div className="text-[1.6rem] font-medium font--dm-serif-display">
         Add new payment
       </div>

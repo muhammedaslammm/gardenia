@@ -44,6 +44,12 @@ const Schema = new mongoose.Schema(
         },
       ],
     },
+    miscellaneous_expenses: {
+      total_amount: Number,
+      remaining_amount: Number,
+      expenses: [{ expense_name: String, amount: Number }],
+      payment_summary: [{ username: String, paid_amount: Number }],
+    },
     timeline: [
       {
         _id: false,

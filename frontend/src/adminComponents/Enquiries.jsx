@@ -15,8 +15,8 @@ const Enquiries = () => {
             <div className="space-y-2">
               {sortedResult.map((enq) => (
                 <div
-                  className={`p-4 border border-neutral-300 space-y-8 ${
-                    !enq.read && "bg-neutral-200"
+                  className={`p-4 border border-neutral-400 space-y-8 ${
+                    !enq.read ? "bg-neutral-200" : "bg-white"
                   }`}
                 >
                   <div>
@@ -30,6 +30,10 @@ const Enquiries = () => {
                     <div className="">
                       <div>Phone : {enq.contact_number}</div>
                       <div>Email : {enq.email}</div>
+                      {/* <div className="text-neutral-600 text-[.8rem]">
+                        Submitted date :{" "}
+                        {dayjs(enq.createdAt).format("DD-MM-YYYY")}
+                      </div> */}
                     </div>
                     <button
                       className={`border border-neutral-400 py-1 px-2 text-[.9rem] ${

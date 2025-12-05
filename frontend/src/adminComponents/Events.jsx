@@ -40,7 +40,7 @@ const Events = () => {
           </div>
           <div className="grid grid-cols-7 gap-[.05rem]">
             {weekDays.map((day) => (
-              <div className="text-[.65rem] sm:text-[.8rem] text-neutral-600 font-medium text-center py-[.2rem] border border-[#0f592e]/10">
+              <div className="text-[.65rem] sm:text-[.8rem] text-neutral-600 font-medium text-center py-[.2rem] bg-white border border-neutral-400">
                 {day}
               </div>
             ))}
@@ -53,12 +53,14 @@ const Events = () => {
               return (
                 <div
                   className={`h-[3.5rem] sm:h-[5rem] border border-[#0f592e]/10  flex flex-col justify-between transition cursor-pointer p-1 ${
-                    !isCurrentMonth ? "opacity-15 bg-neutral-300" : ""
+                    !isCurrentMonth
+                      ? "opacity-15 bg-neutral-300"
+                      : "bg-white border-neutral-400"
                   } ${events ? "bg-yellow-400/20" : ""} ${
                     isSelected
                       ? "border border-green-900/50 bg-green-900/5 shadow-inner"
                       : ""
-                  }`}
+                  } hover:border-green-900 hover:bg-green-900/10`}
                   onClick={() => handleDate(d)}
                 >
                   <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between">

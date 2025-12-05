@@ -28,7 +28,7 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
               Select Payment Type
             </option>
             {["advance", "partial", "final"].map((p_type) => (
-              <option>{p_type}</option>
+              <option className="capitalize">{p_type}</option>
             ))}
           </select>
         </div>
@@ -38,7 +38,11 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
             type="number"
             className={`a--input`}
             name="paid_amount"
-            {...register("paid_amount", { required: !id ? true : false })}
+            {...register("paid_amount", {
+              required: !id ? true : false,
+              validate: (amount) =>
+                Number(amount) <= Number(watch("total_amount")),
+            })}
           />
         </div>
         <div></div>
