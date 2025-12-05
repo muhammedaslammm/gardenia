@@ -7,6 +7,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { createPortal } from "react-dom";
 import NewPaymentModal from "./modals/NewPaymentModal";
 import AddonModal from "./modals/AddonModal";
+import DiscountModal from "./modals/DiscountModal";
 
 const EventData = () => {
   let { id } = useParams();
@@ -76,18 +77,28 @@ const EventData = () => {
             </div>
           </section>
           <section className="w-full space-y-4">
-            <section className="p-4 bg-white border border-neutral-400 space-y-6">
+            <section className="p-4 bg-white border border-neutral-400 flex flex-col gap-6">
               <div className="flex justify-between items-center">
                 <div>Payment Information</div>
-                {!data?.payment.payment_settled &&
-                  data?.payment.remaining_amount > 0 && (
-                    <button
-                      className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
-                      onClick={() => handleMode("new")}
+                <div className="flex gap-4">
+                  {!data?.payment.payment_settled && (
+                    <div
+                      className="text-purple-800 underline cursor-pointer"
+                      onClick={() => handleMode("discount")}
                     >
-                      Add new payment
-                    </button>
+                      Add discount
+                    </div>
                   )}
+                  {!data?.payment.payment_settled &&
+                    data?.payment.remaining_amount > 0 && (
+                      <button
+                        className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
+                        onClick={() => handleMode("new")}
+                      >
+                        Add new payment
+                      </button>
+                    )}
+                </div>
               </div>
 
               <div>
@@ -134,6 +145,7 @@ const EventData = () => {
                     </>
                   )}
                 </div>
+                <div></div>
               </div>
             </section>
             <section className="p-4 border border-neutral-400 bg-white space-y-6">
@@ -209,6 +221,7 @@ const EventData = () => {
                 refetch={getEventData}
               />
             )}
+            {mode === "discount" && <DiscountModal handleMode={handleMode}/>}
           </div>,
           document.getElementById("modal--payment")
         )}
