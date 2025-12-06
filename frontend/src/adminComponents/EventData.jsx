@@ -133,11 +133,12 @@ const EventData = () => {
                 ))}
                 <div className="flex justify-between items-end font-medium py-2">
                   {data?.payment.payment_settled ? (
-                    <div
-                      className={`ml-auto ${green_style} bg-green-100 text-green-800`}
-                    >
-                      Amount Settled
-                    </div>
+                    <>
+                      <div className="text-green-800">Amount Settled</div>
+                      <div className="text-green-800">
+                        {data?.payment.total_amount}
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div>Remaining Amount</div>
@@ -221,7 +222,14 @@ const EventData = () => {
                 refetch={getEventData}
               />
             )}
-            {mode === "discount" && <DiscountModal handleMode={handleMode}/>}
+            {mode === "discount" && (
+              <DiscountModal
+                eventId={data._id}
+                handleMode={handleMode}
+                remainingAmount={data?.payment.remaining_amount}
+                refetch={getEventData}
+              />
+            )}
           </div>,
           document.getElementById("modal--payment")
         )}

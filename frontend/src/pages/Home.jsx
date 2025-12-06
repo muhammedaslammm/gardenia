@@ -7,6 +7,7 @@ import Facilities from "../components/Facilities";
 import Contact from "../components/Contact";
 import ChooseUs from "../components/ChooseUs";
 import TermsBanner from "../components/TermsBanner";
+import GalleryBanner from "../components/GalleryBanner";
 
 const Home = () => {
   return (
@@ -18,7 +19,7 @@ const Home = () => {
           <Spaces />
           <Facilities />
           <Events />
-          {/* <Images /> */}
+          {/* <GalleryBanner /> */}
           <ChooseUs />
           <TermsBanner />
           <Contact />

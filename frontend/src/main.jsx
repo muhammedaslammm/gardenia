@@ -23,6 +23,7 @@ import Calendar from "./pages/Calendar.jsx";
 import Enquiries from "./adminComponents/Enquiries.jsx";
 import Gallery from "./adminComponents/Gallery.jsx";
 import Staffs from "./adminComponents/Staffs.jsx";
+import GalleryPage from "./components/GalleryPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: "terms", element: <Terms /> },
       { path: "careers", element: <Careers /> },
       { path: "calendar", element: <Calendar /> },
+      { path: "gallery", element: <GalleryPage /> },
     ],
   },
   {

@@ -8,7 +8,7 @@ const AnimatedHeader = forwardRef((props, ref) => {
   const { headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#fffef7] shadow-md z-500 -translate-y-full pb-1"
+      className="fixed left-0 top-0 w-full bg-[#fefefe] shadow-md z-500 -translate-y-full pb-1"
       ref={ref}
     >
       <nav className="relative lg:static h-auto text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto">

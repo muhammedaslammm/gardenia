@@ -222,7 +222,7 @@ export const addPayment = async (req, res) => {
     };
 
     if (remaining_amount === 0) {
-      if (data.payment_type !== "final")
+      if (data.payment_type !== "final" && data.payment_type !== "discount")
         new_payment_data.payment_type = "final";
       db_query.$set["payment.payment_settled"] = true;
     }
@@ -235,6 +235,8 @@ export const addPayment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const addDiscount = async (req, res) => {};
 
 export const getCharges = async (req, res) => {
   try {

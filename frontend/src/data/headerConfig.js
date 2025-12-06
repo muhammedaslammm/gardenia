@@ -25,6 +25,7 @@ const headerConfig = {
       path: "contact",
     },
     { title: "Careeres", path: "/careers" },
+    { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
   spaces: [
@@ -54,6 +55,7 @@ const headerConfig = {
     },
   ],
   calendar: [{ title: "Home", path: "/" }],
+  gallery: [{ title: "Home", path: "/" }],
 };
 
 export default headerConfig;

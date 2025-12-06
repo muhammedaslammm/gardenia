@@ -23,7 +23,7 @@ const Schema = new mongoose.Schema(
         {
           payment_type: {
             type: String,
-            enum: ["advance", "partial", "final"],
+            enum: ["advance", "partial", "discount", "final"],
           },
           paid_amount: { type: Number },
           timeline: [
