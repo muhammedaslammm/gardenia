@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import NewPaymentModal from "./modals/NewPaymentModal";
 import AddonModal from "./modals/AddonModal";
 import DiscountModal from "./modals/DiscountModal";
+import CancellationModal from "./modals/CancellationModal";
 
 const EventData = () => {
   let { id } = useParams();
@@ -55,7 +56,7 @@ const EventData = () => {
               className={`capitalize ${green_style} bg-green-100 text-green-800`}
             >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
             <div
-              className={`${green_style} bg-orange-100 text-orange-800`}
+              className={`${green_style} bg-green-100 text-green-800`}
             >{`Event : ${data?.event}`}</div>
           </div>
         </div>
@@ -192,17 +193,25 @@ const EventData = () => {
             </section>
           </section>
         </div>
-        {(user?.role === "md" ||
-          (user?.role === "staff" && !data?.restricted)) &&
-          !isPast && (
-            <div className="mt-8 self-end bg-black text-white font-medium py-2 px-4">
-              <Link
-                to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
-              >
-                Update this Event
-              </Link>
-            </div>
-          )}
+        <div className="flex gap-2 self-end mt-8">
+          <button
+            className="text-red-800 bg-red-100 font-medium py-2 px-4 cursor-pointer"
+            onClick={() => handleMode("cancellation")}
+          >
+            Cancel this Event
+          </button>
+          {(user?.role === "md" ||
+            (user?.role === "staff" && !data?.restricted)) &&
+            !isPast && (
+              <div className="self-end bg-black text-white font-medium py-2 px-4 cursor-pointer">
+                <Link
+                  to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
+                >
+                  Update this Event
+                </Link>
+              </div>
+            )}
+        </div>
       </div>
       {mode &&
         createPortal(
@@ -230,8 +239,14 @@ const EventData = () => {
                 refetch={getEventData}
               />
             )}
+            {mode === "cancellation" && (
+              <CancellationModal
+                handleMode={handleMode}
+                payment_timeline={data?.payment?.payment_timeline}
+              />
+            )}
           </div>,
-          document.getElementById("modal--payment")
+          document.getElementById("modal--event")
         )}
     </main>
   );
