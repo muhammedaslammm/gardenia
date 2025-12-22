@@ -1,8 +1,15 @@
 import { X } from "phosphor-react";
 import { useState } from "react";
 
-const CancellationModal = ({ handleMode, payment_timeline }) => {
+const CancellationModal = ({
+  eventId,
+  handleMode,
+  payment_timeline,
+  refetch,
+}) => {
   let [reschedule, setReschedule] = useState(false);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   let payable_amount = payment_timeline.reduce(
     (amt, { payment_type, paid_amount }) => {
       if (payment_type !== "discount") amt += paid_amount;
@@ -10,6 +17,7 @@ const CancellationModal = ({ handleMode, payment_timeline }) => {
     },
     0
   );
+
   const [refundAmount, setRefundAmount] = useState(payable_amount);
 
   const handleReschedule = () => {
@@ -21,6 +29,25 @@ const CancellationModal = ({ handleMode, payment_timeline }) => {
     console.log(e.target.value);
     let value = e.target.value;
     if (Number(value) <= payable_amount) setRefundAmount(e.target.value);
+  };
+
+  const cancelEvent = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/events/${eventId}/cancel`,
+        {
+          method: "PATCH",
+          credentials: "include",
+        }
+      );
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      console.log(result.message);
+      refetch();
+      handleMode(null);
+    } catch (error) {
+      console.log("cancellation error:", error.message);
+    }
   };
 
   return (
@@ -38,7 +65,7 @@ const CancellationModal = ({ handleMode, payment_timeline }) => {
         Events could be cancelled; however, only rescheduled events are eligible
         for a full refund, while all other refunds are subject to demand.
       </div>
-      <div className="my-4 space-y-4">
+      <div className="my-4 flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <label htmlFor="schedule">Schedule this event on another date</label>
           <input
@@ -61,6 +88,12 @@ const CancellationModal = ({ handleMode, payment_timeline }) => {
             disabled={reschedule}
           />
         </div>
+        <button
+          className="mt-4 bg-black text-white font-medium cursor-pointer hover:-translate-y-[.1rem] transition-transform p-2"
+          onClick={cancelEvent}
+        >
+          Cancel this Event
+        </button>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const EventData = () => {
   let { data = {}, loading, getEventData } = useEventData(id);
   let { user } = useContext(AuthContext);
 
-  let green_style = "font-medium px-4 py-2";
+  let highlight_style = "font-medium px-4 py-2";
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
   let getCurrency = (amount) => Intl.NumberFormat("en-IN").format(amount);
@@ -33,7 +33,6 @@ const EventData = () => {
         <span>Event Details</span>
       </div>
       <div className="mt-8 flex flex-col gap-4">
-        {/* general data */}
         <div className="bg-white border border-neutral-400 p-4 space-y-4">
           <div className="flex justify-between">
             <div>
@@ -51,13 +50,20 @@ const EventData = () => {
               ).format("hh:mm a")}`}</div>
             </div>
           </div>
-          <div className="flex gap-2">
-            <div
-              className={`capitalize ${green_style} bg-green-100 text-green-800`}
-            >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
-            <div
-              className={`${green_style} bg-green-100 text-green-800`}
-            >{`Event : ${data?.event}`}</div>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-2">
+              <div
+                className={`capitalize ${highlight_style} bg-green-100 text-green-800`}
+              >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
+              <div
+                className={`${highlight_style} bg-green-100 text-green-800`}
+              >{`Event : ${data?.event}`}</div>
+            </div>
+            {data?.cancelled && (
+              <div className={`${highlight_style} bg-red-50 text-red-800`}>
+                This Event is Cancelled
+              </div>
+            )}
           </div>
         </div>
 
@@ -82,7 +88,7 @@ const EventData = () => {
               <div className="flex justify-between items-center">
                 <div>Payment Information</div>
                 <div className="flex gap-4">
-                  {!data?.payment.payment_settled && (
+                  {!data?.payment.payment_settled && !data?.cancelled && (
                     <div
                       className="text-purple-800 underline cursor-pointer"
                       onClick={() => handleMode("discount")}
@@ -91,7 +97,8 @@ const EventData = () => {
                     </div>
                   )}
                   {!data?.payment.payment_settled &&
-                    data?.payment.remaining_amount > 0 && (
+                    data?.payment.remaining_amount > 0 &&
+                    !data?.cancelled && (
                       <button
                         className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
                         onClick={() => handleMode("new")}
@@ -153,12 +160,14 @@ const EventData = () => {
             <section className="p-4 border border-neutral-400 bg-white space-y-6">
               <div className="flex justify-between items-end ">
                 <div className="">Add-ons / Supplemental Charges</div>
-                <button
-                  className="hover:text-violet-800 transition-colors cursor-pointer underline"
-                  onClick={() => handleMode("expence")}
-                >
-                  Add Returns
-                </button>
+                {!data?.cancelled && (
+                  <button
+                    className="hover:text-violet-800 transition-colors cursor-pointer underline"
+                    onClick={() => handleMode("expence")}
+                  >
+                    Add Returns
+                  </button>
+                )}
               </div>
 
               {data?.addon_charges?.total_amount ? (
@@ -194,15 +203,18 @@ const EventData = () => {
           </section>
         </div>
         <div className="flex gap-2 self-end mt-8">
-          <button
-            className="text-red-800 bg-red-100 font-medium py-2 px-4 cursor-pointer"
-            onClick={() => handleMode("cancellation")}
-          >
-            Cancel this Event
-          </button>
+          {!isPast && !data?.cancelled && (
+            <button
+              className="text-red-800 bg-red-100 font-medium py-2 px-4 cursor-pointer"
+              onClick={() => handleMode("cancellation")}
+            >
+              Cancel this Event
+            </button>
+          )}
           {(user?.role === "md" ||
             (user?.role === "staff" && !data?.restricted)) &&
-            !isPast && (
+            !isPast &&
+            !data?.cancelled && (
               <div className="self-end bg-black text-white font-medium py-2 px-4 cursor-pointer">
                 <Link
                   to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
@@ -241,8 +253,10 @@ const EventData = () => {
             )}
             {mode === "cancellation" && (
               <CancellationModal
+                eventId={data._id}
                 handleMode={handleMode}
                 payment_timeline={data?.payment?.payment_timeline}
+                refetch={getEventData}
               />
             )}
           </div>,

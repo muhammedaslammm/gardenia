@@ -30,6 +30,7 @@ export const getDates = async (req, res) => {
             minihall_stat: 1,
             "events.start_time": 1,
             "events.end_time": 1,
+            "events.cancelled": 1,
           },
         },
       ]);
@@ -59,6 +60,17 @@ export const getDates = async (req, res) => {
             as: "events",
           },
         },
+        {
+          $addFields: {
+            events: {
+              $filter: {
+                input: "$events",
+                as: "event",
+                cond: { $ne: ["$$event.cancelled", true] },
+              },
+            },
+          },
+        },
       ];
 
       if (req.query.destination) {
@@ -69,6 +81,7 @@ export const getDates = async (req, res) => {
             minihall_stat: 1,
             "events.start_time": 1,
             "events.end_time": 1,
+            "events.cancelled": 1,
           },
         });
       } else {
@@ -86,6 +99,7 @@ export const getDates = async (req, res) => {
             "events.start_time": 1,
             "events.end_time": 1,
             "events.name": 1,
+            "events.cancelled": 1,
           },
         });
       }

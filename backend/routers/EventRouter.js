@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addPayment,
+  cancelEvent,
   createCharges,
   createEvent,
   deleteEvent,
@@ -20,8 +21,9 @@ router.delete("/events/:id", authenticate, deleteEvent);
 
 router.post("/events/:id/payments", authenticate, addPayment);
 
-// right now
 router.post("/events/:id/add-ons", authenticate, createCharges);
 router.get("/events/:id/add-ons", authenticate, getCharges);
+
+router.patch("/events/:id/cancel", authenticate, cancelEvent);
 
 export default router;

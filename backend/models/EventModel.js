@@ -58,6 +58,7 @@ const Schema = new mongoose.Schema(
         note: String,
       },
     ],
+    cancelled: { type: Boolean, default: false },
     restricted: { type: Boolean, default: true },
   },
   { strict: true, timestamps: true }

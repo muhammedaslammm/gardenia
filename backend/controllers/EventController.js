@@ -5,6 +5,7 @@ import handleDayEvent from "../utils/handleDayEvent.js";
 import getData from "../utils/getData.js";
 import mongoose from "mongoose";
 import getDateUpdate from "../utils/getDateUpdate.js";
+import getCancellationStat from "../utils/getCancellationStat.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -268,5 +269,24 @@ export const createCharges = async (req, res) => {
   } catch (error) {
     console.log("adding charges failed:", error.message);
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const cancelEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let event = await Event.findById(id).select(
+      "_id stage start_time end_time date"
+    );
+    let { mainhall_stat, minihall_stat } = await getCancellationStat(event);
+    await Event.findByIdAndUpdate(id, { $set: { cancelled: true } });
+    await EventDate.updateOne(
+      { date: new Date(event.date) },
+      { $set: { mainhall_stat, minihall_stat } }
+    );
+    res.json({ message: "event cancelled" });
+  } catch (error) {
+    console.log("cancellation error:", error.message);
+    res.status(500).json({ message: error.message });
   }
 };

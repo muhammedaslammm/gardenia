@@ -92,5 +92,3 @@ const Events = () => {
 };
 
 export default Events;
-
-// [#0f592e]/15
