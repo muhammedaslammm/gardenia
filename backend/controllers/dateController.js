@@ -60,17 +60,17 @@ export const getDates = async (req, res) => {
             as: "events",
           },
         },
-        {
-          $addFields: {
-            events: {
-              $filter: {
-                input: "$events",
-                as: "event",
-                cond: { $ne: ["$$event.cancelled", true] },
-              },
-            },
-          },
-        },
+        // {
+        //   $addFields: {
+        //     events: {
+        //       $filter: {
+        //         input: "$events",
+        //         as: "event",
+        //         cond: { $ne: ["$$event.cancelled", true] },
+        //       },
+        //     },
+        //   },
+        // },
       ];
 
       if (req.query.destination) {
