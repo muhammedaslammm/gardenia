@@ -1,4 +1,4 @@
-import EventDate from "../models/eventDateModel.js";
+import EventDate from "../models/EventDateModel.js";
 import Event from "../models/eventModel.js";
 import User from "../models/userModel.js";
 import handleDayEvent from "../utils/handleDayEvent.js";
@@ -6,11 +6,40 @@ import getData from "../utils/getData.js";
 import mongoose from "mongoose";
 import getDateUpdate from "../utils/getDateUpdate.js";
 import getCancellationStat from "../utils/getCancellationStat.js";
+import CancelEventModel from "../models/CancelEventModel.js";
 
 export const createEvent = async (req, res) => {
   try {
     let client_data = req.body;
+    let { payment_type, total_amount, paid_amount } = req.body;
     let user = await User.findOne({ _id: req.userId });
+
+    if (["partial", "final"].includes(client_data.payment_type))
+      return res.status(400).json({
+        message:
+          "Event Creation Failed : An event can only created with Advance or Full payment.",
+      });
+
+    let matching_booking_num = await Event.findOne({
+      booking_number: client_data.booking_number,
+    }).select("_id");
+
+    if (matching_booking_num)
+      return res.status(409).json({
+        message: "Event Creation Failed : Booking number already taken",
+      });
+
+    if (payment_type === "full" && Number(paid_amount) !== Number(total_amount))
+      return res.status(400).json({
+        message:
+          "Paid amount and Total amount should be same under payment type full",
+      });
+
+    if (Number(paid_amount) > Number(total_amount))
+      return res
+        .status(400)
+        .json({ message: "Paid amount cannot be more than total amount" });
+
     let new_event = getData(client_data, user);
 
     let day_result = await handleDayEvent(
@@ -40,6 +69,7 @@ export const createEvent = async (req, res) => {
       event_date.events.push(event._id);
       event_date.mainhall_stat = day_result.mainhall_stat;
       event_date.minihall_stat = day_result.minihall_stat;
+      event_date.block_stat = day_result.block_stat;
       await event_date.save();
     }
 
@@ -72,6 +102,17 @@ export const updateEvent = async (req, res) => {
         },
       },
       {
+        $addFields: {
+          events: {
+            $filter: {
+              input: "$events",
+              as: "event",
+              cond: { $ne: ["$$event.cancelled", true] },
+            },
+          },
+        },
+      },
+      {
         $project: {
           date: 1,
           mainhall_stat: 1,
@@ -96,7 +137,7 @@ export const updateEvent = async (req, res) => {
     if (!matching_event)
       return res
         .status(404)
-        .json({ message: "Update Failed : Credential not found" });
+        .json({ message: "Updation Failed : Credential not found" });
 
     let date_events = matching_date[0].events.filter(
       (ev) => ev._id.toString() !== id
@@ -275,18 +316,30 @@ export const createCharges = async (req, res) => {
 export const cancelEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    let event = await Event.findById(id).select(
-      "_id stage start_time end_time date"
+    let event = await Event.findById(id).select("_id stage date");
+    let { username } = await User.findOne({ _id: req.userId }).select(
+      "username"
     );
-    let { mainhall_stat, minihall_stat } = await getCancellationStat(event);
+    let { mainhall_stat, minihall_stat, block_stat } =
+      await getCancellationStat(event);
+    console.log(
+      `main hall : ${mainhall_stat} | mini hall : ${minihall_stat} | block stat : ${block_stat}`
+    );
     await Event.findByIdAndUpdate(id, { $set: { cancelled: true } });
+    await CancelEventModel.create({
+      eventId: id,
+      ...req.body,
+      cancelledBy: username,
+    });
     await EventDate.updateOne(
       { date: new Date(event.date) },
-      { $set: { mainhall_stat, minihall_stat } }
+      { $set: { mainhall_stat, minihall_stat, block_stat } }
     );
-    res.json({ message: "event cancelled" });
+    return res.json({ message: "event cancelled" });
   } catch (error) {
     console.log("cancellation error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getEventCancelData = async (req, res) => {};

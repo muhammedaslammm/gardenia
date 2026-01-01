@@ -1,4 +1,4 @@
-import EventDate from "../models/eventDateModel.js";
+import EventDate from "../models/EventDateModel.js";
 
 const handleDayEvent = async (date, stage, start_time, end_time) => {
   let ERROR_MESSAGE = (message = null) => {
@@ -27,6 +27,12 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           : event_date?.minihall_stat
           ? event_date.minihall_stat
           : 1,
+      block_stat:
+        event_date?.block_stat === 0
+          ? 0
+          : event_date?.block_stat
+          ? event_date?.block_stat
+          : 1,
       events: event_date?.events.length ? event_date?.events : [],
     };
 
@@ -43,12 +49,15 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           ) {
             day_stat.mainhall_stat = 0;
             day_stat.minihall_stat = 3;
+            day_stat.block_stat = 3;
           } else if (start_time >= new Date(`${date}T12:00:00+05:30`)) {
             day_stat.mainhall_stat = 0;
             day_stat.minihall_stat = 2;
+            day_stat.block_stat = 2;
           } else {
             day_stat.mainhall_stat = 0;
             day_stat.minihall_stat = 0;
+            day_stat.block_stat = 0;
           }
           return day_stat;
         case 2:
@@ -62,6 +71,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
             };
           day_stat.mainhall_stat = 0;
           day_stat.minihall_stat = 0;
+          day_stat.block_stat = 0;
           return day_stat;
         case 3:
           let intersecting_events_2 = event_date.events.find(
@@ -71,6 +81,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           if (intersecting_events_2) return { message: ERROR_MESSAGE() };
           day_stat.mainhall_stat = 0;
           day_stat.minihall_stat = 0;
+          day_stat.block_stat = 0;
           return day_stat;
         default:
           return {
@@ -88,12 +99,15 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           ) {
             day_stat.mainhall_stat = 3;
             day_stat.minihall_stat = 3;
+            day_stat.block_stat = 3;
           } else if (start_time >= new Date(`${date}T12:00:00+05:30`)) {
             day_stat.minihall_stat = 2;
             day_stat.mainhall_stat = 2;
+            day_stat.block_stat = 2;
           } else {
             day_stat.minihall_stat = 0;
             day_stat.mainhall_stat = 0;
+            day_stat.block_stat = 0;
           }
           return day_stat;
         case 2:
@@ -104,6 +118,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           if (intersecting_time_1) return { message: ERROR_MESSAGE() };
           day_stat.minihall_stat = 0;
           day_stat.mainhall_stat = 0;
+          day_stat.block_stat = 0;
           return day_stat;
         case 3:
           let intersecting_time_2 = day_stat.events.find(
@@ -113,6 +128,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
           if (intersecting_time_2) return { message: ERROR_MESSAGE() };
           day_stat.minihall_stat = 0;
           day_stat.mainhall_stat = 0;
+          day_stat.block_stat = 0;
           return day_stat;
         default:
           return { message: "Event Creation Failed : Something went wrong" };

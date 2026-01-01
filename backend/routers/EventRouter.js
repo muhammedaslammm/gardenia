@@ -7,6 +7,7 @@ import {
   deleteEvent,
   getCharges,
   getEvent,
+  getEventCancelData,
   getEvents,
   updateEvent,
 } from "../controllers/EventController.js";
@@ -25,5 +26,6 @@ router.post("/events/:id/add-ons", authenticate, createCharges);
 router.get("/events/:id/add-ons", authenticate, getCharges);
 
 router.patch("/events/:id/cancel", authenticate, cancelEvent);
+router.get("/events/:id/cancel", getEventCancelData);
 
 export default router;

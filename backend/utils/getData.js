@@ -39,6 +39,7 @@ const getData = (client_data, user) => {
           timeline: [{ username: user.username }],
         },
       ],
+      payment_settled: payment_type === "full",
       remaining_amount: total_amount - paid_amount,
       timeline: [{ username: user.username }],
     },
