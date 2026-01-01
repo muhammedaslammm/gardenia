@@ -1,5 +1,6 @@
 export const events = [
-  "Wedding & Receptions",
+  "Wedding",
+  "Reception",
   "Engagements",
   "Conference & Seminar",
   "Meetings & Workshops",

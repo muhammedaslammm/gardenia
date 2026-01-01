@@ -2,19 +2,25 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { Link } from "react-router-dom";
 import getEventMessage from "../utils/getEventMessage";
-import { PencilSimple } from "phosphor-react";
+import getBlockMessage from "../utils/getBlockMessage";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import BlockModal from "./modals/BlockModal";
 
 dayjs.extend(advancedFormat);
 
-const EventDetails = ({ utils }) => {
-  const { dateDetails = {} } = utils;
+const EventDetails = ({ dateDetails, refetchData }) => {
+  const [blockModal, setBlockModal] = useState(false);
   let {
     events = [],
     date = null,
+    block = null,
     mainhall_stat = 1,
     minihall_stat = 1,
+    block_stat = 1,
   } = dateDetails;
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
+  let block_message = getBlockMessage(block_stat, events, date);
 
   let isPast = date ? date.isBefore(dayjs(), "day") : false;
   let isToday = date ? date.isSame(dayjs(), "day") : false;
@@ -34,6 +40,7 @@ const EventDetails = ({ utils }) => {
         <div className="font-medium text-[1rem] sm:text-[1.1rem]">
           {formatted_date}
         </div>
+
         {!events.length ? (
           <div className=" flex flex-col h-full">
             <div className="text-[.9rem] bg-green-800/5 p-2">
@@ -46,15 +53,15 @@ const EventDetails = ({ utils }) => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="mb-[4rem]">
             <div className="pb-2 sm:pb-2">
               <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${events.length}`}</div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {events.map((event) => (
                 <Link
                   className={`space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:-translate-y-[.2rem] transition-transform z-10 ${
-                    event.cancelled && "opacity-30 relative"
+                    event.cancelled && "opacity-50 relative"
                   }`}
                   to={`/admin/events/${event._id}`}
                 >
@@ -87,21 +94,55 @@ const EventDetails = ({ utils }) => {
                     <div className="text-[1rem] font-medium">
                       # {event.booking_number}
                     </div>
-                    <div onClick={() => window.alert()} className="z-100">
-                      <PencilSimple className="w-[1rem] h-[1rem] text-neutral-700" />
-                    </div>
                   </div>
                 </Link>
               ))}
             </div>
           </div>
         )}
-        <div className="mt-auto flex flex-col gap-4">
+        {block && (
+          <div className="p-4 bg-blue-100 text-blue-900 font-medium space-y-4">
+            <div>
+              A client has blocked this date for a potential booking on a future
+              date
+            </div>
+            <div>
+              <div>
+                Requester Name :{" "}
+                <span className="font-semibold">{block.requester_name}</span>
+              </div>
+              <div>
+                Contact Number :{" "}
+                <span className="font-semibold">{block.phone_number}</span>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="mt-auto flex flex-col gap-2">
+          {!isPast && !isToday && !block && (
+            <div
+              className="p-4"
+              style={{
+                color: block_message.color,
+                backgroundColor: block_message.bg,
+              }}
+            >
+              {block_message.text}{" "}
+              {!block_message.blocked && (
+                <span
+                  className="underline font-medium cursor-pointer"
+                  onClick={() => setBlockModal(true)}
+                >
+                  hold slot for a event
+                </span>
+              )}
+            </div>
+          )}
           <div
-            className=" p-4"
+            className="p-4"
             style={{ color: message.color, backgroundColor: message.bg }}
           >
-            {message.text}
+            {message.text}{" "}
           </div>
           {(mainhall_stat !== 0 || minihall_stat !== 0) &&
             !isPast &&
@@ -115,6 +156,17 @@ const EventDetails = ({ utils }) => {
             )}
         </div>
       </div>
+      {blockModal &&
+        createPortal(
+          <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-100">
+            <BlockModal
+              setModal={setBlockModal}
+              dateDetails={dateDetails}
+              refetchData={refetchData}
+            />
+          </div>,
+          document.getElementById("modal--event")
+        )}
     </div>
   );
 };

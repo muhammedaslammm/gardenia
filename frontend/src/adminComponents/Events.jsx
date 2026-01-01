@@ -5,16 +5,30 @@ import {
   ArrowSquareLeft,
   Circle,
   Star,
+  Clock,
+  Bookmark,
+  Calendar,
+  Download,
 } from "phosphor-react";
 import EventDetails from "./EventDetails.jsx";
 import CustomModal from "./CustomModal.jsx";
 import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
+import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
+
+dayjs.extend(localeData);
 
 const Events = () => {
-  const { dates, selectedDate, month, handleDate, dateDetails, eventDelete } =
-    useEvents();
-
-  const eventUtils = { dateDetails };
+  const {
+    dates,
+    date,
+    selectedDate,
+    month,
+    handleDate,
+    dateDetails,
+    eventDelete,
+    refetchData,
+  } = useEvents();
 
   return (
     <section className="">
@@ -38,6 +52,10 @@ const Events = () => {
               />
             </div>
           </div>
+          <div className="flex flex-row justify-between items-center">
+            <div></div>
+            <ExcelDownload />
+          </div>
           <div className="grid grid-cols-7 gap-[.05rem]">
             {weekDays.map((day) => (
               <div className="text-[.65rem] sm:text-[.8rem] text-neutral-600 font-medium text-center py-[.2rem] bg-white border border-neutral-400">
@@ -49,7 +67,7 @@ const Events = () => {
               let isSelected = selectedDate.isSame(d.date, "day");
               let isCurrentMonth = d.date.month() === selectedDate.month();
               let isPast = d.date.isBefore(dayjs, "day");
-              let events = d.events.length;
+              let events = d.events;
               return (
                 <div
                   className={`h-[3.5rem] sm:h-[5rem] border border-[#0f592e]/10  flex flex-col justify-between transition cursor-pointer p-1 ${
@@ -64,20 +82,29 @@ const Events = () => {
                   onClick={() => handleDate(d)}
                 >
                   <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between">
-                    {d.date.date()}{" "}
+                    <div className="flex items-center gap-2">
+                      <div>{d.date.date()}</div>
+                      {d.block && (
+                        <Bookmark
+                          weight="fill"
+                          className="text-blue-800 w-[1rem] h-[1rem]"
+                        />
+                      )}
+                    </div>
+
                     {isToday && (
                       <Star weight="fill" className="text-green-900" />
                     )}
                   </div>
-                  {d.events.length > 0 && (
-                    <div className="text-[.8rem] text-green-800 font-medium self-end">{`${d.events.length} Booking`}</div>
+                  {d.events !== 0 && (
+                    <div className="text-[.8rem] text-green-800 font-medium self-end">{`${d.events} Booking`}</div>
                   )}
                 </div>
               );
             })}
           </div>
         </div>
-        <EventDetails utils={eventUtils} />
+        <EventDetails dateDetails={dateDetails} refetchData={refetchData} />
       </div>
       {eventDelete.modal && (
         <CustomModal

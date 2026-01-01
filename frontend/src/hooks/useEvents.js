@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 const useEvents = () => {
   const [eventDates, setEventDates] = useState([]);
-  const [selectedDate, setselectedDate] = useState(dayjs);
+  const [selectedDate, setselectedDate] = useState(dayjs());
   const [year, setYear] = useState(selectedDate.year());
   const [month, setMonth] = useState(selectedDate.month());
   const [selectedDateDetails, setselectedDateDetails] = useState({});
@@ -22,9 +22,7 @@ const useEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `${BACKEND_URL}/api/event-dates?month=${
-            selectedDate.month() + 1
-          }&year=${selectedDate.year()}`,
+          `${BACKEND_URL}/api/event-dates?month=${month + 1}&year=${year}`,
           {
             method: "GET",
             credentials: "include",
@@ -42,20 +40,50 @@ const useEvents = () => {
   }, [month, year]);
 
   useEffect(() => {
-    let match = dates.find((d) => dayjs(d.date).isSame(selectedDate, "day"));
-    setselectedDateDetails(match);
+    getDateDetails();
   }, [eventDates]);
 
   useEffect(() => {
     setMonth(selectedDate.month());
     setYear(selectedDate.year());
+    getDateDetails();
   }, [selectedDate]);
+
+  let getDateDetails = async () => {
+    try {
+      console.log("selected date:", dayjs(selectedDate).format("YYYY-MM-DD"));
+      let response = await fetch(
+        `${BACKEND_URL}/api/events-dates/${dayjs(selectedDate).format(
+          "YYYY-MM-DD"
+        )}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      let result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      let data = result.data;
+
+      let details = {
+        date: data?.date ? dayjs(data?.date) : dayjs(selectedDate),
+        events: data?.events || [],
+        block: data?.block || null,
+        mainhall_stat: data?.mainhall_stat ?? 1,
+        minihall_stat: data?.minihall_stat ?? 1,
+        block_stat: data?.block_stat ?? 1,
+      };
+      console.log("details:", details);
+      setselectedDateDetails(details);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleDate = (d) => {
     setYear(d.date.year());
     setMonth(d.date.month());
     setselectedDate(d.date);
-    setselectedDateDetails(d);
   };
 
   const incrementMonth = () => {
@@ -102,11 +130,18 @@ const useEvents = () => {
     dates,
     selectedDate,
     handleDate,
+    date: {
+      month,
+      year,
+      setMonth,
+      setYear,
+    },
     month: {
       incrementMonth,
       decrementMonth,
     },
     dateDetails: selectedDateDetails,
+    refetchData: getDateDetails,
     eventDelete: {
       modal,
       showModal,

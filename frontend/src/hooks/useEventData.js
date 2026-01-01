@@ -14,6 +14,13 @@ const useEventData = (id) => {
     getEventData();
   }, []);
 
+  useEffect(() => {
+    if (data && data.cancelled) {
+      console.log("cancellation ahead!");
+      getEventCancelData();
+    }
+  }, [data?.cancelled]);
+
   let getEventData = async () => {
     try {
       setLoading(true);
@@ -32,6 +39,14 @@ const useEventData = (id) => {
       );
       toast.error("Error : Attempt to Open Unknown Event");
       navigate("/admin/events");
+    }
+  };
+
+  const getEventCancelData = async () => {
+    try {
+      let response = "";
+    } catch (error) {
+      console.log(error.message);
     }
   };
 

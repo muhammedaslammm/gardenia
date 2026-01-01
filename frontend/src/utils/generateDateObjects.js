@@ -18,11 +18,8 @@ const generateDateObjects = (year, month, eventDates) => {
 
     dates.push({
       date: dayjs(currentISO),
-      events: matching_date?.events || [],
-      mainhall_stat:
-        matching_date?.mainhall_stat === 0 ? 0 : matching_date?.mainhall_stat,
-      minihall_stat:
-        matching_date?.minihall_stat === 0 ? 0 : matching_date?.minihall_stat,
+      events: matching_date?.events || 0,
+      block: matching_date?.block || false,
     });
 
     current = current.add(1, "day");

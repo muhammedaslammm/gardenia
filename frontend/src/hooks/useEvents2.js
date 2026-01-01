@@ -10,6 +10,7 @@ const useEvents2 = (eventId = null) => {
     handleSubmit,
     reset,
     watch,
+    setError,
     formState: { dirtyFields, errors },
   } = useForm({
     defaultValues: {
@@ -90,6 +91,28 @@ const useEvents2 = (eventId = null) => {
   const submitEvent = async (values) => {
     try {
       if (!eventId) {
+        let { total_amount, payment_type, paid_amount } = values;
+        // if (
+        //   payment_type === "full" &&
+        //   Number(paid_amount) !== Number(total_amount)
+        // ) {
+        //   setError("paid_amount", {
+        //     type: "required",
+        //     message: "error",
+        //   });
+        //   toast.warning(
+        //     "Paid amount and Total amount should be same under payment type full"
+        //   );
+        //   return;
+        // }
+        // if (Number(paid_amount) > Number(total_amount)) {
+        //   setError("paid_amount", {
+        //     type: "required",
+        //     message: "error",
+        //   });
+        //   toast.warning("Paid amount cannot be more than total amount");
+        //   return;
+        // }
         values.start_time = dayjs(
           `${date} ${values.start_time}`,
           "YYYY-MM-DD HH:mm"
@@ -109,10 +132,24 @@ const useEvents2 = (eventId = null) => {
           body: JSON.stringify(values),
           credentials: "include",
         });
-        let result = await response.json();
         setStat("idle");
-        if (response.status == 409) {
-          toast.error(result.message);
+
+        let result = await response.json();
+
+        if (response.status === 400) {
+          setError("payment_type", {
+            type: "manual",
+            message: result.message || "Failed : Detected payment type error",
+          });
+          toast.warning(result.message);
+          return;
+        } else if (response.status == 409) {
+          setError("booking_number", {
+            type: "manual",
+            message: "Booking number already taken",
+          });
+          toast.warning(result.message);
+          return;
         } else if (!response.ok) throw new Error(result.message);
         else {
           toast.success(result.message);
@@ -146,6 +183,7 @@ const useEvents2 = (eventId = null) => {
             }
           );
           let result = await response.json();
+
           if (response.status === 401) {
             toast.error(
               "Event Updation Restricted : Failed to authenticate the user."
@@ -165,7 +203,7 @@ const useEvents2 = (eventId = null) => {
           );
       }
     } catch (error) {
-      console.log("create or update error:", error);
+      console.log("create or update error:", error.message);
     }
   };
 

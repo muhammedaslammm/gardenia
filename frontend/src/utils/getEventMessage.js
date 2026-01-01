@@ -2,17 +2,16 @@ import dayjs from "dayjs";
 
 const getEventMessage = (mainhall_stat, minihall_stat, events, date) => {
   events = events.filter((ev) => !ev.cancelled);
-  console.log("events in event details page:", events);
   let message = { text: "", color: "#C79A00", bg: "#fef9c2" };
   let isPast = date && date.isBefore(dayjs(), "day");
   let isToday = date && date.isSame(dayjs(), "day");
 
   if (isPast || isToday) {
-    message.text = "Blocked : Date not available for any booking.";
+    message.text = "Blocked Event Booking: Date not available for any booking.";
     message.blocked = true;
   } else if (!mainhall_stat && !minihall_stat) {
     message.text =
-      "Stage Spaces not Available : No Stage is available for booking on this date.";
+      "Booking Stage Spaces not Available : No stage available for booking on this date.";
     message.color = "#9f0712";
     message.bg = "#ffe2e2";
   } else if (mainhall_stat === 1 && minihall_stat === 1) {

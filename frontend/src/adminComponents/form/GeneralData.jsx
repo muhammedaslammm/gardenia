@@ -1,9 +1,8 @@
 import { events, stages } from "../../data/admin.js";
 import InputLabel from "../InputLabel.jsx";
 
-const GeneralData = ({ register, watch, errors }) => {
+const GeneralData = ({ stage_stat, register, watch, errors }) => {
   let start_time = watch("start_time");
-  let end_time = watch("end_time");
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">General Information</div>
@@ -35,7 +34,9 @@ const GeneralData = ({ register, watch, errors }) => {
               ["main_hall", "Main Hall"],
               ["mini_hall", "Mini Hall"],
             ].map(([key, value]) => (
-              <option value={key}>{value}</option>
+              <option value={key} disabled={!stage_stat[key]}>
+                {value}
+              </option>
             ))}
           </select>
         </div>

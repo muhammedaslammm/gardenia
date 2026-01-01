@@ -1,7 +1,6 @@
 import { Asterisk } from "phosphor-react";
 
 const InputLabel = ({ title, error }) => {
-  console.log("error type", typeof error);
   return (
     <div className="flex justify-between items-center">
       <div className="flex gap-1 items-center">

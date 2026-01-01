@@ -19,8 +19,13 @@ const EventManagement = () => {
   let message = getEventMessage(
     dateInfo?.mainhall_stat,
     dateInfo?.minihall_stat,
-    dateInfo?.events
+    dateInfo?.events || []
   );
+
+  let stage_stat = {
+    main_hall: dateInfo?.mainhall_stat,
+    mini_hall: dateInfo?.minihall_stat,
+  };
 
   return (
     <main>
@@ -47,7 +52,12 @@ const EventManagement = () => {
         className="flex flex-col gap-12 my-6"
         onSubmit={handleSubmit(submitEvent)}
       >
-        <GeneralData register={register} errors={errors} watch={watch} />
+        <GeneralData
+          stage_stat={stage_stat}
+          register={register}
+          errors={errors}
+          watch={watch}
+        />
         <ContactInfo register={register} errors={errors} />
         {!eventId && (
           <PaymentInfo

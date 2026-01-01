@@ -1,8 +1,9 @@
 import InputLabel from "../InputLabel";
 
 const PaymentInfo = ({ register, errors, id, watch }) => {
-  let total_amount = watch("total_amount");
-  let paid_amount = watch("paid_amount");
+  let total_amount = Number(watch("total_amount"));
+  let paid_amount = Number(watch("paid_amount"));
+  let payment_type = watch("payment_type");
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">Payment Information</div>
@@ -27,7 +28,7 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
             <option value="" disabled>
               Select Payment Type
             </option>
-            {["advance", "partial", "final"].map((p_type) => (
+            {["advance", "full"].map((p_type) => (
               <option className="capitalize">{p_type}</option>
             ))}
           </select>
@@ -40,8 +41,6 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
             name="paid_amount"
             {...register("paid_amount", {
               required: !id ? true : false,
-              validate: (amount) =>
-                Number(amount) <= Number(watch("total_amount")),
             })}
           />
         </div>
