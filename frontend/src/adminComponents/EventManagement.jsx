@@ -7,13 +7,25 @@ import PaymentInfo from "./form/PaymentInfo";
 import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage.js";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import AddCancelModal from "./modals/AddCancelModal.jsx";
 
 const EventManagement = () => {
   const [searchParams] = useSearchParams();
   let eventId = searchParams.get("event");
+  let [modal, setModal] = useState(false);
 
-  let { dateInfo, register, watch, handleSubmit, submitEvent, errors, stat } =
-    useEvents2(eventId);
+  let {
+    dateInfo,
+    reSchedule,
+    register,
+    watch,
+    handleSubmit,
+    submitEvent,
+    errors,
+    stat,
+  } = useEvents2(eventId);
 
   let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
   let message = getEventMessage(
@@ -40,11 +52,32 @@ const EventManagement = () => {
         <div className="text-[1.2rem] font-medium">{date_string}</div>
       </div>
       {!eventId && (
-        <div
-          className="my-4 p-2"
-          style={{ color: message.color, backgroundColor: message.bg }}
-        >
-          {message.text}
+        <div className="flex flex-col items-start gap-2 pt-4 pb-6 border-b border-neutral-400">
+          <div
+            className="p-2 font-medium"
+            style={{ color: message.color, backgroundColor: message.bg }}
+          >
+            {message.text}
+          </div>
+          {reSchedule.cancelledEvents &&
+          reSchedule.cancelledEvents.length > 0 &&
+          !reSchedule.selected ? (
+            <div className="w-[40rem] border border-neutral-300 p-2 ">
+              Cancelled events with reschedule options are found. You may{" "}
+              <span className="font-medium">
+                link this event to one of the cancelled event if this event is a
+                rescheduled one.
+              </span>{" "}
+              <button
+                className="underline text-purple-700 cursor-pointer hover:text-purple-900 transition-colors"
+                onClick={() => setModal(true)}
+              >
+                Link now
+              </button>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       )}
 
@@ -82,6 +115,15 @@ const EventManagement = () => {
           )}
         </button>
       </form>
+      {modal &&
+        reSchedule.cancelledEvents &&
+        reSchedule.cancelledEvents.length &&
+        createPortal(
+          <div className="fixed inset-0 bg-black/30 flex justify-center items-center">
+            <AddCancelModal open={setModal} reSchedule={reSchedule} />
+          </div>,
+          document.getElementById("modal--event")
+        )}
     </main>
   );
 };

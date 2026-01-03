@@ -53,6 +53,15 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
+    if (client_data.selected) {
+      await CancelEventModel.updateOne(
+        {
+          eventId: client_data.selected,
+        },
+        { $set: { reScheduledEventId: event._id } }
+      );
+    }
+
     let event_date = await EventDate.findOne({
       date: {
         $gte: new Date(`${new_event.date}T00:00:00.000Z`),
@@ -342,4 +351,61 @@ export const cancelEvent = async (req, res) => {
   }
 };
 
-export const getEventCancelData = async (req, res) => {};
+export const getCancelledEvents = async (req, res) => {
+  try {
+    let cancelled_events = await CancelEventModel.aggregate([
+      {
+        $match: {
+          reScheduled: true,
+          $or: [
+            { reScheduledEventId: { $exists: false } },
+            { reScheduledEventId: null },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "events",
+          localField: "eventId",
+          foreignField: "_id",
+          as: "event",
+        },
+      },
+      { $unwind: "$event" },
+      {
+        $project: {
+          "event._id": 1,
+          "event.booking_number": 1,
+          "event.date": 1,
+          "event.event": 1,
+          "event.event_name": 1,
+          booker_name: "$event.contact_details.booker_name",
+          number_1: "$event.contact_details.phone_number_1",
+          number_2: "$event.contact_details.phone_number_2",
+        },
+      },
+    ]);
+    return res.json({ events: cancelled_events });
+  } catch (error) {
+    console.log("failed to fetch cancelled events:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getEventCancelData = async (req, res) => {
+  try {
+    let { id: eventId } = req.params;
+    let data_object = await CancelEventModel.findOne({ eventId }).select(
+      "-_id -__v -eventId"
+    );
+    if (!data_object)
+      return res
+        .status(404)
+        .json({ message: "Requested cancelled event data not found" });
+
+    return res.json({ data: data_object });
+  } catch (error) {
+    console.log("failed to fetch cancelled event data:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};

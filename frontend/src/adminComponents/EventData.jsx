@@ -1,4 +1,4 @@
-import { CaretRight } from "phosphor-react";
+import { CaretRight, MinusCircle } from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
 import useEventData from "../hooks/useEventData";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ import CancellationModal from "./modals/CancellationModal";
 
 const EventData = () => {
   let { id } = useParams();
-  let { data = {}, loading, getEventData } = useEventData(id);
+  let { data = {}, cancelData, loading, getEventData } = useEventData(id);
   let { user } = useContext(AuthContext);
 
   let highlight_style = "font-medium px-4 py-2";
@@ -59,13 +59,34 @@ const EventData = () => {
                 className={`${highlight_style} bg-green-100 text-green-800`}
               >{`Event : ${data?.event}`}</div>
             </div>
-            {data?.cancelled && (
-              <div className={`${highlight_style} bg-red-50 text-red-800`}>
-                This Event is Cancelled
-              </div>
-            )}
           </div>
         </div>
+
+        {cancelData && (
+          <section className="p-4 bg-red-50 text-red-800">
+            <div>
+              <div className="flex items-center gap-2 text-[1.2rem] font-medium">
+                This Event is Cancelled <MinusCircle weight="bold" />
+              </div>
+            </div>
+            <div>
+              <div>
+                Reason for the cancellation :{" "}
+                <span className="font-medium">{cancelData?.reasonNote}</span>
+              </div>
+              <div className="mt-4">
+                Cancelled by :{" "}
+                <span className="font-medium">{cancelData?.cancelledBy}</span>
+              </div>
+              <div>
+                Cancellation Date :{" "}
+                <span className="font-medium">
+                  {dayjs(cancelData?.createdAt).format("Do MMMM YYYY, hh:mm a")}
+                </span>
+              </div>
+            </div>
+          </section>
+        )}
 
         <div className="flex gap-4">
           <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
@@ -112,7 +133,7 @@ const EventData = () => {
               <div>
                 <div className="flex justify-between items-end py-2 border-b border-neutral-300 font-medium">
                   <div>Total Amount</div>
-                  <div>{getCurrency(data?.payment.total_amount)}</div>
+                  <div>{getCurrency(data?.payment.total_amount)}/-</div>
                 </div>
                 {data?.payment.payment_timeline.map((tl) => (
                   <div
@@ -136,7 +157,7 @@ const EventData = () => {
                         ))}
                       </div>
                     </div>
-                    <div>{getCurrency(tl.paid_amount)}</div>
+                    <div>{getCurrency(tl.paid_amount)}/-</div>
                   </div>
                 ))}
                 <div className="flex justify-between items-end font-medium py-2">
@@ -144,17 +165,22 @@ const EventData = () => {
                     <>
                       <div className="text-green-800">Amount Settled</div>
                       <div className="text-green-800">
-                        {data?.payment.total_amount}
+                        {getCurrency(data?.payment.total_amount)}/-
                       </div>
                     </>
                   ) : (
                     <>
                       <div>Remaining Amount</div>
-                      <div>{getCurrency(data?.payment.remaining_amount)}</div>
+                      <div>{getCurrency(data?.payment.remaining_amount)}/-</div>
                     </>
                   )}
                 </div>
-                <div></div>
+                {cancelData && (
+                  <div className="flex items-center justify-between text-red-800 font-medium border-t border-neutral-300 pt-2">
+                    <div>Refund Amount</div>
+                    <div>{getCurrency(cancelData?.refundAmount)}/-</div>
+                  </div>
+                )}
               </div>
             </section>
             <section className="p-4 border border-neutral-400 bg-white space-y-6">

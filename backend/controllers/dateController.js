@@ -172,6 +172,7 @@ export const getDateBookings = async (req, res) => {
 
 export const exportReport = async (req, res) => {
   try {
+    let { start_date, end_date } = req.query;
     res.json({ message: "hey" });
   } catch (error) {
     console.log("failed to export excel sheet:", error.message);

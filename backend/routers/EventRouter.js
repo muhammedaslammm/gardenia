@@ -5,6 +5,7 @@ import {
   createCharges,
   createEvent,
   deleteEvent,
+  getCancelledEvents,
   getCharges,
   getEvent,
   getEventCancelData,
@@ -15,6 +16,7 @@ import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
 router.get("/events", getEvents);
+router.get("/events/cancel", getCancelledEvents);
 router.get("/events/:id", getEvent);
 router.post("/events", authenticate, createEvent);
 router.patch("/events/:id", authenticate, updateEvent);

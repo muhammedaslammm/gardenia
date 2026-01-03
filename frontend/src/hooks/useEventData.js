@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 const useEventData = (id) => {
   let [data, setData] = useState(null);
+  let [cancelData, setCancelData] = useState(null);
   let [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
@@ -44,12 +45,22 @@ const useEventData = (id) => {
 
   const getEventCancelData = async () => {
     try {
-      let response = "";
+      let response = await fetch(`${BACKEND_URL}/api/events/${id}/cancel`, {
+        method: "GET",
+        credentials: "include",
+      });
+      let result = await response.json();
+      if (response.status === 404) {
+        toast.error(result.message);
+        return;
+      } else if (!response.ok) throw new Error(result.message);
+      console.log("cancel data:", result.data);
+      setCancelData(result.data);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  return { data, loading, getEventData };
+  return { data, cancelData, loading, getEventData };
 };
 export default useEventData;

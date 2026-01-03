@@ -32,6 +32,8 @@ const useEvents2 = (eventId = null) => {
   let [searchParams] = useSearchParams();
   let date = dayjs(searchParams.get("date")).format("YYYY-MM-DD");
   let [dateInfo, setDateInfo] = useState(null);
+  let [cancelledEvents, setCancelledEvents] = useState(null);
+  let [selected, setSelected] = useState(null);
 
   let [stat, setStat] = useState("idle");
   let navigate = useNavigate();
@@ -55,6 +57,26 @@ const useEvents2 = (eventId = null) => {
       }
     };
     getData();
+  }, []);
+
+  useEffect(() => {
+    if (!eventId) {
+      let getCancelledEvents = async () => {
+        try {
+          let response = await fetch(`${BACKEND_URL}/api/events/cancel`, {
+            method: "GET",
+            credentials: "include",
+          });
+          let result = await response.json();
+          if (!response.ok) throw new Error(result.message);
+          console.log("cancelled events:", result.events);
+          setCancelledEvents(result.events);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      getCancelledEvents();
+    }
   }, []);
 
   useEffect(() => {
@@ -92,27 +114,27 @@ const useEvents2 = (eventId = null) => {
     try {
       if (!eventId) {
         let { total_amount, payment_type, paid_amount } = values;
-        // if (
-        //   payment_type === "full" &&
-        //   Number(paid_amount) !== Number(total_amount)
-        // ) {
-        //   setError("paid_amount", {
-        //     type: "required",
-        //     message: "error",
-        //   });
-        //   toast.warning(
-        //     "Paid amount and Total amount should be same under payment type full"
-        //   );
-        //   return;
-        // }
-        // if (Number(paid_amount) > Number(total_amount)) {
-        //   setError("paid_amount", {
-        //     type: "required",
-        //     message: "error",
-        //   });
-        //   toast.warning("Paid amount cannot be more than total amount");
-        //   return;
-        // }
+        if (
+          payment_type === "full" &&
+          Number(paid_amount) !== Number(total_amount)
+        ) {
+          setError("paid_amount", {
+            type: "required",
+            message: "error",
+          });
+          toast.warning(
+            "Paid amount and Total amount should be same under payment type full"
+          );
+          return;
+        }
+        if (Number(paid_amount) > Number(total_amount)) {
+          setError("paid_amount", {
+            type: "required",
+            message: "error",
+          });
+          toast.warning("Paid amount cannot be more than total amount");
+          return;
+        }
         values.start_time = dayjs(
           `${date} ${values.start_time}`,
           "YYYY-MM-DD HH:mm"
@@ -209,6 +231,11 @@ const useEvents2 = (eventId = null) => {
 
   return {
     dateInfo,
+    reSchedule: {
+      cancelledEvents,
+      selected,
+      setSelected,
+    },
     register,
     watch,
     handleSubmit,
