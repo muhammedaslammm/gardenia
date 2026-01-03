@@ -76,7 +76,37 @@ const EventManagement = () => {
               </button>
             </div>
           ) : (
-            <div></div>
+            <div className="p-2 bg-green-100 border border-neutral-400 w-full">
+              <div className="font-medium mb-2">
+                Selected Cancelled Event for Re-Scheduling
+              </div>
+              <div>
+                Event's Booking Number :{" "}
+                <span className="font-medium">
+                  {reSchedule?.selected?.event.booking_number}
+                </span>
+              </div>
+              <div>
+                Event type :{" "}
+                <span className="font-medium">
+                  {reSchedule?.selected?.event.event}
+                </span>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  className="py-1 px-2 text-[.9rem] font-medium text-red-700 hover:underline cursor-pointer"
+                  onClick={() => reSchedule.setSelected(null)}
+                >
+                  Cancel Selection
+                </button>
+                <button
+                  className="py-1 px-2 text-[.9rem] font-medium hover:underline cursor-pointer"
+                  onClick={() => setModal(true)}
+                >
+                  Change Selection
+                </button>
+              </div>
+            </div>
           )}
         </div>
       )}

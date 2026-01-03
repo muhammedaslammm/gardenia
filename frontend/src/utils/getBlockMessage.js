@@ -12,11 +12,10 @@ const getBlockMessage = (block_stat, events, date) => {
     message.bg = "#ffe2e2";
     message.color = "#9f0712";
   } else if (block_stat === 1) {
-    message.text =
-      "This date is available for holding for a potential future booking.";
+    message.text = "This date is available for holding a potential booking.";
   } else {
     message.text =
-      "This date has a slot available to hold for a potential future booking.";
+      "This date has a slot available to hold a potential booking.";
   }
 
   return message;

@@ -8,14 +8,12 @@ const getBlockModalMessage = (block_stat, events) => {
     <div>
       This date has a slot available{" "}
       {time && <span className="font-semibold">{time}</span>} to hold for a
-      potential future booking.
+      potential booking.
     </div>
   );
 
   const getNoElement = () => (
-    <div>
-      Couldn't hold any time slot for a potential future booking on this date.
-    </div>
+    <div>Couldn't hold any time slot for a potential booking on this date.</div>
   );
 
   if (block_stat === 0) element = getNoElement();

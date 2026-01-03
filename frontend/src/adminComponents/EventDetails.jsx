@@ -102,10 +102,7 @@ const EventDetails = ({ dateDetails, refetchData }) => {
         )}
         {block && (
           <div className="p-4 bg-blue-100 text-blue-900 font-medium space-y-4">
-            <div>
-              A client has blocked this date for a potential booking on a future
-              date
-            </div>
+            <div>A client has blocked this date for a potential booking.</div>
             <div>
               <div>
                 Requester Name :{" "}

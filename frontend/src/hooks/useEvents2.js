@@ -145,6 +145,8 @@ const useEvents2 = (eventId = null) => {
         ).format();
         values.date = date;
 
+        if (selected) values.selected = selected.event._id;
+
         setStat("loading");
         let response = await fetch(`${BACKEND_URL}/api/events`, {
           method: "POST",
