@@ -7,6 +7,7 @@ import jobRouter from "./routers/jobRouter.js";
 import eventRouter from "./routers/EventRouter.js";
 import eventDateRouter from "./routers/DateRouter.js";
 import enquiryRouter from "./routers/EnquiryRouter.js";
+import clientRouter from "./routers/ClientRouter.js";
 
 const app = express();
 const allowedOrigins = [
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
 
+app.use("/api/client", clientRouter);
 app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api", eventRouter);

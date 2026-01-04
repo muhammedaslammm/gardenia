@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import getDateUpdate from "../utils/getDateUpdate.js";
 import getCancellationStat from "../utils/getCancellationStat.js";
 import CancelEventModel from "../models/CancelEventModel.js";
+import ExcelJS from "exceljs";
+import dayjs from "dayjs";
 
 export const createEvent = async (req, res) => {
   try {
@@ -244,6 +246,41 @@ export const getEvents = async (req, res) => {
   }
 };
 
+export const getSearch = async (req, res) => {
+  try {
+    let query_words = req.query.query.trim().split(/\s+/);
+    let query_condition = query_words.map((word) => {
+      let or = [
+        { event_name: { $regex: word, $options: "i" } },
+        { "contact_details.booker_name": { $regex: word, $options: "i" } },
+      ];
+      if (!Number.isNaN(Number(word)))
+        or.push({ booking_number: Number(word) });
+      return { $or: or };
+    });
+    let events = await Event.aggregate([
+      {
+        $match: {
+          $and: query_condition,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          booking_number: 1,
+          event_name: 1,
+          event: 1,
+          booker_name: "$contact_details.booker_name",
+        },
+      },
+    ]);
+    return res.json({ events });
+  } catch (error) {
+    console.log("Event searching failed:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const deleteEvent = async (req, res) => {
   const { id } = req.params;
   try {
@@ -406,6 +443,76 @@ export const getEventCancelData = async (req, res) => {
     return res.json({ data: data_object });
   } catch (error) {
     console.log("failed to fetch cancelled event data:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const createExcel = async (req, res) => {
+  let { start_date, end_date } = req.query;
+  try {
+    let events = await Event.aggregate([
+      {
+        $match: {
+          start_time: {
+            $gte: new Date(`${start_date}T00:00:00.000Z`),
+            $lte: new Date(`${end_date}T23:59:59.999Z`),
+          },
+        },
+      },
+    ]);
+
+    if (!events.length)
+      return res.status(404).json({
+        message: "Excel creation cancelled : No event found on this date range",
+      });
+    console.log("events:", events);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Events");
+    worksheet.columns = [
+      { header: "Booking Number", key: "booking_number", width: 15 },
+      { header: "Date", key: "date", width: 20 },
+      { header: "Event", key: "event", width: 30 },
+      { header: "Event Name", key: "event_name", width: 30 },
+      { header: "Stage", key: "stage", width: 20 },
+      { header: "Start Time", key: "start_time", width: 20 },
+      { header: "End Time", key: "end_time", width: 20 },
+      { header: "Total Amount", key: "total_amount", width: 20 },
+      { header: "Paid Amount", key: "paid_amount", width: 20 },
+      { header: "Cancelled", key: "cancelled", width: 10 },
+    ];
+
+    events.forEach((event) => {
+      worksheet.addRow({
+        booking_number: event.booking_number,
+        date: event.date,
+        event: event.event,
+        event_name: event.event_name,
+        stage: event.stage,
+        start_time: dayjs(event.start_time).format("hh:mm a"),
+        end_time: dayjs(event.end_time).format("hh:mm a"),
+        total_amount: event.payment.total_amount,
+        paid_amount: event.payment.payment_timeline.reduce((amt, item) => {
+          if (item.payment_type !== "discount") amt += item.paid_amount;
+          return amt;
+        }, 0),
+        cancelled: event.cancelled,
+      });
+    });
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=events-report.xlsx"
+    );
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.log("failed to create excel:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };

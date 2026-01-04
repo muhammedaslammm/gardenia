@@ -1,6 +1,5 @@
 import Block from "../models/BlockModal.js";
 import EventDate from "../models/EventDateModel.js";
-import Event from "../models/eventModel.js";
 
 export const getDates = async (req, res) => {
   try {
@@ -58,7 +57,7 @@ export const getDates = async (req, res) => {
       let filter_query = [];
 
       if (req.query.destination) {
-        query.push({
+        filter_query.push({
           $project: {
             date: 1,
             mainhall_stat: 1,
@@ -87,19 +86,33 @@ export const getDates = async (req, res) => {
                   cond: { $ne: ["$$event.cancelled", true] },
                 },
               },
+              cancelled: {
+                $filter: {
+                  input: "$events",
+                  as: "event",
+                  cond: {
+                    $eq: ["$$event.cancelled", true],
+                  },
+                },
+              },
+              block: {
+                $cond: [{ $ifNull: ["$blockId", false] }, true, false],
+              },
             },
           },
           {
             $project: {
               date: 1,
               events: { $size: "$events" },
-              block: "$blockId",
+              cancelled: { $size: "$cancelled" },
+              block: 1,
             },
           },
         ];
       }
 
       let dates = await EventDate.aggregate([...query, ...filter_query]);
+
       console.log("dates:", dates);
       res.json({ dates });
     }

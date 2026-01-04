@@ -4,18 +4,23 @@ import {
   cancelEvent,
   createCharges,
   createEvent,
+  createExcel,
   deleteEvent,
   getCancelledEvents,
   getCharges,
   getEvent,
   getEventCancelData,
   getEvents,
+  getSearch,
   updateEvent,
 } from "../controllers/EventController.js";
 import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
+router.post("/events/report/excel", authenticate, createExcel);
+
 router.get("/events", getEvents);
+router.get("/events/search", getSearch);
 router.get("/events/cancel", getCancelledEvents);
 router.get("/events/:id", getEvent);
 router.post("/events", authenticate, createEvent);
