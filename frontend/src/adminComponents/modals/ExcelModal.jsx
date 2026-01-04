@@ -1,6 +1,8 @@
-import { X } from "phosphor-react";
+import { Spinner, X } from "phosphor-react";
 import ModalLabel from "./ModalLabel";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const ExcelModal = ({ open }) => {
   let {
@@ -10,21 +12,36 @@ const ExcelModal = ({ open }) => {
     formState: { errors },
   } = useForm();
 
+  let [loading, setLoading] = useState(false);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   let start_date = watch("start_date");
 
   const submitForm = async ({ start_date, end_date }) => {
     try {
+      setLoading(true);
       let response = await fetch(
-        `${BACKEND_URL}/api/events-dates/export?start_date=${start_date}&end_date=${end_date}`,
+        `${BACKEND_URL}/api/events/report/excel?start_date=${start_date}&end_date=${end_date}`,
         {
-          method: "GET",
+          method: "POST",
           credentials: "include",
         }
       );
-      let result = await response.json();
-      if (!response.ok) throw new Error(result.message);
-      console.log(result.message);
+      setLoading(false);
+      if (response.status === 404) {
+        let result = await response.json();
+        toast.warning(result.message);
+        return;
+      }
+      if (!response.ok) throw new Error("Failed to download Excel");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "events-report.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.log(error.message);
     }
@@ -77,10 +94,20 @@ const ExcelModal = ({ open }) => {
             </div>
           </div>
           <button
-            className="bg-green-900 text-white font-semibold py-2 cursor-pointer hover:bg-green-800 transition-colors"
+            className={`bg-green-900 text-white font-semibold py-2 hover:bg-green-800 transition-colors ${
+              loading ? "cursor-not-allowed opacity-80" : "cursor-pointer"
+            }`}
             type="submit"
+            disabled={loading}
           >
-            Generate Report
+            {loading ? (
+              <div className="flex justify-center items-center gap-2">
+                Generating Report{" "}
+                <Spinner className="animate-spin w-[1.5rem] h-[1.5rem]" />
+              </div>
+            ) : (
+              "Generate Report"
+            )}
           </button>
         </form>
       </div>

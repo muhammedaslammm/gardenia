@@ -7,6 +7,7 @@ const Calendar = () => {
   let {
     dates,
     selectedDate,
+    setSelectedDate,
     dateDetails,
     incrementMonth,
     decrementMonth,
@@ -17,6 +18,7 @@ const Calendar = () => {
   let grid_util = {
     dates,
     selectedDate,
+    setSelectedDate,
     incrementMonth,
     decrementMonth,
     selectDate,
@@ -24,11 +26,13 @@ const Calendar = () => {
   };
   let form_util = { dateDetails, form };
   return (
-    <main className="min-h-[50vh] w-[80rem] mx-auto pt-[7rem] flex gap-8">
+    <>
       <Toaster position="top-center" richColors />
-      <CalendarGrid util={grid_util} />
-      <CalendarForm util={form_util} />
-    </main>
+      <main className="min-h-[50vh] w-[80rem] mx-auto pt-[6.2rem] flex gap-8">
+        <CalendarGrid util={grid_util} />
+        <CalendarForm util={form_util} />
+      </main>
+    </>
   );
 };
 

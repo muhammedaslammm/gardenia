@@ -28,9 +28,9 @@ const useCalendar = () => {
     const getBookedDates = async () => {
       try {
         let response = await fetch(
-          `${BACKEND_URL}/api/event-dates?month=${
+          `${BACKEND_URL}/api/client/events?month=${
             selectedDate.month() + 1
-          }&year=${selectedDate.year()}&destination=home`
+          }&year=${selectedDate.year()}`
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
@@ -44,9 +44,34 @@ const useCalendar = () => {
   }, [month, year]);
 
   useEffect(() => {
-    let match = dates.find((d) => dayjs(d.date).isSame(selectedDate, "day"));
-    setDateDetails(match);
-  }, [bookedDates]);
+    let getDateDetails = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/client/events/${selectedDate.format(
+            "YYYY-MM-DD"
+          )}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        let result = await response.json();
+        if (!response.ok) throw new Error(result.message);
+        let data = result.data;
+        let details = {
+          date: data?.date ? dayjs(data.date) : dayjs(selectedDate),
+          mainhall_stat: data?.mainhall_stat ?? 1,
+          minihall_stat: data?.minihall_stat ?? 1,
+          events: data?.events ?? [],
+        };
+        setDateDetails(details);
+        console.log("date data:", details);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getDateDetails();
+  }, [selectedDate]);
 
   useEffect(() => {
     setMonth(selectedDate.month());
@@ -63,7 +88,6 @@ const useCalendar = () => {
 
   const selectDate = (d) => {
     setSelectedDate(d.date);
-    setDateDetails(d);
     setMonth(d.date.month());
     setYear(d.date.year());
   };
@@ -94,6 +118,7 @@ const useCalendar = () => {
   return {
     dates,
     selectedDate,
+    setSelectedDate,
     dateDetails,
     incrementMonth,
     decrementMonth,

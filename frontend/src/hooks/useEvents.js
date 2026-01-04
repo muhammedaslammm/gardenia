@@ -129,6 +129,7 @@ const useEvents = () => {
   return {
     dates,
     selectedDate,
+    setselectedDate,
     handleDate,
     date: {
       month,
