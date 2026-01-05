@@ -4,7 +4,7 @@ import {
   deleteJob,
   getJobs,
   updateJob,
-} from "../controllers/adminController.js";
+} from "../controllers/AdminController.js";
 import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+import User from "../models/UserModel.js";
 import { getToken } from "../utils/jwt.js";
 import nodemailer from "nodemailer";
 
