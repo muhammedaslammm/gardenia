@@ -4,7 +4,7 @@ import {
   exportReport,
   getDateBookings,
   getDates,
-} from "../controllers/DateController.js";
+} from "../controllers/EventDateController.js";
 import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
