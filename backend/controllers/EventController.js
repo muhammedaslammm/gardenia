@@ -1,4 +1,4 @@
-import EventDate from "../models/EventDateModel.js";
+import EventDate from "../models/DateModel.js";
 import Event from "../models/EventModel.js";
 import User from "../models/UserModel.js";
 import handleDayEvent from "../utils/handleDayEvent.js";

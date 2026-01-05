@@ -1,4 +1,4 @@
-import EventDate from "../models/EventDateModel.js";
+import EventDate from "../models/DateModel.js";
 
 export const getMonthEvents = async (req, res) => {
   try {

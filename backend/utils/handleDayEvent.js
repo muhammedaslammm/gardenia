@@ -1,4 +1,4 @@
-import EventDate from "../models/EventDateModel.js";
+import EventDate from "../models/DateModel.js";
 
 const handleDayEvent = async (date, stage, start_time, end_time) => {
   let ERROR_MESSAGE = (message = null) => {

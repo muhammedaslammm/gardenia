@@ -1,5 +1,5 @@
 import Block from "../models/BlockModal.js";
-import EventDate from "../models/EventDateModel.js";
+import EventDate from "../models/DateModel.js";
 
 export const getDates = async (req, res) => {
   try {
