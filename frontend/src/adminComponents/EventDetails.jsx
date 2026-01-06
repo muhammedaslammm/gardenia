@@ -37,7 +37,7 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
 
       {/* bottom block */}
       <div className="border bg-white border-neutral-400 h-full flex flex-col gap-2 p-2">
-        {!loading ? (
+        {loading ? (
           <div className="flex flex-col h-full gap-4">
             <div className="animation--container w-[10rem] h-[2rem] !rounded-[0rem]">
               <div className="animation--mask animation--loading__effect"></div>
