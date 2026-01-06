@@ -53,7 +53,6 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
           </div>
         ) : (
           <>
-            {" "}
             <div className="font-medium text-[1rem] sm:text-[1.1rem]">
               {formatted_date}
             </div>
