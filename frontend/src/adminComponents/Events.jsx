@@ -1,6 +1,6 @@
 import useEvents from "../hooks/useEvents";
 import { weekDays } from "../data/days.js";
-import { CalendarCheck, CaretRight, CaretLeft } from "phosphor-react";
+import { CalendarCheck, CaretRight, CaretLeft, Spinner } from "phosphor-react";
 import EventDetails from "./EventDetails.jsx";
 import CustomModal from "./CustomModal.jsx";
 import dayjs from "dayjs";
@@ -14,6 +14,8 @@ dayjs.extend(localeData);
 const Events = () => {
   const {
     dates,
+    datesLoading,
+    detailsLoading,
     date,
     selectedDate,
     setselectedDate,
@@ -85,17 +87,23 @@ const Events = () => {
                     )}
                   </div>
 
-                  {d.events !== 0 && (
-                    <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">{`${d.events} Booking`}</div>
-                  )}
-                  {d.block && (
-                    <div className="text-[.75rem] text-blue-800 bg-blue-100 px-1 font-medium self-end">
-                      Event Holded
-                    </div>
-                  )}
-                  {d.cancelled !== 0 && (
-                    <div className="text-[.75rem] text-red-800 bg-red-100 px-1 font-medium self-end">
-                      {`${d.cancelled} Cancellation`}
+                  {datesLoading ? (
+                    <Spinner className="self-end animate-spin" />
+                  ) : (
+                    <div>
+                      {d.events !== 0 && (
+                        <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">{`${d.events} Booking`}</div>
+                      )}
+                      {d.block && (
+                        <div className="text-[.75rem] text-blue-800 bg-blue-100 px-1 font-medium self-end">
+                          Event Holded
+                        </div>
+                      )}
+                      {d.cancelled !== 0 && (
+                        <div className="text-[.75rem] text-red-800 bg-red-100 px-1 font-medium self-end">
+                          {`${d.cancelled} Cancellation`}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -103,7 +111,11 @@ const Events = () => {
             })}
           </div>
         </div>
-        <EventDetails dateDetails={dateDetails} refetchData={refetchData} />
+        <EventDetails
+          dateDetails={dateDetails}
+          refetchData={refetchData}
+          loading={detailsLoading}
+        />
       </div>
       {eventDelete.modal && (
         <CustomModal

@@ -2,10 +2,12 @@ import { X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ModalLabel from "./ModalLabel";
+import ButtonLoading from "./ButtonLoading";
 
 const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   let [preview, setPreview] = useState(remainingAmount);
+  let [loading, setLoading] = useState(false);
   let {
     register,
     handleSubmit,
@@ -21,6 +23,7 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
 
   const submitPayment = async (values) => {
     try {
+      setLoading(true);
       let response = await fetch(
         `${BACKEND_URL}/api/events/${eventId}/payments`,
         {
@@ -32,6 +35,7 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
           credentials: "include",
         }
       );
+      setLoading(false);
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       reset();
@@ -90,10 +94,13 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
           <div></div>
         </div>
         <button
-          className="p-3 bg-black text-white font-medium cursor-pointer mt-8"
+          className={`p-3 bg-black text-white font-medium mt-8  ${
+            loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+          }`}
+          disabled={loading}
           type="submit"
         >
-          Submit Payment
+          {loading ? <ButtonLoading /> : "Submit Payment"}
         </button>
       </form>
       <div

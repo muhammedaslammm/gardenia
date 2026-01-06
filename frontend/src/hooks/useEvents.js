@@ -17,10 +17,13 @@ const useEvents = () => {
   const [deleteData, setDeleteData] = useState({});
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  let [datesLoading, setDatesLoading] = useState(false);
+  let [detailsLoading, setDetailsLoading] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setDatesLoading(true);
         const response = await fetch(
           `${BACKEND_URL}/api/event-dates?month=${month + 1}&year=${year}`,
           {
@@ -28,6 +31,7 @@ const useEvents = () => {
             credentials: "include",
           }
         );
+        setDatesLoading(false);
         const result = await response.json();
         if (!response.ok) throw new Error(result.message);
         setEventDates(result.dates);
@@ -51,7 +55,7 @@ const useEvents = () => {
 
   let getDateDetails = async () => {
     try {
-      console.log("selected date:", dayjs(selectedDate).format("YYYY-MM-DD"));
+      setDetailsLoading(true);
       let response = await fetch(
         `${BACKEND_URL}/api/events-dates/${dayjs(selectedDate).format(
           "YYYY-MM-DD"
@@ -61,6 +65,7 @@ const useEvents = () => {
           credentials: "include",
         }
       );
+      setDetailsLoading(false);
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       let data = result.data;
@@ -128,6 +133,8 @@ const useEvents = () => {
 
   return {
     dates,
+    datesLoading,
+    detailsLoading,
     selectedDate,
     setselectedDate,
     handleDate,

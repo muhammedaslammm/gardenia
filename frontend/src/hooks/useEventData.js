@@ -6,7 +6,8 @@ import { toast } from "sonner";
 const useEventData = (id) => {
   let [data, setData] = useState(null);
   let [cancelData, setCancelData] = useState(null);
-  let [loading, setLoading] = useState(false);
+  let [dataLoading, setDataLoading] = useState(true);
+  let [cancelDataLoading, setCancelDataLoading] = useState(false);
   let navigate = useNavigate();
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -24,12 +25,12 @@ const useEventData = (id) => {
 
   let getEventData = async () => {
     try {
-      setLoading(true);
+      setDataLoading(true);
       let response = await fetch(`${BACKEND_URL}/api/events/${id}`, {
         method: "GET",
         credentials: "include",
       });
-      setLoading(false);
+      setDataLoading(false);
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       setData(result.event);
@@ -45,10 +46,12 @@ const useEventData = (id) => {
 
   const getEventCancelData = async () => {
     try {
+      setCancelDataLoading(true);
       let response = await fetch(`${BACKEND_URL}/api/events/${id}/cancel`, {
         method: "GET",
         credentials: "include",
       });
+      setCancelDataLoading(false);
       let result = await response.json();
       if (response.status === 404) {
         toast.error(result.message);
@@ -61,6 +64,6 @@ const useEventData = (id) => {
     }
   };
 
-  return { data, cancelData, loading, getEventData };
+  return { data, cancelData, dataLoading, cancelDataLoading, getEventData };
 };
 export default useEventData;

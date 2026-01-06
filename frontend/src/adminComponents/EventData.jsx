@@ -1,4 +1,4 @@
-import { CaretRight, MinusCircle } from "phosphor-react";
+import { CaretRight, MinusCircle, Spinner } from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
 import useEventData from "../hooks/useEventData";
 import dayjs from "dayjs";
@@ -12,13 +12,22 @@ import CancellationModal from "./modals/CancellationModal";
 
 const EventData = () => {
   let { id } = useParams();
-  let { data = {}, cancelData, loading, getEventData } = useEventData(id);
+  let {
+    data = {},
+    cancelData,
+    dataLoading,
+    cancelDataLoading,
+    getEventData,
+  } = useEventData(id);
   let { user } = useContext(AuthContext);
 
   let highlight_style = "font-medium px-4 py-2";
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
-  let getCurrency = (amount) => Intl.NumberFormat("en-IN").format(amount);
+  let getCurrency = (amount) => {
+    if (!amount) return <Spinner className="animate-spin" />;
+    return `${Intl.NumberFormat("en-IN").format(amount)} `;
+  };
   let [mode, setMode] = useState(null);
 
   const handleMode = (type) => {
@@ -33,34 +42,40 @@ const EventData = () => {
         <span>Event Details</span>
       </div>
       <div className="mt-8 flex flex-col gap-4">
-        <div className="bg-white border border-neutral-400 p-4 space-y-4">
-          <div className="flex justify-between">
-            <div>
-              <div className="text-[1.4rem] font-medium">
-                {data?.event_name}
+        {dataLoading ? (
+          <div className="animation--container w-full h-[10rem]">
+            <div className="animation--mask animation--loading__effect"></div>
+          </div>
+        ) : (
+          <div className="bg-white border border-neutral-400 p-4 space-y-4">
+            <div className="flex justify-between">
+              <div>
+                <div className="text-[1.4rem] font-medium">
+                  {data?.event_name}
+                </div>
+                <div>{`Booking Number : ${data?.booking_number}`}</div>
               </div>
-              <div>{`Booking Number : ${data?.booking_number}`}</div>
+              <div className="text-end">
+                <div className="text-[1.4rem] font-medium">
+                  {dayjs(data?.date).format("Do MMMM, YYYY")}
+                </div>
+                <div>{`${dayjs(data?.start_time).format("hh:mm a")} - ${dayjs(
+                  data?.end_time
+                ).format("hh:mm a")}`}</div>
+              </div>
             </div>
-            <div className="text-end">
-              <div className="text-[1.4rem] font-medium">
-                {dayjs(data?.date).format("Do MMMM, YYYY")}
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <div
+                  className={`capitalize ${highlight_style} bg-green-100 text-green-800`}
+                >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
+                <div
+                  className={`${highlight_style} bg-green-100 text-green-800`}
+                >{`Event : ${data?.event}`}</div>
               </div>
-              <div>{`${dayjs(data?.start_time).format("hh:mm a")} - ${dayjs(
-                data?.end_time
-              ).format("hh:mm a")}`}</div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex gap-2">
-              <div
-                className={`capitalize ${highlight_style} bg-green-100 text-green-800`}
-              >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
-              <div
-                className={`${highlight_style} bg-green-100 text-green-800`}
-              >{`Event : ${data?.event}`}</div>
-            </div>
-          </div>
-        </div>
+        )}
 
         {cancelData && (
           <section className="p-4 bg-red-50 text-red-800">
@@ -89,51 +104,59 @@ const EventData = () => {
         )}
 
         <div className="flex gap-4">
-          <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
-            <div>Contact Information</div>
-            <div className="space-y-2">
-              {Object.entries(data?.contact_details || {}).map(
-                ([key, value], i) => (
-                  <div key={i} className="flex justify-between items-start">
-                    <div className="capitalize font-medium">
-                      {key.split("_").join(" ")}
-                    </div>
-                    <div className="w-[65%]">{value}</div>
-                  </div>
-                )
-              )}
+          {dataLoading ? (
+            <div className="animation--container w-1/2 h-[20rem]">
+              <div className="animation--mask animation--loading__effect"></div>
             </div>
-          </section>
+          ) : (
+            <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
+              <div>Contact Information</div>
+              <div className="space-y-2">
+                {Object.entries(data?.contact_details || {}).map(
+                  ([key, value], i) => (
+                    <div key={i} className="flex justify-between items-start">
+                      <div className="capitalize font-medium">
+                        {key.split("_").join(" ")}
+                      </div>
+                      <div className="w-[65%]">{value}</div>
+                    </div>
+                  )
+                )}
+              </div>
+            </section>
+          )}
           <section className="w-full space-y-4">
             <section className="p-4 bg-white border border-neutral-400 flex flex-col gap-6">
               <div className="flex justify-between items-center">
                 <div>Payment Information</div>
-                <div className="flex gap-4">
-                  {!data?.payment.payment_settled && !data?.cancelled && (
-                    <div
-                      className="text-purple-800 underline cursor-pointer"
-                      onClick={() => handleMode("discount")}
-                    >
-                      Add discount
-                    </div>
-                  )}
-                  {!data?.payment.payment_settled &&
-                    data?.payment.remaining_amount > 0 &&
-                    !data?.cancelled && (
-                      <button
-                        className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
-                        onClick={() => handleMode("new")}
+                {!dataLoading && (
+                  <div className="flex gap-4">
+                    {!data?.payment.payment_settled && !data?.cancelled && (
+                      <div
+                        className="text-purple-800 underline cursor-pointer"
+                        onClick={() => handleMode("discount")}
                       >
-                        Add new payment
-                      </button>
+                        Add discount
+                      </div>
                     )}
-                </div>
+                    {!data?.payment.payment_settled &&
+                      data?.payment.remaining_amount > 0 &&
+                      !data?.cancelled && (
+                        <button
+                          className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
+                          onClick={() => handleMode("new")}
+                        >
+                          Add new payment
+                        </button>
+                      )}
+                  </div>
+                )}
               </div>
 
               <div>
                 <div className="flex justify-between items-end py-2 border-b border-neutral-300 font-medium">
                   <div>Total Amount</div>
-                  <div>{getCurrency(data?.payment.total_amount)}/-</div>
+                  <div>{getCurrency(data?.payment.total_amount)}</div>
                 </div>
                 {data?.payment.payment_timeline.map((tl) => (
                   <div
@@ -157,7 +180,7 @@ const EventData = () => {
                         ))}
                       </div>
                     </div>
-                    <div>{getCurrency(tl.paid_amount)}/-</div>
+                    <div>{getCurrency(tl.paid_amount)}</div>
                   </div>
                 ))}
                 <div className="flex justify-between items-end font-medium py-2">
@@ -165,20 +188,20 @@ const EventData = () => {
                     <>
                       <div className="text-green-800">Amount Settled</div>
                       <div className="text-green-800">
-                        {getCurrency(data?.payment.total_amount)}/-
+                        {getCurrency(data?.payment.total_amount)}
                       </div>
                     </>
                   ) : (
                     <>
                       <div>Remaining Amount</div>
-                      <div>{getCurrency(data?.payment.remaining_amount)}/-</div>
+                      <div>{getCurrency(data?.payment.remaining_amount)}</div>
                     </>
                   )}
                 </div>
                 {cancelData && (
                   <div className="flex items-center justify-between text-red-800 font-medium border-t border-neutral-300 pt-2">
                     <div>Refund Amount</div>
-                    <div>{getCurrency(cancelData?.refundAmount)}/-</div>
+                    <div>{getCurrency(cancelData?.refundAmount)}</div>
                   </div>
                 )}
               </div>
@@ -228,28 +251,34 @@ const EventData = () => {
             </section>
           </section>
         </div>
-        <div className="flex gap-2 self-end mt-8">
-          {!isPast && !data?.cancelled && (
-            <button
-              className="text-red-800 bg-red-100 font-medium py-2 px-4 cursor-pointer"
-              onClick={() => handleMode("cancellation")}
-            >
-              Cancel this Event
-            </button>
-          )}
-          {(user?.role === "md" ||
-            (user?.role === "staff" && !data?.restricted)) &&
-            !isPast &&
-            !data?.cancelled && (
-              <div className="self-end bg-black text-white font-medium py-2 px-4 cursor-pointer">
-                <Link
-                  to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
-                >
-                  Update this Event
-                </Link>
-              </div>
+        {dataLoading ? (
+          <div className="animation--container w-[10rem] h-[3rem] self-end mt-8">
+            <div className="animation--mask animation--loading__effect"></div>
+          </div>
+        ) : (
+          <div className="flex gap-2 self-end mt-8">
+            {!isPast && !data?.cancelled && (
+              <button
+                className="text-red-800 bg-red-100 font-medium py-2 px-4 cursor-pointer"
+                onClick={() => handleMode("cancellation")}
+              >
+                Cancel this Event
+              </button>
             )}
-        </div>
+            {(user?.role === "md" ||
+              (user?.role === "staff" && !data?.restricted)) &&
+              !isPast &&
+              !data?.cancelled && (
+                <div className="self-end bg-black text-white font-medium py-2 px-4 cursor-pointer">
+                  <Link
+                    to={`/admin/events/event-management?date=${data?.date}&event=${id}`}
+                  >
+                    Update this Event
+                  </Link>
+                </div>
+              )}
+          </div>
+        )}
       </div>
       {mode &&
         createPortal(

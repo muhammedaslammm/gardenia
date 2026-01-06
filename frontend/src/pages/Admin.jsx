@@ -8,6 +8,7 @@ import { useUser } from "../hooks/useUser.js";
 import AdminHeader from "../adminComponents/AdminHeader.jsx";
 import Shimmer from "../components/Shimmer.jsx";
 import ShimmerPage from "../components/ShimmerPage.jsx";
+import LoadingPage from "../adminComponents/shimmer/LoadingPage.jsx";
 
 const Admin = () => {
   const { getPageInfo, getSideBarContents } = useSideBar();
@@ -16,7 +17,7 @@ const Admin = () => {
   const { user } = useContext(AuthContext);
   const { logoutStat } = useUser();
 
-  if (user === null) return <ShimmerPage />;
+  if (user === null) return <LoadingPage />;
   else if (user)
     return (
       <>

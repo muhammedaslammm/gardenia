@@ -1,12 +1,15 @@
-import { X } from "phosphor-react";
+import { Spinner, X } from "phosphor-react";
 import ModalLabel from "./ModalLabel";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import ButtonLoading from "./ButtonLoading";
 
 const AddonModal = ({ handleMode, eventId, refetch }) => {
   let [items, setItems] = useState([]);
   let [totalAmount, setTotalAmount] = useState(0);
+  let [dataLoading, setDataLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const {
@@ -17,7 +20,6 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
   } = useForm({ defaultValues: { charge_name: "", amount: "" } });
 
   const addExpense = (values) => {
-    console.log("submitted values:", values);
     setItems((prev) => [...prev, values]);
     setTotalAmount((prev) => Number(prev) + Number(values.amount));
     reset();
@@ -26,6 +28,7 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
   useEffect(() => {
     let getItems = async () => {
       try {
+        setDataLoading(true);
         let response = await fetch(
           `${BACKEND_URL}/api/events/${eventId}/add-ons`,
           {
@@ -34,6 +37,7 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
           }
         );
         let result = await response.json();
+        setDataLoading(false);
         if (!response.ok) throw new Error(result.message);
         console.log("event extra charges:", result.charges);
         setItems(result.charges.addon_charges.items);
@@ -48,6 +52,7 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
   const submitItems = async () => {
     try {
       let data = { total_amount: totalAmount, items };
+      setLoading(true);
       let response = await fetch(
         `${BACKEND_URL}/api/events/${eventId}/add-ons`,
         {
@@ -59,6 +64,7 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
           body: JSON.stringify(data),
         }
       );
+      setLoading(false);
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       console.log(result.message);
@@ -104,7 +110,12 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
           </button>
         </form>
         <div className="mt-8 py-6 border-t border-neutral-400 font--inter-tight">
-          {!items.length ? (
+          {dataLoading ? (
+            <div className="flex flex-col items-center p-2 bg-neutral-200">
+              <Spinner className="w-[1.2rem] h-[1.2rem] animate-spin" />
+              <div>Loading existing returns...</div>
+            </div>
+          ) : !items.length ? (
             <div className="space-y-1">
               <div className="font-medium uppercase">
                 Add-ons / Supplemental charges
@@ -135,10 +146,13 @@ const AddonModal = ({ handleMode, eventId, refetch }) => {
                 </div>
               </div>
               <button
-                className="p-3 bg-black text-white font-medium cursor-pointer self-end"
+                className={`p-3 bg-black text-white font-medium self-end ${
+                  loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+                }`}
                 onClick={submitItems}
+                disabled={loading}
               >
-                Submit this return
+                {loading ? <ButtonLoading /> : "Submit this return"}
               </button>
             </div>
           )}

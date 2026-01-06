@@ -1,6 +1,8 @@
 import { X } from "phosphor-react";
 import ModalLabel from "./ModalLabel";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import ButtonLoading from "./ButtonLoading";
 
 const DiscountModal = ({ handleMode, eventId, remainingAmount, refetch }) => {
   const {
@@ -10,10 +12,13 @@ const DiscountModal = ({ handleMode, eventId, remainingAmount, refetch }) => {
     formState: { errors },
   } = useForm({ defaultValues: { paid_amount: "", payment_type: "discount" } });
 
+  let [loading, setLoading] = useState(false);
+
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const submitDiscount = async (values) => {
     try {
+      setLoading(true);
       let response = await fetch(
         `${BACKEND_URL}/api/events/${eventId}/payments`,
         {
@@ -25,6 +30,7 @@ const DiscountModal = ({ handleMode, eventId, remainingAmount, refetch }) => {
           credentials: "include",
         }
       );
+      setLoading(false);
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
       reset();
@@ -64,10 +70,13 @@ const DiscountModal = ({ handleMode, eventId, remainingAmount, refetch }) => {
           </div>
         </div>
         <button
-          className="p-3 bg-black text-white font-medium cursor-pointer self-end mt-8"
+          className={`p-3 bg-black text-white font-medium self-end mt-8 ${
+            loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+          }`}
           type="submit"
+          disabled={loading}
         >
-          Add Discount
+          {loading ? <ButtonLoading /> : "Add Discount"}
         </button>
       </form>
 

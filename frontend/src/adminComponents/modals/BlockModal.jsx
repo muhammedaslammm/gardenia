@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import ModalLabel from "./ModalLabel";
 import { toast } from "sonner";
 import { useState } from "react";
+import ButtonLoading from "./ButtonLoading";
 
 const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   const [loading, setLoading] = useState(false);
@@ -88,14 +89,7 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
             } transition-colors`}
             type="submit"
           >
-            {loading ? (
-              <div className="flex justify-center items-center gap-2">
-                Block the Slot
-                <Spinner className="animate-spin w-[1.3rem] h-[1.3rem]" />
-              </div>
-            ) : (
-              "Cancel This Event"
-            )}
+            {loading ? <ButtonLoading /> : "Add Block"}
           </button>
         </form>
       </div>
