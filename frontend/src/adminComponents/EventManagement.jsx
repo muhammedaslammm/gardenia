@@ -53,15 +53,26 @@ const EventManagement = () => {
       </div>
       {!eventId && (
         <div className="flex flex-col items-start gap-2 pt-4 pb-6 border-b border-neutral-400">
-          <div
-            className="p-2 font-medium"
-            style={{ color: message.color, backgroundColor: message.bg }}
-          >
-            {message.text}
-          </div>
-          {reSchedule.cancelledEvents &&
-          reSchedule.cancelledEvents.length > 0 &&
-          !reSchedule.selected ? (
+          {!dateInfo ? (
+            <div className="animation--container w-[25rem] h-[2rem] !rounded-[0rem]">
+              <div className="animation--mask animation--loading__effect"></div>
+            </div>
+          ) : (
+            <div
+              className="p-2 font-medium"
+              style={{ color: message.color, backgroundColor: message.bg }}
+            >
+              {message.text}
+            </div>
+          )}
+
+          {!reSchedule.cancelledEvents ? (
+            <div className="animation--container w-[35rem] h-[3rem] !rounded-[0rem]">
+              <div className="animation--mask animation--loading__effect"></div>
+            </div>
+          ) : reSchedule.cancelledEvents &&
+            reSchedule.cancelledEvents.length > 0 &&
+            !reSchedule.selected ? (
             <div className="w-[40rem] border border-neutral-300 p-2 ">
               Cancelled events with reschedule options are found. You may{" "}
               <span className="font-medium">
