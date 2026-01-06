@@ -38,12 +38,12 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
       {/* bottom block */}
       <div className="border bg-white border-neutral-400 h-full flex flex-col gap-2 p-2">
         {loading ? (
-          <div className="flex flex-col h-full gap-4">
+          <div className="flex flex-col h-full gap-2 py-1">
             <div className="animation--container w-[10rem] h-[2rem] !rounded-[0rem]">
               <div className="animation--mask animation--loading__effect"></div>
             </div>
             <div className="space-y-4">
-              <div className="animation--container w-full h-[10rem] !rounded-[0rem]">
+              <div className="animation--container w-full h-[9rem] !rounded-[0rem]">
                 <div className="animation--mask animation--loading__effect"></div>
               </div>
             </div>
@@ -77,7 +77,7 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
                   {events.map((event) => (
                     <Link
                       className={`space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:-translate-y-[.2rem] transition-transform z-10 ${
-                        event.cancelled && "opacity-50 relative"
+                        event.cancelled && "opacity-70 relative"
                       }`}
                       to={`/admin/events/${event._id}`}
                     >
