@@ -20,7 +20,7 @@ const getDateUpdate = (stage, start_time, end_time, date) => {
       obj.block_stat = 0;
     }
   } else if (stage === "mini_hall") {
-    if (start_time <= noon && end_time <= forteen) {
+    if (start_time <= noon && end_time <= sixteen) {
       obj.mainhall_stat = 3;
       obj.minihall_stat = 3;
       obj.block_stat = 3;
