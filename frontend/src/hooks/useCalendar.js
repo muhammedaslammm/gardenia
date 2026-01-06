@@ -58,7 +58,7 @@ const useCalendar = () => {
             credentials: "include",
           }
         );
-        // setDateDetailsLoading(false);
+        setDateDetailsLoading(false);
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
         let data = result.data;
