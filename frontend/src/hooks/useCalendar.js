@@ -29,6 +29,7 @@ const useCalendar = () => {
   useEffect(() => {
     const getBookedDates = async () => {
       try {
+        setDateLoading(true);
         let response = await fetch(
           `${BACKEND_URL}/api/client/events?month=${
             selectedDate.month() + 1
@@ -49,6 +50,7 @@ const useCalendar = () => {
   useEffect(() => {
     let getDateDetails = async () => {
       try {
+        setDateDetailsLoading(true);
         let response = await fetch(
           `${BACKEND_URL}/api/client/events/${selectedDate.format(
             "YYYY-MM-DD"
