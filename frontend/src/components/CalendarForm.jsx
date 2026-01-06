@@ -3,7 +3,7 @@ import getEventMessage from "../utils/getEventMessage";
 import InputLabel from "../adminComponents/InputLabel";
 import { Spinner } from "phosphor-react";
 
-const CalendarForm = ({ util }) => {
+const CalendarForm = ({ util, details_loading }) => {
   let { dateDetails, form } = util;
   let {
     date = null,
@@ -19,12 +19,18 @@ const CalendarForm = ({ util }) => {
       <div className="leading-[1.8rem]">
         <div className="font--dm-serif-display text-[1.4rem]">Enquiry Form</div>
       </div>
-      <div
-        className="p-2 my-2"
-        style={{ color: message.color, backgroundColor: message.bg }}
-      >
-        {message.text}
-      </div>
+      {details_loading ? (
+        <div className="animation--container w-full h-[5rem] !rounded-[0rem] my-2">
+          <div className="animation--mask animation--loading__effect"></div>
+        </div>
+      ) : (
+        <div
+          className="p-2 my-2"
+          style={{ color: message.color, backgroundColor: message.bg }}
+        >
+          {message.text}
+        </div>
+      )}
       <form
         className="my-4 flex flex-col gap-2"
         onSubmit={handleSubmit(submitForm)}

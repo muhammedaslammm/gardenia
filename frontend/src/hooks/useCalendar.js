@@ -12,6 +12,8 @@ const useCalendar = () => {
   let [month, setMonth] = useState(selectedDate.month());
   let [year, setYear] = useState(selectedDate.year());
 
+  let [dateLoading, setDateLoading] = useState(true);
+  let [dateDetailsLoding, setDateDetailsLoading] = useState(true);
   let dates = generateDateObjects(year, month, bookedDates);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -32,6 +34,7 @@ const useCalendar = () => {
             selectedDate.month() + 1
           }&year=${selectedDate.year()}`
         );
+        setDateLoading(false);
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
         setBookedDates(result.dates);
@@ -55,6 +58,7 @@ const useCalendar = () => {
             credentials: "include",
           }
         );
+        // setDateDetailsLoading(false);
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
         let data = result.data;
@@ -117,6 +121,8 @@ const useCalendar = () => {
 
   return {
     dates,
+    dateLoading,
+    dateDetailsLoding,
     selectedDate,
     setSelectedDate,
     dateDetails,

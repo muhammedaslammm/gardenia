@@ -1,9 +1,15 @@
 import dayjs from "dayjs";
 import { weekDays } from "../data/days";
-import { CalendarCheck, CaretLeft, CaretRight, Star } from "phosphor-react";
+import {
+  CalendarCheck,
+  CaretLeft,
+  CaretRight,
+  Spinner,
+  Star,
+} from "phosphor-react";
 import CalendarFilter from "./CalendarFilter";
 
-const CalendarGrid = ({ util }) => {
+const CalendarGrid = ({ util, loading }) => {
   let {
     dates,
     selectedDate,
@@ -75,14 +81,20 @@ const CalendarGrid = ({ util }) => {
                       <CalendarCheck className="text-green-800" weight="fill" />
                     )}
                   </div>
-                  {d.block && (
-                    <div className="text-[.75rem] text-blue-700 font-semibold self-end">
-                      Event Holded
-                    </div>
-                  )}
-                  {events !== 0 && (
-                    <div className="text-[.75rem] text-green-900 font-semibold self-end">
-                      Function Day
+                  {loading ? (
+                    <Spinner className="self-end animate-spin" />
+                  ) : (
+                    <div>
+                      {d.block && (
+                        <div className="text-[.75rem] text-blue-700 font-semibold self-end">
+                          Event Holded
+                        </div>
+                      )}
+                      {events !== 0 && (
+                        <div className="text-[.75rem] text-green-900 font-semibold self-end">
+                          Function Day
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
