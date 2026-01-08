@@ -6,6 +6,7 @@ import getBlockMessage from "../utils/getBlockMessage";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import BlockModal from "./modals/BlockModal";
+import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
 
 dayjs.extend(advancedFormat);
 

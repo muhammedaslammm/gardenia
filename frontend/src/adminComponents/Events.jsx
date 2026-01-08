@@ -5,9 +5,9 @@ import EventDetails from "./EventDetails.jsx";
 import CustomModal from "./CustomModal.jsx";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
-import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
 import Filter from "./eventUtils/Filter.jsx";
 import EventSearch from "./eventUtils/EventSearch.jsx";
+import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
 
 dayjs.extend(localeData);
 
@@ -31,10 +31,12 @@ const Events = () => {
       <div className="flex flex-col lg:flex-row sm:gap-4">
         <div className="w-full pb-6 sm:pb-0 lg:w-8/12 space-y-2 sm:space-y-2">
           <div className="text-[.9rem]">Events</div>
-          <div className="text-[1rem] font-medium flex justify-between items-end">
+
+          <div className="text-[1rem] flex items-end gap-4">
             <div className="text-[.9rem] sm:text-[1.2rem] font-semibold">
               {selectedDate.format("MMMM YYYY")}
             </div>
+            <ExcelDownload />
           </div>
           <div className="flex flex-row justify-between items-center">
             <div className="flex items-start gap-2">

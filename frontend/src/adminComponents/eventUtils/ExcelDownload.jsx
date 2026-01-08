@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import ExcelModal from "../modals/ExcelModal";
+import { ArrowSquareOut } from "phosphor-react";
 
 const ExcelDownload = () => {
   const [box, setBox] = useState(false);
   return (
     <div className="">
       <button
-        className="bg-green-800 text-[.9rem] text-white font-semibold cursor-pointer px-2 py-1"
+        className="text-[.9rem] text-neutral-500 underline hover:text-green-800 transition-colors cursor-pointer flex items-center gap-1 "
         onClick={() => setBox(true)}
       >
-        Download Excel
+        Generate excel sheet? <ArrowSquareOut />
       </button>
       {box &&
         createPortal(
