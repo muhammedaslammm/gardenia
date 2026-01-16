@@ -4,7 +4,7 @@ import useJobs from "../hooks/useJobs.js";
 export default function Careers() {
   const { jobs } = useJobs();
   return (
-    <div className="py-17 lg:py-20 min-h-[100svh] w-[90%] xl:w-[85%] mx-auto space-y-4">
+    <div className="py-17 lg:py-20 xl:pt-[6rem] min-h-[100svh] w-[90%] xl:w-[85%] mx-auto space-y-4">
       {jobs === null ? (
         <Shimmer />
       ) : jobs.length === 0 ? (

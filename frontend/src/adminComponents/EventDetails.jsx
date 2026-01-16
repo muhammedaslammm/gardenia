@@ -130,7 +130,7 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
                   </div>
                   <div>
                     Contact Number :{" "}
-                    <span className="font-semibold">{block.phone_number}</span>
+                    <span className="font-semibold">{block?.phone_number}</span>
                   </div>
                 </div>
               </div>
@@ -150,7 +150,7 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
                       className="underline font-medium cursor-pointer"
                       onClick={() => setBlockModal(true)}
                     >
-                      hold slot for a event
+                      hold slot for an event
                     </span>
                   )}
                 </div>

@@ -13,12 +13,14 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   let element = getBlockModalMessage(block_stat, events);
   date = dayjs(date).format("YYYY-MM-DD");
+  let start_time = watch("start_time");
 
   const formSubmit = async (values) => {
     try {
@@ -58,7 +60,41 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmit(formSubmit)}
         >
-          <div className="flex gap-2">
+          <div className="space-y-1">
+            <ModalLabel title="Stage" error={errors.stage} />
+            <select
+              className="a--input cursor-pointer"
+              {...register("stage", { required: true })}
+            >
+              <option value="" disabled selected>
+                Select Stage
+              </option>
+              <option value="main_hall">Main Hall</option>
+              <option value="mini_hall">Mini Hall</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-full space-y-1">
+              <ModalLabel title="Start Time" error={errors.start_time} />
+              <input
+                type="time"
+                className="a--input"
+                {...register("start_time", { required: true })}
+              />
+            </div>
+            <div className="w-full space-y-1">
+              <ModalLabel title="End Time" error={errors.end_time} />
+              <input
+                type="time"
+                className="a--input"
+                {...register("end_time", {
+                  required: true,
+                  validate: (v) => !start_time || v > start_time,
+                })}
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
             <div className="w-full space-y-1">
               <ModalLabel
                 title="Requester Name"

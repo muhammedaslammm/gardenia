@@ -43,9 +43,9 @@ const useEvents = () => {
     fetchEvents();
   }, [month, year]);
 
-  useEffect(() => {
-    getDateDetails();
-  }, [eventDates]);
+  // useEffect(() => {
+  //   getDateDetails();
+  // }, [eventDates]);
 
   useEffect(() => {
     setMonth(selectedDate.month());
