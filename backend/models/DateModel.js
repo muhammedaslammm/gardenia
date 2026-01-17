@@ -7,6 +7,8 @@ let Schema = new mongoose.Schema({
   mainhall_stat: { type: Number, default: 1 },
   minihall_stat: { type: Number, default: 1 },
   block_stat: { type: Number, default: 1 },
+  mainhall_block_stat: { type: Number, default: 1 },
+  minihall_block_stat: { type: Number, default: 1 },
 });
 
 let EventDate = mongoose.model("eventdate", Schema);

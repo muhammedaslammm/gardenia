@@ -6,6 +6,7 @@ import userRouter from "./routers/UserRouter.js";
 import jobRouter from "./routers/JobRouter.js";
 import eventRouter from "./routers/EventRouter.js";
 import eventDateRouter from "./routers/DateRouter.js";
+import blockRouter from "./routers/BlockRouter.js";
 import enquiryRouter from "./routers/EnquiryRouter.js";
 import clientRouter from "./routers/ClientRouter.js";
 
@@ -37,6 +38,7 @@ app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api", eventRouter);
 app.use("/api", eventDateRouter);
+app.use("/api", blockRouter);
 app.use("/api", enquiryRouter);
 
 export default app;
