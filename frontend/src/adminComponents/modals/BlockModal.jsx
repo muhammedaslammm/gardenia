@@ -25,7 +25,7 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   const formSubmit = async (values) => {
     try {
       setLoading(true);
-      let response = await fetch(`${BACKEND_URL}/api/event-dates/block`, {
+      let response = await fetch(`${BACKEND_URL}/api/admin/block`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
       if (!response.ok) throw new Error(result.message);
       setModal(false);
       toast.success(result.message);
-      refetchData();
+      // refetchData();
     } catch (error) {
       console.log(error.message);
     }
@@ -60,20 +60,33 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmit(formSubmit)}
         >
-          <div className="space-y-1">
-            <ModalLabel title="Stage" error={errors.stage} />
-            <select
-              className="a--input cursor-pointer"
-              {...register("stage", { required: true })}
-            >
-              <option value="" disabled selected>
-                Select Stage
-              </option>
-              <option value="main_hall">Main Hall</option>
-              <option value="mini_hall">Mini Hall</option>
-            </select>
+          <div className="flex items-center gap-4">
+            <div className="w-full space-y-1">
+              <ModalLabel title="Stage" error={errors.stage} />
+              <select
+                className="a--input cursor-pointer"
+                {...register("stage", { required: true })}
+              >
+                <option value="" disabled selected>
+                  Select Stage
+                </option>
+                <option value="main_hall">Main Hall</option>
+                <option value="mini_hall">Mini Hall</option>
+              </select>
+            </div>
+            <div className="w-full space-y-1">
+              <ModalLabel
+                title="Requester Name"
+                error={errors.requester_name}
+              />
+              <input
+                type="text"
+                className="a--input"
+                {...register("requester_name", { required: true })}
+              />
+            </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <div className="w-full space-y-1">
               <ModalLabel title="Start Time" error={errors.start_time} />
               <input
@@ -94,24 +107,30 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
               />
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <div className="w-full space-y-1">
               <ModalLabel
-                title="Requester Name"
-                error={errors.requester_name}
+                title="Phone Number 1"
+                error={errors.phone_number_1}
               />
-              <input
-                type="text"
-                className="a--input"
-                {...register("requester_name", { required: true })}
-              />
-            </div>
-            <div className="w-full space-y-1">
-              <ModalLabel title="Phone Number" error={errors.phone_number} />
               <input
                 type="number"
                 className="a--input"
-                {...register("phone_number", {
+                {...register("phone_number_1", {
+                  required: true,
+                  pattern: { value: /^[0-9]{10}$/ },
+                })}
+              />
+            </div>
+            <div className="w-full space-y-1">
+              <ModalLabel
+                title="Phone Number 2"
+                error={errors.phone_number_2}
+              />
+              <input
+                type="number"
+                className="a--input"
+                {...register("phone_number_2", {
                   required: true,
                   pattern: { value: /^[0-9]{10}$/ },
                 })}
