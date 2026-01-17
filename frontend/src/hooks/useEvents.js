@@ -29,7 +29,7 @@ const useEvents = () => {
           {
             method: "GET",
             credentials: "include",
-          }
+          },
         );
         setDatesLoading(false);
         const result = await response.json();
@@ -58,12 +58,12 @@ const useEvents = () => {
       setDetailsLoading(true);
       let response = await fetch(
         `${BACKEND_URL}/api/events-dates/${dayjs(selectedDate).format(
-          "YYYY-MM-DD"
+          "YYYY-MM-DD",
         )}`,
         {
           method: "GET",
           credentials: "include",
-        }
+        },
       );
       setDetailsLoading(false);
       let result = await response.json();
@@ -76,6 +76,8 @@ const useEvents = () => {
         block: data?.block || null,
         mainhall_stat: data?.mainhall_stat ?? 1,
         minihall_stat: data?.minihall_stat ?? 1,
+        mainhall_block_stat: data?.mainhall_block_stat ?? 1,
+        minihall_block_stat: data?.minihall_block_stat ?? 1,
         block_stat: data?.block_stat ?? 1,
       };
       console.log("details:", details);

@@ -1,6 +1,5 @@
 import { Spinner, X } from "phosphor-react";
 import { useForm } from "react-hook-form";
-import getBlockModalMessage from "../../utils/getBlockModalMessage";
 import dayjs from "dayjs";
 import ModalLabel from "./ModalLabel";
 import { toast } from "sonner";
@@ -9,7 +8,7 @@ import ButtonLoading from "./ButtonLoading";
 
 const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   const [loading, setLoading] = useState(false);
-  let { block_stat = 1, events = [], date } = dateDetails;
+  let { date } = dateDetails;
   const {
     register,
     handleSubmit,
@@ -18,7 +17,6 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   } = useForm();
 
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  let element = getBlockModalMessage(block_stat, events);
   date = dayjs(date).format("YYYY-MM-DD");
   let start_time = watch("start_time");
 
@@ -40,6 +38,8 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
       });
       let result = await response.json();
       setLoading(false);
+      if (response.status === 400)
+        return toast.error(result.message || "Event Blocking Failed");
       if (!response.ok) throw new Error(result.message);
       // setModal(false);
       toast.success(result.message);
@@ -60,7 +60,6 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
         </div>
       </div>
       <div className="space-y-2">
-        {element}
         <form
           className="flex flex-col gap-4"
           onSubmit={handleSubmit(formSubmit)}
