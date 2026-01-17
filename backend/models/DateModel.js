@@ -4,6 +4,7 @@ let Schema = new mongoose.Schema({
   date: { type: Date },
   events: { type: [mongoose.Schema.Types.ObjectId], ref: "event" },
   blockId: { type: mongoose.Schema.Types.ObjectId, ref: "block" },
+  blocks: { type: [mongoose.Schema.Types.ObjectId] },
   mainhall_stat: { type: Number, default: 1 },
   minihall_stat: { type: Number, default: 1 },
   block_stat: { type: Number, default: 1 },

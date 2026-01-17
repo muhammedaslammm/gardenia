@@ -113,7 +113,6 @@ export const getDates = async (req, res) => {
 
       let dates = await EventDate.aggregate([...query, ...filter_query]);
 
-      console.log("dates:", dates);
       res.json({ dates });
     }
   } catch (error) {

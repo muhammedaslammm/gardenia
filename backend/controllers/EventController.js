@@ -50,6 +50,7 @@ export const createEvent = async (req, res) => {
       new_event.start_time,
       new_event.end_time
     );
+
     if (day_result?.message) {
       return res.status(409).json({ message: day_result.message });
     }
