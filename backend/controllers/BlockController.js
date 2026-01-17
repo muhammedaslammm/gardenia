@@ -6,9 +6,7 @@ export const createBlock = async (req, res) => {
     let { date, stage } = req.body;
     let { start_time, end_time, ...rest } = getBlockData(req.body);
     let stat = await getBlockStat(date, stage, start_time, end_time);
-
-    console.log("stat result:", stat);
-
+    if (stat?.message) return res.status(400).json({ message: stat?.message });
     return res.json({ message: "cooking" });
   } catch (error) {
     console.log("block creation failed:", error.message);

@@ -54,7 +54,7 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
 
   if (stage === "main_hall") {
     if (stat.mainhall_stat === 0)
-      return { message: "Blocking Failed : Main hall is not available" };
+      return { message: "Event Blocking Failed : Main hall is not available" };
     else if (stat.mainhall_block_stat === 1) {
       if (end_time <= afternoon_time) {
         stat.mainhall_block_stat = 0;
@@ -69,6 +69,36 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     } else {
       let events = $date?.events || [];
       let blocks = $date?.blocks || [];
+
+      let intersecting = [...events, ...blocks].find(
+        (item) =>
+          start_time <=
+            new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60 &&
+          end_time >= new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
+      );
+      if (intersecting)
+        return {
+          message:
+            "Event Blocking Failed : Time ovelapping an existing booking or event",
+        };
+      stat.mainhall_block_stat = 0;
+      stat.minihall_block_stat = 0;
+      // doubt about this block logic
+    }
+  } else if (stage === "mini_hall") {
+    if (stat.minihall_stat === 0)
+      return { message: "Event Blocking Failed : Mini hall not available" };
+    else if (mainhall_block_stat === 1) {
+      if (end_time <= afternoon_time) {
+        stat.mainhall_block_stat = 3;
+        stat.minihall_block_stat = 3;
+      } else if (start_time >= noon_time) {
+        stat.mainhall_block_stat = 2;
+        stat.minihall_block_stat = 2;
+      } else {
+        stat.mainhall_block_stat = 0;
+        stat.minihall_block_stat = 0;
+      }
     }
   }
 
