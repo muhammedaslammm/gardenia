@@ -25,6 +25,11 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
   const formSubmit = async (values) => {
     try {
       setLoading(true);
+      values.start_time = dayjs(
+        `${date} ${values.start_time}`,
+        "YYYY-MM-DD HH:mm",
+      ).format();
+      values.end_time = dayjs(`${date} ${values.end_time}`, "YYYY-MM-DD HH:mm");
       let response = await fetch(`${BACKEND_URL}/api/admin/block`, {
         method: "POST",
         headers: {
@@ -36,7 +41,7 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
       let result = await response.json();
       setLoading(false);
       if (!response.ok) throw new Error(result.message);
-      setModal(false);
+      // setModal(false);
       toast.success(result.message);
       // refetchData();
     } catch (error) {
