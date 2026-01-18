@@ -45,6 +45,9 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     ])
   )[0];
 
+  let events = $date?.events || [];
+  let blocks = $date?.blocks || [];
+
   let stat = {
     mainhall_stat: $date?.mainhall_stat ?? 1,
     minihall_stat: $date?.minihall_stat ?? 1,
@@ -66,14 +69,9 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
         stat.mainhall_block_stat = 0;
         stat.minihall_block_stat = 0;
       }
-    } else {
-      let events = $date?.events || [];
-      let blocks = $date?.blocks || [];
-
+    } else if (stat.mainhall_block_stat === 2) {
       let intersecting = [...events, ...blocks].find(
         (item) =>
-          start_time <=
-            new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60 &&
           end_time >= new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
       );
       if (intersecting)
@@ -83,12 +81,23 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
         };
       stat.mainhall_block_stat = 0;
       stat.minihall_block_stat = 0;
-      // doubt about this block logic
+    } else if (stat.mainhall_block_stat === 3) {
+      let intersecting = [...events, ...blocks].find(
+        (item) =>
+          start_time <= new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
+      );
+      if (intersecting)
+        return {
+          message:
+            "Event Blocking Failed : Time overlapping an existing booking or event",
+        };
+      stat.mainhall_block_stat = 0;
+      stat.minihall_block_stat = 0;
     }
   } else if (stage === "mini_hall") {
     if (stat.minihall_stat === 0)
       return { message: "Event Blocking Failed : Mini hall not available" };
-    else if (mainhall_block_stat === 1) {
+    else if (stat.minihall_block_stat === 1) {
       if (end_time <= afternoon_time) {
         stat.mainhall_block_stat = 3;
         stat.minihall_block_stat = 3;
@@ -99,6 +108,30 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
         stat.mainhall_block_stat = 0;
         stat.minihall_block_stat = 0;
       }
+    } else if (stat.minihall_block_stat === 2) {
+      let intersecting = [...events, ...blocks].find(
+        (item) =>
+          end_time >= new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
+      );
+      if (intersecting)
+        return {
+          message:
+            "Event Blocking Failed : Time overlapping an existing booking or event",
+        };
+      stat.mainhall_block_stat = 0;
+      stat.minihall_block_stat = 0;
+    } else if (stat.minihall_block_stat === 3) {
+      let intersecting = [...events, ...blocks].find(
+        (item) =>
+          start_time <= new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
+      );
+      if (intersecting)
+        return {
+          message:
+            "Event Blocking Failed : Time overlapping an existing booking or event",
+        };
+      stat.mainhall_block_stat = 0;
+      stat.minihall_block_stat = 0;
     }
   }
 

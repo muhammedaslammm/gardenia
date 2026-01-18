@@ -78,12 +78,27 @@ export const getDates = async (req, res) => {
             },
           },
           {
+            $lookup: {
+              from: "blocks",
+              localField: "blocks",
+              foreignField: "_id",
+              as: "blocks",
+            },
+          },
+          {
             $addFields: {
               events: {
                 $filter: {
                   input: "$events",
                   as: "event",
                   cond: { $ne: ["$$event.cancelled", true] },
+                },
+              },
+              blocks: {
+                $filter: {
+                  input: "$blocks",
+                  as: "block",
+                  cond: { $ne: ["$$block.status", "freeze"] },
                 },
               },
               cancelled: {
@@ -95,9 +110,6 @@ export const getDates = async (req, res) => {
                   },
                 },
               },
-              block: {
-                $cond: [{ $ifNull: ["$blockId", false] }, true, false],
-              },
             },
           },
           {
@@ -105,7 +117,7 @@ export const getDates = async (req, res) => {
               date: 1,
               events: { $size: "$events" },
               cancelled: { $size: "$cancelled" },
-              block: 1,
+              blocks: { $size: "$blocks" },
             },
           },
         ];
@@ -144,15 +156,9 @@ export const getDateBookings = async (req, res) => {
       {
         $lookup: {
           from: "blocks",
-          localField: "blockId",
+          localField: "blocks",
           foreignField: "_id",
-          as: "block",
-        },
-      },
-      {
-        $unwind: {
-          path: "$block",
-          preserveNullAndEmptyArrays: true,
+          as: "blocks",
         },
       },
       {
@@ -168,10 +174,11 @@ export const getDateBookings = async (req, res) => {
           "events.end_time": 1,
           "events.name": 1,
           "events.cancelled": 1,
-          block: 1,
+          blocks: 1,
           mainhall_stat: 1,
           minihall_stat: 1,
-          block_stat: 1,
+          mainhall_block_stat: 1,
+          minihall_block_stat: 1,
         },
       },
     ]);
@@ -210,7 +217,7 @@ export const blockDate = async (req, res) => {
           $lte: new Date(`${date}T23:59:59.999Z`),
         },
       },
-      { $set: { block_stat: 0, blockId: new_block._id } }
+      { $set: { block_stat: 0, blockId: new_block._id } },
     );
     return res.json({ message: "block data updated" });
   } catch (error) {
