@@ -47,7 +47,7 @@ const useEvents2 = (eventId = null) => {
           {
             method: "GET",
             credentials: "include",
-          }
+          },
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
@@ -87,12 +87,12 @@ const useEvents2 = (eventId = null) => {
           {
             method: "GET",
             credentials: "include",
-          }
+          },
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
         result.event.start_time = dayjs(result.event.start_time).format(
-          "HH:mm"
+          "HH:mm",
         );
         result.event.end_time = dayjs(result.event.end_time).format("HH:mm");
         reset({
@@ -123,7 +123,7 @@ const useEvents2 = (eventId = null) => {
             message: "error",
           });
           toast.warning(
-            "Paid amount and Total amount should be same under payment type full"
+            "Paid amount and Total amount should be same under payment type full",
           );
           return;
         }
@@ -137,11 +137,11 @@ const useEvents2 = (eventId = null) => {
         }
         values.start_time = dayjs(
           `${date} ${values.start_time}`,
-          "YYYY-MM-DD HH:mm"
+          "YYYY-MM-DD HH:mm",
         ).format();
         values.end_time = dayjs(
           `${date} ${values.end_time}`,
-          "YYYY-MM-DD HH:mm"
+          "YYYY-MM-DD HH:mm",
         ).format();
         values.date = date;
 
@@ -188,13 +188,14 @@ const useEvents2 = (eventId = null) => {
           if (key === "start_time" || key === "end_time") {
             update_data[key] = dayjs(
               `${date} ${values[key]}`,
-              "YYYY-MM-DD HH:mm"
+              "YYYY-MM-DD HH:mm",
             ).format();
           } else {
             update_data[key] = values[key];
           }
         }
         if (flag) {
+          setStat("loading");
           let response = await fetch(
             `${BACKEND_URL}/api/events/${eventId}?date=${date}`,
             {
@@ -204,13 +205,14 @@ const useEvents2 = (eventId = null) => {
               },
               body: JSON.stringify(update_data),
               credentials: "include",
-            }
+            },
           );
+          setStat("idle");
           let result = await response.json();
 
           if (response.status === 401) {
             toast.error(
-              "Event Updation Restricted : Failed to authenticate the user."
+              "Event Updation Restricted : Failed to authenticate the user.",
             );
             return navigate("/admin-login");
           } else if (response.status === 404) {
@@ -223,7 +225,7 @@ const useEvents2 = (eventId = null) => {
           navigate(`/admin/events/${eventId}`);
         } else
           toast.warning(
-            "Update Dismissed : No fields found with an updated value."
+            "Update Dismissed : No fields found with an updated value.",
           );
       }
     } catch (error) {

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import ButtonLoading from "./ButtonLoading";
 
-const BlockModal = ({ setModal, dateDetails, refetchData }) => {
+const BlockModal = ({ setModal, dateDetails, fetchEvents }) => {
   const [loading, setLoading] = useState(false);
   let { date } = dateDetails;
   const {
@@ -41,9 +41,9 @@ const BlockModal = ({ setModal, dateDetails, refetchData }) => {
       if (response.status === 400)
         return toast.error(result.message || "Event Blocking Failed");
       if (!response.ok) throw new Error(result.message);
-      // setModal(false);
+      setModal(false);
       toast.success(result.message);
-      // refetchData();
+      fetchEvents();
     } catch (error) {
       console.log(error.message);
     }

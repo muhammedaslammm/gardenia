@@ -10,7 +10,7 @@ import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
 
 dayjs.extend(advancedFormat);
 
-const EventDetails = ({ dateDetails, refetchData, loading }) => {
+const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
   const [blockModal, setBlockModal] = useState(false);
   let {
     events = [],
@@ -100,9 +100,9 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
                             Stage: {event.stage.split("_").join(" ")}
                           </div>
                           <div className="text-[.9rem]">{`${dayjs(
-                            event.start_time
+                            event.start_time,
                           ).format("hh:mm a")} - ${dayjs(event.end_time).format(
-                            "hh:mm a"
+                            "hh:mm a",
                           )}`}</div>
                         </div>
                       </div>
@@ -181,10 +181,10 @@ const EventDetails = ({ dateDetails, refetchData, loading }) => {
             <BlockModal
               setModal={setBlockModal}
               dateDetails={dateDetails}
-              refetchData={refetchData}
+              fetchEvents={fetchEvents}
             />
           </div>,
-          document.getElementById("modal--event")
+          document.getElementById("modal--event"),
         )}
     </div>
   );

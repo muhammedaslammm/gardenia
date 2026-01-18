@@ -11,14 +11,14 @@ const generateDateObjects = (year, month, eventDates) => {
   for (let i = 0; i < totalCells; i++) {
     let currentISO = current.format("YYYY-MM-DD");
     const matching_date = eventDates.find(
-      (e) => dayjs(e.date).format("YYYY-MM-DD") === currentISO
+      (e) => dayjs(e.date).format("YYYY-MM-DD") === currentISO,
     );
 
     dates.push({
       date: dayjs(currentISO),
       events: matching_date?.events || 0,
       cancelled: matching_date?.cancelled || 0,
-      block: matching_date?.block || false,
+      blocks: matching_date?.blocks || 0,
     });
 
     current = current.add(1, "day");

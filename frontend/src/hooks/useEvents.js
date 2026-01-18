@@ -21,27 +21,28 @@ const useEvents = () => {
   let [detailsLoading, setDetailsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setDatesLoading(true);
-        const response = await fetch(
-          `${BACKEND_URL}/api/event-dates?month=${month + 1}&year=${year}`,
-          {
-            method: "GET",
-            credentials: "include",
-          },
-        );
-        setDatesLoading(false);
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message);
-        setEventDates(result.dates);
-      } catch (error) {
-        console.error(error.message);
-        toast.error("Events failed to load.");
-      }
-    };
     fetchEvents();
   }, [month, year]);
+
+  const fetchEvents = async () => {
+    try {
+      setDatesLoading(true);
+      const response = await fetch(
+        `${BACKEND_URL}/api/event-dates?month=${month + 1}&year=${year}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      setDatesLoading(false);
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      setEventDates(result.dates);
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Events failed to load.");
+    }
+  };
 
   // useEffect(() => {
   //   getDateDetails();
@@ -73,12 +74,10 @@ const useEvents = () => {
       let details = {
         date: data?.date ? dayjs(data?.date) : dayjs(selectedDate),
         events: data?.events || [],
-        block: data?.block || null,
         mainhall_stat: data?.mainhall_stat ?? 1,
         minihall_stat: data?.minihall_stat ?? 1,
         mainhall_block_stat: data?.mainhall_block_stat ?? 1,
         minihall_block_stat: data?.minihall_block_stat ?? 1,
-        block_stat: data?.block_stat ?? 1,
       };
       console.log("details:", details);
       setselectedDateDetails(details);
@@ -152,6 +151,7 @@ const useEvents = () => {
     },
     dateDetails: selectedDateDetails,
     refetchData: getDateDetails,
+    fetchEvents,
     eventDelete: {
       modal,
       showModal,

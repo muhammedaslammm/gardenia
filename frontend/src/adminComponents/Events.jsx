@@ -24,6 +24,7 @@ const Events = () => {
     dateDetails,
     eventDelete,
     refetchData,
+    fetchEvents,
   } = useEvents();
 
   return (
@@ -76,8 +77,8 @@ const Events = () => {
                     !isCurrentMonth
                       ? "opacity-80 bg-neutral-300"
                       : isSelected
-                      ? "border border-gray-900 bg-green-900/20"
-                      : "bg-white border-neutral-400"
+                        ? "border border-gray-900 bg-green-900/20"
+                        : "bg-white border-neutral-400"
                   }   hover:border-green-900 hover:bg-green-900/20`}
                   onClick={() => handleDate(d)}
                 >
@@ -96,9 +97,9 @@ const Events = () => {
                       {d.events !== 0 && (
                         <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">{`${d.events} Booking`}</div>
                       )}
-                      {d.block && (
+                      {d.blocks !== 0 && (
                         <div className="text-[.75rem] text-blue-800 bg-blue-100 px-1 font-medium self-end">
-                          Event Holded
+                          {`${d.blocks} Holdings`}
                         </div>
                       )}
                       {d.cancelled !== 0 && (
@@ -116,6 +117,7 @@ const Events = () => {
         <EventDetails
           dateDetails={dateDetails}
           refetchData={refetchData}
+          fetchEvents={fetchEvents}
           loading={detailsLoading}
         />
       </div>
