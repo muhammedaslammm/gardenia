@@ -82,7 +82,7 @@ const Events = () => {
                   }   hover:border-green-900 hover:bg-green-900/20`}
                   onClick={() => handleDate(d)}
                 >
-                  <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between">
+                  <div className="text-[.7rem] sm:text-[.8rem] font-medium flex gap-2 items-center justify-between space-y-1">
                     <div>{d.date.date()}</div>
 
                     {isToday && (
@@ -93,7 +93,7 @@ const Events = () => {
                   {datesLoading ? (
                     <Spinner className="self-end animate-spin" />
                   ) : (
-                    <div>
+                    <div className="space-y-1">
                       {d.events !== 0 && (
                         <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">{`${d.events} Booking`}</div>
                       )}

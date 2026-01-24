@@ -74,6 +74,7 @@ const useEvents = () => {
       let details = {
         date: data?.date ? dayjs(data?.date) : dayjs(selectedDate),
         events: data?.events || [],
+        blocks: data?.blocks || [],
         mainhall_stat: data?.mainhall_stat ?? 1,
         minihall_stat: data?.minihall_stat ?? 1,
         mainhall_block_stat: data?.mainhall_block_stat ?? 1,

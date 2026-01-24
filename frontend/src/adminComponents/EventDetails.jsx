@@ -6,7 +6,6 @@ import getBlockMessage from "../utils/getBlockMessage";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import BlockModal from "./modals/BlockModal";
-import ExcelDownload from "./eventUtils/ExcelDownload.jsx";
 
 dayjs.extend(advancedFormat);
 
@@ -14,20 +13,30 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
   const [blockModal, setBlockModal] = useState(false);
   let {
     events = [],
+    blocks = [],
     date = null,
-    block = null,
     mainhall_stat = 1,
     minihall_stat = 1,
-    block_stat = 1,
+    mainhall_block_stat = 1,
+    minihall_block_stat = 1,
   } = dateDetails;
+
+  blocks = blocks.filter((b) => b.status !== "freeze");
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
-  let block_message = getBlockMessage(block_stat, events, date);
+  let block_message = getBlockMessage(
+    events,
+    blocks,
+    mainhall_block_stat,
+    minihall_block_stat,
+    date,
+  );
 
   let isPast = date ? date.isBefore(dayjs(), "day") : false;
   let isToday = date ? date.isSame(dayjs(), "day") : false;
 
   const formatted_date = date ? date.format("Do MMMM, YYYY - dddd") : "";
   const date_string = date ? date.format("YYYY-MM-DD") : "";
+  const not_available = mainhall_block_stat === 0 && minihall_block_stat === 0;
 
   return (
     <div className="pt-6 border-t border-neutral-400 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
@@ -69,7 +78,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                 </div>
               </div>
             ) : (
-              <div className="mb-[4rem]">
+              <div className="mb-[2rem]">
                 <div className="pb-2 sm:pb-2">
                   <div className="text-[.8rem] sm:text-[.9rem]">{`Total booking: ${events.length}`}</div>
                 </div>
@@ -116,27 +125,36 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                 </div>
               </div>
             )}
-            {block && (
-              <div className="p-4 bg-blue-100 text-blue-900 font-medium space-y-4">
-                <div>
-                  A client has blocked this date for a potential booking.
-                </div>
-                <div>
-                  <div>
-                    Requester Name :{" "}
-                    <span className="font-semibold">
-                      {block.requester_name}
-                    </span>
-                  </div>
-                  <div>
-                    Contact Number :{" "}
-                    <span className="font-semibold">{block?.phone_number}</span>
-                  </div>
-                </div>
-              </div>
-            )}
             <div className="mt-auto flex flex-col gap-2">
-              {!isPast && !isToday && !block && (
+              {blocks.length > 0 &&
+                blocks.map(
+                  ({
+                    requester_name,
+                    stage,
+                    start_time,
+                    end_time,
+                    ...rest
+                  }) => (
+                    <div className="p-4 bg-blue-100 text-blue-900 space-y-4 mt-auto">
+                      Client{" "}
+                      <span className="font-medium">{requester_name}</span> has
+                      blocked the{" "}
+                      <span className="font-medium capitalize">
+                        {stage.replace("_", " ")}
+                      </span>{" "}
+                      on this date from{" "}
+                      <span className="font-medium">
+                        {dayjs(start_time).format("hh:mm a")}
+                      </span>{" "}
+                      to{" "}
+                      <span className="font-medium">
+                        {dayjs(end_time).format("hh:mm a")}
+                      </span>
+                      . Proceed only after verification.
+                    </div>
+                  ),
+                )}
+              {!isPast && !isToday && (
                 <div
                   className="p-4"
                   style={{
@@ -145,12 +163,12 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                   }}
                 >
                   {block_message.text}{" "}
-                  {!block_message.blocked && (
+                  {!not_available && (
                     <span
-                      className="underline font-medium cursor-pointer"
+                      className="underline cursor-pointer"
                       onClick={() => setBlockModal(true)}
                     >
-                      hold slot for an event
+                      Block an event
                     </span>
                   )}
                 </div>

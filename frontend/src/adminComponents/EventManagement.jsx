@@ -31,7 +31,7 @@ const EventManagement = () => {
   let message = getEventMessage(
     dateInfo?.mainhall_stat,
     dateInfo?.minihall_stat,
-    dateInfo?.events || []
+    dateInfo?.events || [],
   );
 
   let stage_stat = {
@@ -86,7 +86,7 @@ const EventManagement = () => {
                 Link now
               </button>
             </div>
-          ) : (
+          ) : reSchedule.selected ? (
             <div className="p-2 bg-green-100 border border-neutral-400 w-full">
               <div className="font-medium mb-2">
                 Selected Cancelled Event for Re-Scheduling
@@ -118,6 +118,8 @@ const EventManagement = () => {
                 </button>
               </div>
             </div>
+          ) : (
+            <></>
           )}
         </div>
       )}
@@ -163,7 +165,7 @@ const EventManagement = () => {
           <div className="fixed inset-0 bg-black/30 flex justify-center items-center">
             <AddCancelModal open={setModal} reSchedule={reSchedule} />
           </div>,
-          document.getElementById("modal--event")
+          document.getElementById("modal--event"),
         )}
     </main>
   );

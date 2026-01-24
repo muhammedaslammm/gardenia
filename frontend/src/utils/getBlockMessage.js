@@ -1,21 +1,37 @@
 import dayjs from "dayjs";
 
-const getBlockMessage = (block_stat, events, date) => {
-  events = events.filter((ev) => !ev.cancelled);
+const getBlockMessage = (
+  events,
+  blocks,
+  mainhall_block_stat,
+  minihall_block_stat,
+  date,
+) => {
+  let existing_item = [...events.filter((ev) => !ev.cancelled), ...blocks][0];
+
   let message = { text: "", color: "#1c398e", bg: "#dbeafe" };
   let isPast = date && date.isBefore(dayjs(), "day");
   let isToday = date && date.isSame(dayjs(), "day");
 
-  if (isToday || isPast || block_stat === 0) {
+  if (
+    isToday ||
+    isPast ||
+    (mainhall_block_stat === 0 && minihall_block_stat === 0)
+  ) {
     message.blocked = true;
-    message.text = "Holding Blocked : Date is not available for any holdings.";
+    message.text = "Event blockings not available for any halls on this date.";
     message.bg = "#ffe2e2";
     message.color = "#9f0712";
-  } else if (block_stat === 1) {
-    message.text = "This date is available for holding a potential booking.";
-  } else {
-    message.text =
-      "This date has a slot available to hold a potential booking.";
+  } else if (mainhall_block_stat === 1 && minihall_block_stat === 1) {
+    message.text = "Event blockings available for both Main and Mini Hall.";
+  } else if (!mainhall_block_stat && minihall_block_stat === 2) {
+    message.text = `Event blocking for Mini hall available before ${dayjs(existing_item.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+  } else if (!mainhall_block_stat && minihall_block_stat === 3) {
+    message.text = `Event blocking for Mini hall available after ${dayjs(existing_item.end_time).add(120, "minutes").format("hh:mm a")}`;
+  } else if (mainhall_block_stat === 2 && minihall_block_stat === 2) {
+    message.text = `Event blocking for halls available before ${dayjs(existing_item.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+  } else if (mainhall_block_stat === 3 && minihall_block_stat === 3) {
+    message.text = `Event blocking for halls available after ${dayjs(existing_item.end_time).add(120, "minutes").format("hh:mm a")}`;
   }
 
   return message;
