@@ -31,6 +31,17 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
         },
       },
       {
+        $addFields: {
+          events: {
+            $filter: {
+              input: "$events",
+              as: "event",
+              cond: { $ne: ["$$event.cancelled", true] },
+            },
+          },
+        },
+      },
+      {
         $project: {
           mainhall_stat: 1,
           minihall_stat: 1,

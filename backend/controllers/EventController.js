@@ -9,6 +9,7 @@ import getCancellationStat from "../utils/getCancellationStat.js";
 import CancelEventModel from "../models/CancelEventModel.js";
 import ExcelJS from "exceljs";
 import dayjs from "dayjs";
+import Block from "../models/BlockModal.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -48,7 +49,7 @@ export const createEvent = async (req, res) => {
       new_event.date,
       new_event.stage,
       new_event.start_time,
-      new_event.end_time
+      new_event.end_time,
     );
 
     if (day_result?.message) {
@@ -56,12 +57,13 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
+    console.log("event created!");
     if (client_data.selected) {
       await CancelEventModel.updateOne(
         {
           eventId: client_data.selected,
         },
-        { $set: { reScheduledEventId: event._id } }
+        { $set: { reScheduledEventId: event._id } },
       );
     }
 
@@ -72,8 +74,9 @@ export const createEvent = async (req, res) => {
       },
     });
     if (!event_date) {
-      await EventDate.create({
+      event_date = await EventDate.create({
         ...day_result,
+        blocks: [],
         events: [event._id],
         date: new Date(`${new_event.date}T00:00:00.000Z`),
       });
@@ -81,8 +84,30 @@ export const createEvent = async (req, res) => {
       event_date.events.push(event._id);
       event_date.mainhall_stat = day_result.mainhall_stat;
       event_date.minihall_stat = day_result.minihall_stat;
-      event_date.block_stat = day_result.block_stat;
+      event_date.mainhall_block_stat = day_result.mainhall_block_stat;
+      event_date.minihall_block_stat = day_result.minihall_block_stat;
       await event_date.save();
+    }
+
+    if (event_date.blocks.length) {
+      await Promise.all(
+        event_date.blocks.map((item) =>
+          Block.updateOne(
+            {
+              _id: item,
+              start_time: {
+                $lte:
+                  new Date(new_event.end_time).getTime() + 2 * 1000 * 60 * 60,
+              },
+              end_time: {
+                $gte:
+                  new Date(new_event.start_time).getTime() - 2 * 1000 * 60 * 60,
+              },
+            },
+            { $set: { status: "freeze" } },
+          ),
+        ),
+      );
     }
 
     return res.json({ message: "event created" });
@@ -103,47 +128,76 @@ export const updateEvent = async (req, res) => {
     start_time = start_time ? new Date(start_time) : undefined;
     end_time = end_time ? new Date(end_time) : undefined;
 
-    let matching_date = await EventDate.aggregate([
-      { $match: { date: { $gte: day_start, $lte: day_end } } },
-      {
-        $lookup: {
-          from: "events",
-          localField: "events",
-          foreignField: "_id",
-          as: "events",
+    let matching_date = (
+      await EventDate.aggregate([
+        { $match: { date: { $gte: day_start, $lte: day_end } } },
+        {
+          $lookup: {
+            from: "events",
+            localField: "events",
+            foreignField: "_id",
+            as: "events",
+          },
         },
-      },
-      {
-        $addFields: {
-          events: {
-            $filter: {
-              input: "$events",
-              as: "event",
-              cond: { $ne: ["$$event.cancelled", true] },
+        {
+          $lookup: {
+            from: "blocks",
+            localField: "blocks",
+            foreignField: "_id",
+            as: "blocks",
+          },
+        },
+        {
+          $addFields: {
+            events: {
+              $filter: {
+                input: "$events",
+                as: "event",
+                cond: { $ne: ["$$event.cancelled", true] },
+              },
             },
           },
         },
-      },
-      {
-        $project: {
-          date: 1,
-          mainhall_stat: 1,
-          minihall_stat: 1,
-          "events._id": 1,
-          "events.date": 1,
-          "events.stage": 1,
-          "events.start_time": 1,
-          "events.end_time": 1,
+        {
+          $addFields: {
+            blocks: {
+              $filter: {
+                input: "$blocks",
+                as: "block",
+                cond: { $ne: ["$$block.status", "freeze"] },
+              },
+            },
+          },
         },
-      },
-    ]);
-    if (!matching_date.length)
+        {
+          $project: {
+            date: 1,
+            mainhall_stat: 1,
+            minihall_stat: 1,
+            mainhall_block_stat: 1,
+            minihall_block_stat: 1,
+            "events._id": 1,
+            "events.date": 1,
+            "events.stage": 1,
+            "events.start_time": 1,
+            "events.end_time": 1,
+            "blocks._id": 1,
+            "blocks.start_time": 1,
+            "blocks.end_time": 1,
+            "blocks.stage": 1,
+          },
+        },
+      ])
+    )[0];
+
+    console.log("matching date:", matching_date);
+    if (!matching_date)
       return res
         .status(404)
         .json({ message: "Updation Failed : Credential not found" });
 
-    let matching_event = matching_date[0].events.find(
-      (ev) => ev._id.toString() === id
+    let matching_event = matching_date.events.find(
+      (ev) => ev._id.toString() === id,
     );
 
     if (!matching_event)
@@ -151,8 +205,8 @@ export const updateEvent = async (req, res) => {
         .status(404)
         .json({ message: "Updation Failed : Credential not found" });
 
-    let date_events = matching_date[0].events.filter(
-      (ev) => ev._id.toString() !== id
+    let date_events = matching_date.events.filter(
+      (ev) => ev._id.toString() !== id,
     );
 
     let event_start_time = start_time || matching_event.start_time;
@@ -174,7 +228,7 @@ export const updateEvent = async (req, res) => {
           event_start_time <=
             new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000 &&
           event_end_time >=
-            new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000
+            new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
       );
       if (overlap)
         return res.status(409).json({
@@ -188,15 +242,17 @@ export const updateEvent = async (req, res) => {
         event_stage,
         event_start_time,
         event_end_time,
-        matching_event.date
+        matching_event.date,
+        matching_date.blocks,
+        matching_date.mainhall_block_stat,
+        matching_date.minihall_block_stat,
       );
-      await EventDate.updateOne(
-        { _id: matching_date[0]._id },
-        { $set: result }
-      );
+
+      console.log("update stat result:", result);
+      await EventDate.updateOne({ _id: matching_date._id }, { $set: result });
     }
     await Event.updateOne({ _id: id }, { $set: req.body });
-    return res.json({ message: "Event Updated" });
+    return res.json({ message: "Event Updation processing" });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
@@ -298,7 +354,7 @@ export const addPayment = async (req, res) => {
     let data = req.body;
     let user = await User.findById(req.userId).select("username -_id");
     let event = await Event.findById(eventId).select(
-      "payment.remaining_amount"
+      "payment.remaining_amount",
     );
     let remaining_amount = event.payment.remaining_amount;
     remaining_amount = remaining_amount - parseInt(data.paid_amount);
@@ -330,7 +386,7 @@ export const addDiscount = async (req, res) => {};
 export const getCharges = async (req, res) => {
   try {
     let charges = await Event.findById(req.params.id).select(
-      "addon_charges -_id"
+      "addon_charges -_id",
     );
     res.json({ charges });
   } catch (error) {
@@ -365,12 +421,12 @@ export const cancelEvent = async (req, res) => {
     const { id } = req.params;
     let event = await Event.findById(id).select("_id stage date");
     let { username } = await User.findOne({ _id: req.userId }).select(
-      "username"
+      "username",
     );
     let { mainhall_stat, minihall_stat, block_stat } =
       await getCancellationStat(event);
     console.log(
-      `main hall : ${mainhall_stat} | mini hall : ${minihall_stat} | block stat : ${block_stat}`
+      `main hall : ${mainhall_stat} | mini hall : ${minihall_stat} | block stat : ${block_stat}`,
     );
     await Event.findByIdAndUpdate(id, { $set: { cancelled: true } });
     await CancelEventModel.create({
@@ -380,7 +436,7 @@ export const cancelEvent = async (req, res) => {
     });
     await EventDate.updateOne(
       { date: new Date(event.date) },
-      { $set: { mainhall_stat, minihall_stat, block_stat } }
+      { $set: { mainhall_stat, minihall_stat, block_stat } },
     );
     return res.json({ message: "event cancelled" });
   } catch (error) {
@@ -434,7 +490,7 @@ export const getEventCancelData = async (req, res) => {
   try {
     let { id: eventId } = req.params;
     let data_object = await CancelEventModel.findOne({ eventId }).select(
-      "-_id -__v -eventId"
+      "-_id -__v -eventId",
     );
     if (!data_object)
       return res
@@ -502,12 +558,12 @@ export const createExcel = async (req, res) => {
 
     res.setHeader(
       "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     );
 
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=events-report.xlsx"
+      "attachment; filename=events-report.xlsx",
     );
 
     await workbook.xlsx.write(res);
