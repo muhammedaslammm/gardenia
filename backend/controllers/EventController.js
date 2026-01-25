@@ -423,22 +423,16 @@ export const cancelEvent = async (req, res) => {
     let { username } = await User.findOne({ _id: req.userId }).select(
       "username",
     );
-    let { mainhall_stat, minihall_stat, block_stat } =
-      await getCancellationStat(event);
-    console.log(
-      `main hall : ${mainhall_stat} | mini hall : ${minihall_stat} | block stat : ${block_stat}`,
-    );
+    let stat = await getCancellationStat(event);
+
     await Event.findByIdAndUpdate(id, { $set: { cancelled: true } });
     await CancelEventModel.create({
       eventId: id,
       ...req.body,
       cancelledBy: username,
     });
-    await EventDate.updateOne(
-      { date: new Date(event.date) },
-      { $set: { mainhall_stat, minihall_stat, block_stat } },
-    );
-    return res.json({ message: "event cancelled" });
+    await EventDate.updateOne({ date: new Date(event.date) }, { $set: stat });
+    return res.json({ message: "Event Cancelled" });
   } catch (error) {
     console.log("cancellation error:", error.message);
     res.status(500).json({ message: error.message });
@@ -489,15 +483,43 @@ export const getCancelledEvents = async (req, res) => {
 export const getEventCancelData = async (req, res) => {
   try {
     let { id: eventId } = req.params;
-    let data_object = await CancelEventModel.findOne({ eventId }).select(
-      "-_id -__v -eventId",
-    );
-    if (!data_object)
+    let cancel_data = (
+      await CancelEventModel.aggregate([
+        { $match: { eventId: new mongoose.Types.ObjectId(eventId) } },
+        {
+          $lookup: {
+            from: "events",
+            localField: "reScheduledEventId",
+            foreignField: "_id",
+            as: "reScheduledEvent",
+          },
+        },
+        {
+          $unwind: {
+            path: "$reScheduledEvent",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $project: {
+            refundAmount: 1,
+            reScheduled: 1,
+            reasonNote: 1,
+            createdAt: 1,
+            cancelledBy: 1,
+            "reScheduledEvent._id": 1,
+            "reScheduledEvent.date": 1,
+            "reScheduledEvent.booking_number": 1,
+          },
+        },
+      ])
+    )[0];
+    if (!cancel_data)
       return res
         .status(404)
         .json({ message: "Requested cancelled event data not found" });
 
-    return res.json({ data: data_object });
+    return res.json({ data: cancel_data });
   } catch (error) {
     console.log("failed to fetch cancelled event data:", error.message);
     return res.status(500).json({ message: error.message });
