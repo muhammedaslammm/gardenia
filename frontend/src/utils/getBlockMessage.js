@@ -13,6 +13,7 @@ const getBlockMessage = (
   let isPast = date && date.isBefore(dayjs(), "day");
   let isToday = date && date.isSame(dayjs(), "day");
 
+  console.log("existing item:", existing_item);
   if (
     isToday ||
     isPast ||
@@ -25,13 +26,13 @@ const getBlockMessage = (
   } else if (mainhall_block_stat === 1 && minihall_block_stat === 1) {
     message.text = "Event blockings available for both Main and Mini Hall.";
   } else if (!mainhall_block_stat && minihall_block_stat === 2) {
-    message.text = `Event blocking for Mini hall available before ${dayjs(existing_item.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+    message.text = `Event blocking for Mini hall available before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
   } else if (!mainhall_block_stat && minihall_block_stat === 3) {
-    message.text = `Event blocking for Mini hall available after ${dayjs(existing_item.end_time).add(120, "minutes").format("hh:mm a")}`;
+    message.text = `Event blocking for Mini hall available after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
   } else if (mainhall_block_stat === 2 && minihall_block_stat === 2) {
-    message.text = `Event blocking for halls available before ${dayjs(existing_item.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+    message.text = `Event blocking for halls available before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
   } else if (mainhall_block_stat === 3 && minihall_block_stat === 3) {
-    message.text = `Event blocking for halls available after ${dayjs(existing_item.end_time).add(120, "minutes").format("hh:mm a")}`;
+    message.text = `Event blocking for halls available after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
   }
 
   return message;

@@ -14,14 +14,13 @@ const useEventData = (id) => {
 
   useEffect(() => {
     getEventData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    if (data && data.cancelled) {
-      console.log("cancellation ahead!");
+    if (data && data?.cancelled) {
       getEventCancelData();
     }
-  }, [data?.cancelled]);
+  }, [data, id]);
 
   let getEventData = async () => {
     try {
@@ -37,7 +36,7 @@ const useEventData = (id) => {
     } catch (error) {
       console.log(
         "event data fetch error in useEventData.js page:",
-        error.message
+        error.message,
       );
       toast.error("Error : Attempt to Open Unknown Event");
       navigate("/admin/events");
@@ -55,6 +54,7 @@ const useEventData = (id) => {
       let result = await response.json();
       if (response.status === 404) {
         toast.error(result.message);
+        setCancelData(null);
         return;
       } else if (!response.ok) throw new Error(result.message);
       console.log("cancel data:", result.data);

@@ -1,4 +1,9 @@
-import { CaretRight, MinusCircle, Spinner } from "phosphor-react";
+import {
+  ArrowSquareOut,
+  CaretRight,
+  MinusCircle,
+  Spinner,
+} from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
 import useEventData from "../hooks/useEventData";
 import dayjs from "dayjs";
@@ -21,7 +26,7 @@ const EventData = () => {
   } = useEventData(id);
   let { user } = useContext(AuthContext);
 
-  let highlight_style = "font-medium px-4 py-2";
+  let highlight_style = `font-medium px-2 py-1.5 ${cancelData ? "text-red-800 bg-red-100/80" : "text-green-800 bg-green-100/80"}`;
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
   let getCurrency = (amount) => {
@@ -50,27 +55,27 @@ const EventData = () => {
           <div className="bg-white border border-neutral-400 p-4 space-y-4">
             <div className="flex justify-between">
               <div>
-                <div className="text-[1.4rem] font-medium">
+                <div className="text-[1.3rem] font-medium">
                   {data?.event_name}
                 </div>
                 <div>{`Booking Number : ${data?.booking_number}`}</div>
               </div>
               <div className="text-end">
-                <div className="text-[1.4rem] font-medium">
+                <div className="text-[1.3rem] font-medium">
                   {dayjs(data?.date).format("Do MMMM, YYYY")}
                 </div>
                 <div>{`${dayjs(data?.start_time).format("hh:mm a")} - ${dayjs(
-                  data?.end_time
+                  data?.end_time,
                 ).format("hh:mm a")}`}</div>
               </div>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div
-                  className={`capitalize ${highlight_style} bg-green-100 text-green-800`}
+                  className={`capitalize ${highlight_style}`}
                 >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
                 <div
-                  className={`${highlight_style} bg-green-100 text-green-800`}
+                  className={`${highlight_style}`}
                 >{`Event : ${data?.event}`}</div>
               </div>
             </div>
@@ -78,27 +83,55 @@ const EventData = () => {
         )}
 
         {cancelData && (
-          <section className="p-4 bg-red-50 text-red-800">
+          <section className="p-4 bg-white text-red-800 border flex justify-between">
             <div>
-              <div className="flex items-center gap-2 text-[1.2rem] font-medium">
-                This Event is Cancelled <MinusCircle weight="bold" />
+              <div className="font-medium text-[1.2rem]">
+                {cancelData.reScheduled && cancelData.reScheduledEvent
+                  ? "Event ReScheduled"
+                  : cancelData.reScheduled
+                    ? "Event listed for rescheduling"
+                    : "Event Cancelled"}
+              </div>
+              {cancelData.reScheduledEvent && (
+                <>
+                  <div>
+                    ReScheduled date :{" "}
+                    <span className="font-medium">
+                      {dayjs(cancelData?.reScheduledEvent?.date).format(
+                        "DD-MM-YYYY",
+                      )}
+                    </span>
+                  </div>
+                  <div>
+                    ReScheduled date booking number:{" "}
+                    <span className="font-medium">
+                      {cancelData.reScheduledEvent.booking_number}
+                    </span>
+                  </div>
+                </>
+              )}
+              {cancelData.reasonNote && (
+                <div>
+                  Reason : <span>{cancelData.reasonNote}</span>
+                </div>
+              )}
+
+              <div className="mt-4">
+                <div>
+                  Author : {cancelData.cancelledBy},{" "}
+                  {dayjs(cancelData.createdAt).format("DD-MM-YYYY")}
+                </div>
               </div>
             </div>
-            <div>
-              <div>
-                Reason for the cancellation :{" "}
-                <span className="font-medium">{cancelData?.reasonNote}</span>
-              </div>
-              <div className="mt-4">
-                Cancelled by :{" "}
-                <span className="font-medium">{cancelData?.cancelledBy}</span>
-              </div>
-              <div>
-                Cancellation Date :{" "}
-                <span className="font-medium">
-                  {dayjs(cancelData?.createdAt).format("Do MMMM YYYY, hh:mm a")}
-                </span>
-              </div>
+            <div className="flex flex-col justify-between">
+              {cancelData?.reScheduledEvent && (
+                <Link
+                  to={`/admin/events/${cancelData.reScheduledEvent._id}`}
+                  className="self-end flex items-center gap-2 hover:underline"
+                >
+                  View rescheduled event <ArrowSquareOut />
+                </Link>
+              )}
             </div>
           </section>
         )}
@@ -111,21 +144,24 @@ const EventData = () => {
           ) : (
             <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
               <div>Contact Information</div>
-              <div className="space-y-2">
+              <div className="">
                 {Object.entries(data?.contact_details || {}).map(
                   ([key, value], i) => (
-                    <div key={i} className="flex justify-between items-start">
-                      <div className="capitalize font-medium">
+                    <div
+                      key={i}
+                      className="flex justify-between py-1 border-b border-neutral-400 last:border-0"
+                    >
+                      <div className="capitalize ">
                         {key.split("_").join(" ")}
                       </div>
-                      <div className="w-[65%]">{value}</div>
+                      <div className="">{value}</div>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </section>
           )}
-          <section className="w-full space-y-4">
+          <section className="w-1/2 space-y-4">
             <section className="p-4 bg-white border border-neutral-400 flex flex-col gap-6">
               <div className="flex justify-between items-center">
                 <div>Payment Information</div>
@@ -174,7 +210,7 @@ const EventData = () => {
                                 : `Recorded by ${tl2.username}`}
                             </div>
                             <div>{`${dayjs(tl2.date).format(
-                              "DD-MM-YYYY"
+                              "DD-MM-YYYY",
                             )}, ${dayjs(tl2.date).format("hh:mm a")}`}</div>
                           </div>
                         ))}
@@ -315,7 +351,7 @@ const EventData = () => {
               />
             )}
           </div>,
-          document.getElementById("modal--event")
+          document.getElementById("modal--event"),
         )}
     </main>
   );

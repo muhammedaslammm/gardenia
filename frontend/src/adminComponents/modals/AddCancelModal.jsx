@@ -14,7 +14,7 @@ const AddCancelModal = ({ open, reSchedule }) => {
         />
       </div>
       <div className="space-y-4">
-        <div>
+        <div className="mb-8">
           Cancelled events with reschedule options are available. You may link
           this event to any one cancelled rescheduled event below, if
           applicable.
