@@ -12,6 +12,7 @@ import {
   getEventCancelData,
   getEvents,
   getSearch,
+  getSourceDetail,
   updateEvent,
 } from "../controllers/EventController.js";
 import { authenticate } from "../middlewares/authentication.js";
@@ -34,5 +35,6 @@ router.get("/events/:id/add-ons", authenticate, getCharges);
 
 router.patch("/events/:id/cancel", authenticate, cancelEvent);
 router.get("/events/:id/cancel", getEventCancelData);
+router.get("/events/:reScheduledEventId/source-detail", getSourceDetail);
 
 export default router;

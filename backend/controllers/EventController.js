@@ -526,6 +526,46 @@ export const getEventCancelData = async (req, res) => {
   }
 };
 
+export const getSourceDetail = async (req, res) => {
+  try {
+    let source_data = (
+      await CancelEventModel.aggregate([
+        {
+          $match: {
+            reScheduledEventId: new mongoose.Types.ObjectId(
+              req.params.reScheduledEventId,
+            ),
+          },
+        },
+        {
+          $lookup: {
+            from: "events",
+            localField: "eventId",
+            foreignField: "_id",
+            as: "data",
+          },
+        },
+        { $unwind: "$data" },
+        {
+          $addFields: {
+            booking_number: "$data.booking_number",
+          },
+        },
+        {
+          $project: {
+            booking_number: 1,
+          },
+        },
+      ])
+    )[0];
+    console.log("source data:", source_data);
+    return res.json({ source_data: source_data?.booking_number || null });
+  } catch (error) {
+    console.log("failed to fetch the source detail:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const createExcel = async (req, res) => {
   let { start_date, end_date } = req.query;
   try {
