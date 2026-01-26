@@ -23,10 +23,11 @@ const EventData = () => {
     dataLoading,
     cancelDataLoading,
     getEventData,
+    sourceData,
   } = useEventData(id);
   let { user } = useContext(AuthContext);
 
-  let highlight_style = `font-medium px-2 py-1.5 ${cancelData ? "text-red-800 bg-red-100/80" : "text-green-800 bg-green-100/80"}`;
+  let highlight_style = `px-2 py-1.5 ${cancelData && "!text-red-800 !bg-red-100/80"}`;
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
   let getCurrency = (amount) => {
@@ -72,18 +73,25 @@ const EventData = () => {
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div
-                  className={`capitalize ${highlight_style}`}
+                  className={`capitalize ${highlight_style} text-green-800 bg-green-100/80`}
                 >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
                 <div
-                  className={`${highlight_style}`}
+                  className={`${highlight_style} text-green-800 bg-green-100/80`}
                 >{`Event : ${data?.event}`}</div>
               </div>
+              {sourceData && (
+                <div
+                  className={`${highlight_style} font-medium text-neutral-800 bg-neutral-100/80`}
+                >
+                  Rescheduled from booking #{sourceData}
+                </div>
+              )}
             </div>
           </div>
         )}
 
         {cancelData && (
-          <section className="p-4 bg-white text-red-800 border flex justify-between">
+          <section className="p-4 bg-white text-red-800 border flex justify-between w-1/2 self-start">
             <div>
               <div className="font-medium text-[1.2rem]">
                 {cancelData.reScheduled && cancelData.reScheduledEvent

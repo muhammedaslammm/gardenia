@@ -6,6 +6,7 @@ import { toast } from "sonner";
 const useEventData = (id) => {
   let [data, setData] = useState(null);
   let [cancelData, setCancelData] = useState(null);
+  let [sourceData, setSourceData] = useState(null);
   let [dataLoading, setDataLoading] = useState(true);
   let [cancelDataLoading, setCancelDataLoading] = useState(false);
   let navigate = useNavigate();
@@ -21,6 +22,26 @@ const useEventData = (id) => {
       getEventCancelData();
     }
   }, [data, id]);
+
+  useEffect(() => {
+    let getSourceDetail = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/events/${id}/source-detail`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+        let result = await response.json(); //get booking number of the source event
+        if (!response.ok) throw new Error(result.message);
+        setSourceData(result.source_data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getSourceDetail();
+  }, [id]);
 
   let getEventData = async () => {
     try {
@@ -64,6 +85,13 @@ const useEventData = (id) => {
     }
   };
 
-  return { data, cancelData, dataLoading, cancelDataLoading, getEventData };
+  return {
+    data,
+    cancelData,
+    dataLoading,
+    cancelDataLoading,
+    getEventData,
+    sourceData,
+  };
 };
 export default useEventData;

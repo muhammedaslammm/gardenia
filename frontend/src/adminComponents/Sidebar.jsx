@@ -8,7 +8,7 @@ const Sidebar = ({ content, page_slug, stat, username }) => {
   const [selectedSlug, setSelectedSlug] = useState(page_slug);
   const { handleLogout } = useUser();
   return (
-    <aside className="fixed left-0 bottom-0 w-full sm:top-0 sm:h-screen sm:w-[12rem] py-4 sm:py-1.5 px-2 bg-[#081e10] flex flex-col justify-between font--inter-tight z-100">
+    <aside className="fixed left-0 bottom-0 w-full sm:top-0 sm:h-screen sm:w-[12rem] py-4 sm:py-1.5 px-2 bg-[#081e10] flex flex-col justify-between z-100">
       <div>
         <div className="hidden sm:block pb-2 px-2 border-b border-neutral-600">
           <img
