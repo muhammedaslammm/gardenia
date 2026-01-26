@@ -3,13 +3,13 @@ import GalleryUpload from "./GalleryUpload";
 import useGallery from "../hooks/useGallery.js";
 
 const Gallery = () => {
-  let { gallery } = useGallery();
+  let { gallery, count, refetch } = useGallery();
   return (
-    <main className="space-y-4">
-      <div>Gallery Management</div>
+    <main className="space-y-2">
+      <div>Gallery</div>
       <div className="flex gap-4">
-        <GalleryGrid gallery={gallery} />
-        <GalleryUpload />
+        <GalleryGrid gallery={gallery} count={count} refetch={refetch} />
+        <GalleryUpload refetch={refetch} />
       </div>
     </main>
   );

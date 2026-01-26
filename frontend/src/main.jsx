@@ -23,7 +23,7 @@ import Calendar from "./pages/Calendar.jsx";
 import Enquiries from "./adminComponents/Enquiries.jsx";
 import Gallery from "./adminComponents/Gallery.jsx";
 import Staffs from "./adminComponents/Staffs.jsx";
-import GalleryPage from "./components/GalleryPage.jsx";
+import GalleryPage from "./pages/Gallery.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,5 +66,5 @@ createRoot(document.getElementById("root")).render(
         <RouterProvider router={router} />
       </AuthProvider>
     </ErrorBoundary>
-  </StrictMode>
+  </StrictMode>,
 );

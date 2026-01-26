@@ -21,20 +21,20 @@ const App = () => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
-    const context = gsap.context(() => {
-      requestAnimationFrame(() => {
-        ScrollSmoother.create({
-          wrapper: "#smooth-wrapper",
-          content: "#smooth-content",
-          smooth: 2.5,
-          smoothTouch: false,
-        });
-      });
-    }, containerRef);
+    // const context = gsap.context(() => {
+    //   requestAnimationFrame(() => {
+    //     ScrollSmoother.create({
+    //       wrapper: "#smooth-wrapper",
+    //       content: "#smooth-content",
+    //       smooth: 2.5,
+    //       smoothTouch: false,
+    //     });
+    //   });
+    // }, containerRef);
     gsap.set(animatedHeaderRef.current, {
       y: -150,
     });
-    return () => context.revert();
+    // return () => context.revert();
   }, [isContentReady]);
 
   const { pathname, id } = useLocation();
