@@ -8,6 +8,7 @@ import eventRouter from "./routers/EventRouter.js";
 import eventDateRouter from "./routers/DateRouter.js";
 import blockRouter from "./routers/BlockRouter.js";
 import enquiryRouter from "./routers/EnquiryRouter.js";
+import galleryRouter from "./routers/GalleryRouter.js";
 import clientRouter from "./routers/ClientRouter.js";
 
 const app = express();
@@ -26,7 +27,7 @@ app.use(
       }
     },
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
@@ -40,5 +41,6 @@ app.use("/api", eventRouter);
 app.use("/api", eventDateRouter);
 app.use("/api", blockRouter);
 app.use("/api", enquiryRouter);
+app.use("/api", galleryRouter);
 
 export default app;
