@@ -1,12 +1,8 @@
 import { useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-import gsap from "gsap";
-import { ScrollTrigger, ScrollSmoother } from "gsap/all";
 import Header from "./components/Header";
 import Footer from "./components/Footer.jsx";
 import FullNavBar from "./components/FullNavBar.jsx";
-
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const App = () => {
   const [fullNavState, setFullNavState] = useState(false);
