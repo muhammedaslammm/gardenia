@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import { Fingerprint, Spinner } from "phosphor-react";
 
-const Sidebar = ({ content, page_slug, stat, username }) => {
+const Sidebar = ({ content, page_slug, username }) => {
   const [selectedSlug, setSelectedSlug] = useState(page_slug);
-  const { handleLogout } = useUser();
+  const { handleLogout, logoutStat } = useUser();
   return (
     <aside className="fixed left-0 bottom-0 w-full sm:top-0 sm:h-screen sm:w-[12rem] py-4 sm:py-1.5 px-2 bg-[#081e10] flex flex-col justify-between z-100">
       <div>
@@ -39,15 +38,13 @@ const Sidebar = ({ content, page_slug, stat, username }) => {
         </div>
         <button
           className={`text-white font-semibold text-[.9rem] p-1.5 rounded-[.2rem] bg-[#081e10] ${
-            stat === "loading"
-              ? "cursor-not-allowed opacity-60"
-              : "cursor-pointer"
+            logoutStat ? "cursor-not-allowed opacity-60" : "cursor-pointer"
           } hover:bg-[#081e10]/80 transition hover:text-red-400 flex justify-center items-center`}
           onClick={handleLogout}
           title="Click button to logout"
-          disabled={stat === "loading"}
+          disabled={logoutStat === "loading"}
         >
-          {stat === "loading" ? (
+          {logoutStat ? (
             <Spinner className="animate-spin duration-200" />
           ) : (
             "Log Out"

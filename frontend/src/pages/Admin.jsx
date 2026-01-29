@@ -24,7 +24,6 @@ const Admin = () => {
           <Sidebar
             content={content}
             page_slug={data?.slug}
-            stat={logoutStat}
             username={user?.username}
           />
           <AdminHeader stat={logoutStat} />
