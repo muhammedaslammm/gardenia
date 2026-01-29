@@ -1,21 +1,19 @@
-import { forwardRef } from "react";
 import toSection from "../utils/toSection";
 import { Link } from "react-router-dom";
 import getHeaderContent from "../utils/getHeaderContent";
 import { Phone } from "phosphor-react";
 
-const AnimatedHeader = forwardRef((props, ref) => {
+const AnimatedHeader = ({ stat }) => {
   const { headerContent } = getHeaderContent();
   return (
     <header
-      className="fixed left-0 top-0 w-full bg-[#fefefe] shadow-md z-500 -translate-y-full pb-1"
-      ref={ref}
+      className={`fixed left-0 top-0 w-full bg-[#fefefe] border-b border-neutral-400  z-500 -translate-y-full pb-1 ${stat ? "translate-y-0" : "-translate-y-full"} transition-transform duration-900`}
     >
       <nav className="relative lg:static h-auto text-white flex justify-between items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 md:px-2 mx-auto">
         <div className="absolute left-2 top-3 lg:hidden text-[#0f592e]">
           <i
             className="fa-solid fa-bars text-[1.1rem]"
-            onClick={props.func}
+            // onClick={props.func}
           ></i>
         </div>
         <div className="absolute lg:static -top-1 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[5rem] lg:h-[5rem] lg:w-[10rem] -translate-y-[1rem] lg:-translate-x-[2.5rem]  lg:translate-y-0 bg-green-900 rounded-b-[1.5rem]">
@@ -60,6 +58,6 @@ const AnimatedHeader = forwardRef((props, ref) => {
       </nav>
     </header>
   );
-});
+};
 
 export default AnimatedHeader;

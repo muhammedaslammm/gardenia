@@ -21,7 +21,7 @@ const CalendarGrid = ({ util, loading }) => {
   } = util;
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-4/6 space-y-6">
       <div className="space-y-2">
         <div className="flex gap-2 items-center font--inter-tight font-medium text-[1.3rem]">
           <div>{selectedDate.format("dddd,")}</div>
@@ -60,7 +60,6 @@ const CalendarGrid = ({ util, loading }) => {
             let isToday = d.date.isSame(dayjs(), "day");
             let isSelected = d.date.isSame(selectedDate, "day");
             let isCurrentMonth = d.date.month() === selectedDate.month();
-            let events = d.events;
             return (
               <div
                 className={`font--inter-tight h-[5rem]  p-1 border border-neutral-500 cursor-pointer ${
@@ -85,14 +84,14 @@ const CalendarGrid = ({ util, loading }) => {
                     <Spinner className="self-end animate-spin" />
                   ) : (
                     <div>
-                      {d.block && (
-                        <div className="text-[.75rem] text-blue-700 font-semibold self-end">
-                          Event Holded
+                      {d.blocks !== 0 && (
+                        <div className="text-[.75rem] text-blue-800 bg-blue-100 px-1 font-medium self-end">
+                          {`${d.blocks} Event Holded`}
                         </div>
                       )}
-                      {events !== 0 && (
-                        <div className="text-[.75rem] text-green-900 font-semibold self-end">
-                          Function Day
+                      {d.events !== 0 && (
+                        <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">
+                          {`${d.events} Function`}
                         </div>
                       )}
                     </div>

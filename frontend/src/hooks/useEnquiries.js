@@ -28,13 +28,13 @@ const useEnquiries = () => {
     let result = [];
     switch (sort) {
       case "all":
-        result = [...(enquiries || [])].sort((a, b) => b.read - a.read);
+        result = [...(enquiries || [])];
         break;
       case "read":
-        result = [...enquiries].sort((a, b) => b.read - a.read);
+        result = enquiries.filter((e) => e.read);
         break;
       case "un-read":
-        result = [...enquiries].sort((a, b) => a.read - b.read);
+        result = enquiries.filter((e) => !e.read);
         break;
       default:
         break;
@@ -61,7 +61,7 @@ const useEnquiries = () => {
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       setEnquiries((prev) =>
-        prev.map((enq) => (enq._id === id ? result.updated_enquiry : enq))
+        prev.map((enq) => (enq._id === id ? result.updated_enquiry : enq)),
       );
     } catch (error) {
       console.log("error:", error.message);

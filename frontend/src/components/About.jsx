@@ -1,35 +1,9 @@
 import { useRef, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import { useLayoutEffect } from "react";
-import useIsMobile from "../customhooks/useIsMobile";
 import highlights from "../data/highlight";
 
 const About = () => {
   const containerRef = useRef();
-  const isMobile = useIsMobile();
-  const { onAboutEnter, onAboutLeaveBack } = useOutletContext();
   const [textReveal, setTextReveal] = useState(false);
-
-  useLayoutEffect(() => {
-    const context = gsap.context(() => {
-      const onLoad = () => {
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top top",
-          onEnter: onAboutEnter,
-          onLeaveBack: onAboutLeaveBack,
-        });
-      };
-      if (document.readyState === "complete") onLoad();
-      else {
-        window.addEventListener("load", onLoad);
-        return () => window.removeEventListener("load", onLoad);
-      }
-    }, containerRef);
-    return () => context.revert();
-  }, []);
 
   return (
     <section

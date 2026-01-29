@@ -2,20 +2,45 @@ import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage";
 import InputLabel from "../adminComponents/InputLabel";
 import { Spinner } from "phosphor-react";
+import getBlockMessage from "../utils/getBlockMessage";
+import { useEffect, useRef } from "react";
 
-const CalendarForm = ({ util, details_loading }) => {
+const CalendarForm = ({ util, details_loading, open }) => {
   let { dateDetails, form } = util;
   let {
     date = null,
     events = [],
+    blocks = [],
     minihall_stat = 1,
     mainhall_stat = 1,
+    mainhall_block_stat = 1,
+    minihall_block_stat = 1,
   } = dateDetails;
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
+  let block_message = getBlockMessage(
+    events,
+    blocks,
+    mainhall_block_stat,
+    minihall_block_stat,
+    date,
+  );
 
   let { register, handleSubmit, submitForm, errors, loading } = form;
+
+  const formRef = useRef(null);
+  useEffect(() => {
+    const trackClick = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) open(false);
+    };
+    document.addEventListener("mousedown", trackClick);
+    return () => document.removeEventListener("mousedown", trackClick);
+  }, []);
+
   return (
-    <div className="w-3/6 self-start border border-neutral-500 p-4 font--inter-tight">
+    <div
+      className="w-2/6 bg-white shadow-md border border-neutral-500 font--inter-tight p-4 space-y-4"
+      ref={formRef}
+    >
       <div className="leading-[1.8rem]">
         <div className="font--dm-serif-display text-[1.4rem]">Enquiry Form</div>
       </div>
@@ -24,12 +49,28 @@ const CalendarForm = ({ util, details_loading }) => {
           <div className="animation--mask animation--loading__effect"></div>
         </div>
       ) : (
-        <div
-          className="p-2 my-2"
-          style={{ color: message.color, backgroundColor: message.bg }}
-        >
-          {message.text}
-        </div>
+        <>
+          <div className="p-2 bg-neutral-200 text-neutral-800">
+            Note : The enquiry is not treated as a confirmation booking or slot
+            blocking for you in any way. Confirmation is made only after further
+            verification.
+          </div>
+          <div
+            className="p-2 my-2"
+            style={{ color: message.color, backgroundColor: message.bg }}
+          >
+            {message.text}
+          </div>
+          <div
+            className="p-2"
+            style={{
+              color: block_message.color,
+              backgroundColor: block_message.bg,
+            }}
+          >
+            {block_message.text}
+          </div>
+        </>
       )}
       <form
         className="my-4 flex flex-col gap-2"

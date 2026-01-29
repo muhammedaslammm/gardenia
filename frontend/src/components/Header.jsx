@@ -11,8 +11,8 @@ const Header = ({ func }) => {
       className={`${
         currentPath === "home"
           ? "absolute text-white/70 lg:text-white"
-          : "fixed h-[3rem] lg:h-auto bg-[#fefefe] text-[#0f592e] border-b border-[#e2ece5] "
-      } shadow-md left-0 w-full top-0 z-500`}
+          : "fixed h-[3rem] lg:h-auto bg-[#fefefe] text-[#0f592e] border-b border-neutral-400 "
+      } left-0 w-full top-0 z-500`}
     >
       <nav
         className={`relative lg:static flex justify-center sm:justify-between sm:items-center md:items-center xl:items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 mx-auto ${
