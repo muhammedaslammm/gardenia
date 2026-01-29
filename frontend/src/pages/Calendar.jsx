@@ -2,8 +2,11 @@ import { Toaster } from "sonner";
 import useCalendar from "../hooks/useCalendar";
 import CalendarForm from "../components/CalendarForm";
 import CalendarGrid from "../components/CalendarGrid";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 const Calendar = () => {
+  const [box, setBox] = useState(false);
   let {
     dates,
     dateLoading,
@@ -16,7 +19,7 @@ const Calendar = () => {
     selectDate,
     daysInMonth,
     form,
-  } = useCalendar();
+  } = useCalendar(setBox);
   let grid_util = {
     dates,
     selectedDate,
@@ -27,12 +30,25 @@ const Calendar = () => {
     daysInMonth,
   };
   let form_util = { dateDetails, form };
+
   return (
     <>
       <Toaster position="top-center" richColors />
       <main className="min-h-[50vh] w-[80rem] mx-auto pt-[6.2rem] flex gap-8">
         <CalendarGrid util={grid_util} loading={dateLoading} />
-        <CalendarForm util={form_util} details_loading={dateDetailsLoding} />
+        <div className="w-2/6 pattern--calendar"></div>
+
+        {box &&
+          createPortal(
+            <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-100">
+              <CalendarForm
+                util={form_util}
+                details_loading={dateDetailsLoding}
+                open={setBox}
+              />
+            </div>,
+            document.getElementById("modal--calendar"),
+          )}
       </main>
     </>
   );

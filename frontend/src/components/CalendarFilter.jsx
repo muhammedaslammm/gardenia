@@ -4,7 +4,7 @@ const CalendarFilter = ({ selectedDate, setSelectedDate }) => {
   let months = dayjs.months();
   let years = Array.from({ length: 10 }, (_, i) => selectedDate.year() - 5 + i);
   return (
-    <div className="flex gap-2 w-[20rem]">
+    <div className="flex gap-2 w-[30rem]">
       <select
         value={selectedDate.month()}
         onChange={(e) =>

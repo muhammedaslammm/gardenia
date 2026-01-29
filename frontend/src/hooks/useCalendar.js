@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const useCalendar = () => {
+const useCalendar = (setBox) => {
   let [bookedDates, setBookedDates] = useState([]);
   let [selectedDate, setSelectedDate] = useState(dayjs);
   let [dateDetails, setDateDetails] = useState({});
@@ -33,11 +33,12 @@ const useCalendar = () => {
         let response = await fetch(
           `${BACKEND_URL}/api/client/events?month=${
             selectedDate.month() + 1
-          }&year=${selectedDate.year()}`
+          }&year=${selectedDate.year()}`,
         );
         setDateLoading(false);
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        console.log("calendar dates:", result.dates);
         setBookedDates(result.dates);
       } catch (error) {
         console.log("calendar date error:", error.message);
@@ -53,12 +54,12 @@ const useCalendar = () => {
         setDateDetailsLoading(true);
         let response = await fetch(
           `${BACKEND_URL}/api/client/events/${selectedDate.format(
-            "YYYY-MM-DD"
+            "YYYY-MM-DD",
           )}`,
           {
             method: "GET",
             credentials: "include",
-          }
+          },
         );
         setDateDetailsLoading(false);
         let result = await response.json();
@@ -68,7 +69,10 @@ const useCalendar = () => {
           date: data?.date ? dayjs(data.date) : dayjs(selectedDate),
           mainhall_stat: data?.mainhall_stat ?? 1,
           minihall_stat: data?.minihall_stat ?? 1,
+          mainhall_block_stat: data?.mainhall_block_stat ?? 1,
+          minihall_block_stat: data?.minihall_block_stat ?? 1,
           events: data?.events ?? [],
+          blocks: data?.blocks ?? [],
         };
         setDateDetails(details);
         console.log("date data:", details);
@@ -96,6 +100,7 @@ const useCalendar = () => {
     setSelectedDate(d.date);
     setMonth(d.date.month());
     setYear(d.date.year());
+    setBox(true);
   };
 
   let [loading, setLoading] = useState(false);
@@ -112,11 +117,15 @@ const useCalendar = () => {
         credentials: "include",
       });
       setLoading(false);
+      setBox(false);
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       toast.success(result.message);
       reset();
     } catch (error) {
+      toast.error(
+        "Enquiry Submission Failed : Contact office if submission is rejected multiple times.",
+      );
       console.log("enquiry creation error:", error.message);
     }
   };

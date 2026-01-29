@@ -6,8 +6,6 @@ import { useContext } from "react";
 import { Toaster } from "sonner";
 import { useUser } from "../hooks/useUser.js";
 import AdminHeader from "../adminComponents/AdminHeader.jsx";
-import Shimmer from "../components/Shimmer.jsx";
-import ShimmerPage from "../components/ShimmerPage.jsx";
 import LoadingPage from "../adminComponents/shimmer/LoadingPage.jsx";
 
 const Admin = () => {

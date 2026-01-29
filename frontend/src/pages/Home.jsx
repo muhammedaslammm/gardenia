@@ -1,13 +1,11 @@
 import About from "../components/About";
 import Banner from "../components/Banner";
-import Images from "../components/Images";
 import Spaces from "../components/Spaces";
 import Events from "../components/Events";
 import Facilities from "../components/Facilities";
 import Contact from "../components/Contact";
 import ChooseUs from "../components/ChooseUs";
 import TermsBanner from "../components/TermsBanner";
-import GalleryBanner from "../components/GalleryBanner";
 
 const Home = () => {
   return (
@@ -19,7 +17,6 @@ const Home = () => {
           <Spaces />
           <Facilities />
           <Events />
-          {/* <GalleryBanner /> */}
           <ChooseUs />
           <TermsBanner />
           <Contact />
