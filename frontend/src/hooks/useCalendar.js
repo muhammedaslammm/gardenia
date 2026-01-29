@@ -147,6 +147,7 @@ const useCalendar = (setBox) => {
       submitForm,
       errors,
       loading,
+      reset,
     },
   };
 };

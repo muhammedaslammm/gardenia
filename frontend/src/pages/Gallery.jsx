@@ -19,10 +19,10 @@ const Gallery = () => {
     getGallery();
   }, []);
   return (
-    <main className="min-h-screen pt-[3.5rem] xl:pt-[6rem] w-[85%] mx-auto">
+    <main className="min-h-screen pt-[4rem] xl:pt-[6rem] w-[85%] mx-auto">
       {gallery === null ||
         (gallery.length >= 1 && (
-          <h1 className="font--dm-serif-display text-[.9rem] xl:text-[1.4rem]">
+          <h1 className="font--dm-serif-display text-[1rem] xl:text-[1.4rem]">
             Event Gallery
           </h1>
         ))}
@@ -36,13 +36,17 @@ const Gallery = () => {
         </div>
       )}
       {gallery && gallery.length === 0 && (
-        <div className="my-4 bg-yellow-50 text-yellow-800 p-4 font--inter-tight leading-[1.8rem] text-center">
-          <div className="text-[1.2rem] font-medium">Gallery is Empty</div>
-          <div>Couldn't find any photos so far in gallery.</div>
+        <div className=" my-2 md:my-4 bg-yellow-50 text-yellow-800 p-4 font--inter-tight leading-[1.4rem] md:leading-[1.8rem] text-center">
+          <div className="text-[1.2rem] md:text-[1.2rem] font-medium">
+            Gallery is Empty
+          </div>
+          <div className="text-[.9rem]">
+            Couldn't find any photos so far in gallery.
+          </div>
         </div>
       )}
       {gallery && (
-        <div className="columns-4 gap-4 my-4">
+        <div className="columns-2 lg:columns-4 gap-4 my-2 md:my-4">
           {gallery.map((image, i) => (
             <div>
               <img

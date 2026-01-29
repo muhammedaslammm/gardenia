@@ -34,9 +34,9 @@ const Calendar = () => {
   return (
     <>
       <Toaster position="top-center" richColors />
-      <main className="min-h-[50vh] w-[80rem] mx-auto pt-[6.2rem] flex gap-8">
+      <main className="min-h-[50vh] w-[85%] lg:w-[80rem] mx-auto pt-[4.5rem] lg:pt-[6.2rem] flex flex-col md:flex-row gap-8">
         <CalendarGrid util={grid_util} loading={dateLoading} />
-        <div className="w-2/6 pattern--calendar"></div>
+        <div className="hidden lg:block w-2/6 pattern--calendar"></div>
 
         {box &&
           createPortal(

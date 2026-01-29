@@ -6,11 +6,13 @@ import Facilities from "../components/Facilities";
 import Contact from "../components/Contact";
 import ChooseUs from "../components/ChooseUs";
 import TermsBanner from "../components/TermsBanner";
+import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
+  const { func } = useOutletContext();
   return (
     <main>
-      <Banner />
+      <Banner func={func} />
       <div className="relative z-100">
         <div className="w-[90%] sm:w-[90%] xl:w-[85%]  mx-auto ">
           <About />

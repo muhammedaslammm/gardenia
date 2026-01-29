@@ -21,18 +21,31 @@ const CalendarGrid = ({ util, loading }) => {
   } = util;
 
   return (
-    <div className="w-4/6 space-y-6">
-      <div className="space-y-2">
-        <div className="flex gap-2 items-center font--inter-tight font-medium text-[1.3rem]">
-          <div>{selectedDate.format("dddd,")}</div>
-          <div>{selectedDate.format("Do MMMM, YYYY")}</div>
+    <div className="w-full md:w-4/6 space-y-4 lg:space-y-6">
+      <div className="space-y-1 md:space-y-2">
+        <div className="flex items-center justify-between md:justify-start font--inter-tight font-medium text-[.9rem] lg:text-[1.3rem]">
+          <div className="md:hidden">
+            <CaretLeft
+              className="w-[1rem] h-[1rem] cursor-pointer"
+              weight="bold"
+              onClick={decrementMonth}
+            />
+          </div>
+          <div>{selectedDate.format("dddd, Do MMMM, YYYY")}</div>
+          <div className="md:hidden">
+            <CaretRight
+              className="w-[1rem] h-[1rem] cursor-pointer"
+              weight="bold"
+              onClick={incrementMonth}
+            />
+          </div>
         </div>
         <div className="flex justify-between items-end font--inter-tight">
           <CalendarFilter
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
           />
-          <div className="flex gap-4">
+          <div className="hidden md:flex gap-4">
             <CaretLeft
               className="w-[1rem] h-[1rem] cursor-pointer"
               weight="bold"
@@ -47,10 +60,10 @@ const CalendarGrid = ({ util, loading }) => {
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5 md:space-y-2">
         <div className="grid grid-cols-7 gap-1">
           {weekDays.map((d) => (
-            <div className="border-0 text-center font--inter-tight font-medium tracking-[.1rem] text-[.9rem] uppercase">
+            <div className="border-0 text-center font--inter-tight font-medium tracking-[.1rem] text-[.5rem] md:text-[.9rem] uppercase">
               {d}
             </div>
           ))}
@@ -62,7 +75,7 @@ const CalendarGrid = ({ util, loading }) => {
             let isCurrentMonth = d.date.month() === selectedDate.month();
             return (
               <div
-                className={`font--inter-tight h-[5rem]  p-1 border border-neutral-500 cursor-pointer ${
+                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-500 cursor-pointer ${
                   !isCurrentMonth && "opacity-50 bg-neutral-300"
                 } ${
                   isSelected && "border-2 border-green-700"
@@ -73,7 +86,7 @@ const CalendarGrid = ({ util, loading }) => {
                   onClick={() => selectDate(d)}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-[.9rem] font-medium">
+                    <div className="text-[.6rem] md:text-[.9rem] font-medium">
                       {d.date.date()}
                     </div>
                     {isToday && (
@@ -85,12 +98,12 @@ const CalendarGrid = ({ util, loading }) => {
                   ) : (
                     <div>
                       {d.blocks !== 0 && (
-                        <div className="text-[.75rem] text-blue-800 bg-blue-100 px-1 font-medium self-end">
+                        <div className="text-[.4rem] md:text-[.75rem] text-blue-800 bg-blue-100 px-[2px] md:px-1 leading-[.5rem] font-medium self-end">
                           {`${d.blocks} Event Holded`}
                         </div>
                       )}
                       {d.events !== 0 && (
-                        <div className="text-[.75rem] text-green-800 bg-green-100 px-1 font-medium self-end">
+                        <div className="text-[.4rem] md:text-[.75rem] text-green-800 bg-green-100 px-[2px] md:px-1 leading-[.5rem] font-medium self-end">
                           {`${d.events} Function`}
                         </div>
                       )}

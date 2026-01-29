@@ -16,7 +16,7 @@ const App = () => {
     <main className="relative website__content" ref={containerRef}>
       <div id="smooth-content">
         <Header func={handleButtonClick} />
-        <Outlet />
+        <Outlet context={{ func: handleButtonClick }} />
         <Footer />
       </div>
       <FullNavBar state={fullNavState} func={handleButtonClick} />

@@ -25,21 +25,28 @@ import Staffs from "./adminComponents/Staffs.jsx";
 import GalleryPage from "./pages/Gallery.jsx";
 
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    element: <ScrollToTop />,
     children: [
-      { index: true, element: <Home /> },
-      // { path: "home", element: <Home /> },
-      { path: "spaces/:id", element: <Space /> },
-      { path: "terms", element: <Terms /> },
-      { path: "careers", element: <Careers /> },
-      { path: "calendar", element: <Calendar /> },
-      { path: "gallery", element: <GalleryPage /> },
+      {
+        path: "/",
+        element: <App />,
+        children: [
+          { index: true, element: <Home /> },
+          // { path: "home", element: <Home /> },
+          { path: "spaces/:id", element: <Space /> },
+          { path: "terms", element: <Terms /> },
+          { path: "careers", element: <Careers /> },
+          { path: "calendar", element: <Calendar /> },
+          { path: "gallery", element: <GalleryPage /> },
+        ],
+      },
     ],
   },
+
   {
     path: "/admin",
     element: <Admin />,

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage";
 import InputLabel from "../adminComponents/InputLabel";
-import { Spinner } from "phosphor-react";
+import { Spinner, X } from "phosphor-react";
 import getBlockMessage from "../utils/getBlockMessage";
 import { useEffect, useRef } from "react";
 
@@ -25,12 +25,15 @@ const CalendarForm = ({ util, details_loading, open }) => {
     date,
   );
 
-  let { register, handleSubmit, submitForm, errors, loading } = form;
+  let { register, handleSubmit, submitForm, errors, loading, reset } = form;
 
   const formRef = useRef(null);
   useEffect(() => {
     const trackClick = (e) => {
-      if (formRef.current && !formRef.current.contains(e.target)) open(false);
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        reset();
+        open(false);
+      }
     };
     document.addEventListener("mousedown", trackClick);
     return () => document.removeEventListener("mousedown", trackClick);
@@ -38,11 +41,21 @@ const CalendarForm = ({ util, details_loading, open }) => {
 
   return (
     <div
-      className="w-2/6 bg-white shadow-md border border-neutral-500 font--inter-tight p-4 space-y-4"
+      className="w-[90%] md:w-2/6 bg-white shadow-md border border-neutral-500 font--inter-tight p-2 md:p-4 space-y-2 md:space-y-4"
       ref={formRef}
     >
-      <div className="leading-[1.8rem]">
-        <div className="font--dm-serif-display text-[1.4rem]">Enquiry Form</div>
+      <div className="leading-[1.8rem] flex justify-between items-center">
+        <div className="font--dm-serif-display text-[1rem] lg:text-[1.4rem]">
+          Enquiry Form
+        </div>
+        <X
+          className="text-red-700 w-[1.3rem] h-[1.3rem] cursor-pointer"
+          weight="bold"
+          onClick={() => {
+            reset();
+            open(false);
+          }}
+        />
       </div>
       {details_loading ? (
         <div className="animation--container w-full h-[5rem] !rounded-[0rem] my-2">
@@ -50,19 +63,19 @@ const CalendarForm = ({ util, details_loading, open }) => {
         </div>
       ) : (
         <>
-          <div className="p-2 bg-neutral-200 text-neutral-800">
+          <div className=" p-1 md:p-2 text-[.8rem] lg:text-[1.1rem] leading-[1.2rem] lg:leading-[1.7rem] bg-neutral-200 text-neutral-800">
             Note : The enquiry is not treated as a confirmation booking or slot
             blocking for you in any way. Confirmation is made only after further
             verification.
           </div>
           <div
-            className="p-2 my-2"
+            className=" p-1 md:p-2 my-2 text-[.8rem] lg:text-[1.1rem] leading-[1.2rem] lg:leading-[1.7rem]"
             style={{ color: message.color, backgroundColor: message.bg }}
           >
             {message.text}
           </div>
           <div
-            className="p-2"
+            className=" p-1 md:p-2 text-[.8rem] lg:text-[1.1rem] leading-[1.2rem] lg:leading-[1.7rem]"
             style={{
               color: block_message.color,
               backgroundColor: block_message.bg,

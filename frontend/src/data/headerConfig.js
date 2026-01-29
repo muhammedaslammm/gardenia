@@ -47,15 +47,41 @@ const headerConfig = {
       title: "Home",
       path: "/",
     },
+
+    { title: "Careeres", path: "/careers" },
+    { title: "Gallery", path: "/gallery" },
+    { title: "Calendar", path: "/calendar" },
   ],
   terms: [
     {
       title: "Home",
       path: "/",
     },
+
+    { title: "Careeres", path: "/careers" },
+    { title: "Gallery", path: "/gallery" },
+    { title: "Calendar", path: "/calendar" },
   ],
-  calendar: [{ title: "Home", path: "/" }],
-  gallery: [{ title: "Home", path: "/" }],
+  calendar: [
+    {
+      title: "Home",
+      path: "/",
+    },
+
+    { title: "Careeres", path: "/careers" },
+    { title: "Gallery", path: "/gallery" },
+    { title: "Calendar", path: "/calendar" },
+  ],
+  gallery: [
+    {
+      title: "Home",
+      path: "/",
+    },
+
+    { title: "Careeres", path: "/careers" },
+    { title: "Gallery", path: "/gallery" },
+    { title: "Calendar", path: "/calendar" },
+  ],
 };
 
 export default headerConfig;

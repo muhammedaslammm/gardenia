@@ -15,9 +15,7 @@ const Header = ({ func }) => {
       } left-0 w-full top-0 z-500`}
     >
       <nav
-        className={`relative lg:static flex justify-center sm:justify-between sm:items-center md:items-center xl:items-center w-[95%] sm:w-[90%] xl:w-[85%] px-1 mx-auto ${
-          currentPath === "home" ? "py-[.0rem]" : "py-[0rem]"
-        }`}
+        className={`relative lg:static flex justify-center sm:justify-between sm:items-center md:items-center xl:items-center w-[95%] sm:w-[90%] lg:h-[4rem] xl:w-[85%] px-1 mx-auto`}
       >
         <div
           className={`absolute ${
@@ -28,28 +26,22 @@ const Header = ({ func }) => {
           <i className="fa-solid fa-bars text-[1.1rem] sm:text-[1.2rem] md:text-[1.3rem]"></i>
         </div>
         <Link
-          className={`absolute left-[50%] -translate-x-[50%] lg:-translate-x-[4px] xl:-translate-x-[15px] ${
-            currentPath === "home" ? "sm:top-0" : "sm:top-2"
-          } lg:static`}
+          className={`absolute lg:static top-4 lg:top-0 left-[50%] -translate-x-[50%] w-[7rem] sm:w-[10rem] h-[4rem] lg:h-[7rem] lg:w-[10rem] -translate-y-[1rem] lg:-translate-x-[1rem]  lg:translate-y-0 bg-green-900 rounded-b-[1.5rem] `}
           style={{ fontFamily: "Playfair Display, serif" }}
           to="/"
         >
           {currentPath === "home" ? (
-            <div className="bg-green-900 pt-4 pb-4 rounded-b-[1.5rem]">
-              <img
-                src="/logo/gardenia-logo-2.png"
-                alt="gardenia logo"
-                className="w-[7.5rem] sm:w-[10rem] h-[2rem] lg:h-[3rem] lg:w-[11rem] xl:h-[3rem] xl:w-[10rem]  object-cover"
-              />
-            </div>
+            <img
+              src="/logo/gardenia-logo-2.png"
+              alt="gardenia logo"
+              className="w-full h-full object-contain"
+            />
           ) : (
-            <div className="bg-green-900 rounded-b-[1rem]">
-              <img
-                src="/logo/gardenia-logo-2.png"
-                alt="gardenia logo"
-                className="w-[5rem] lg:h-auto lg:w-[6rem] xl:w-[8rem] h-full  object-contain -translate-y-[.2rem]"
-              />
-            </div>
+            <img
+              src="/logo/gardenia-logo-2.png"
+              alt="gardenia logo"
+              className="w-full h-full object-contain"
+            />
           )}
         </Link>
 

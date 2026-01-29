@@ -12,11 +12,14 @@ const FullNavBar = ({ state, func }) => {
     >
       <nav className="w-[90%] mx-auto my-2 space-y-4">
         <div className="relative w-full">
-          <img
-            src="/logo/gardenia-logo.png"
-            alt="gardenia logo"
-            className="absolute left-0 top-0 w-[5rem] object-cover -translate-y-1"
-          />
+          <Link href="/" onClick={func}>
+            <img
+              src="/logo/gardenia-logo.png"
+              alt="gardenia logo"
+              className="absolute left-0 top-0 w-[5rem] object-cover -translate-y-1"
+            />
+          </Link>
+
           <i
             className="absolute right-2 top-1 fa-solid fa-xmark text-[1.1rem]"
             onClick={func}

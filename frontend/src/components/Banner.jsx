@@ -4,7 +4,7 @@ import toSection from "../utils/toSection";
 import { Link } from "react-router-dom";
 import AnimatedHeader from "./AnimatedHeader";
 
-const Banner = () => {
+const Banner = ({ func }) => {
   const [animateHeaderStat, setAnimateHeaderStat] = useState(false);
   const bannerContainer = useRef();
   const imageRef = useRef();
@@ -14,7 +14,7 @@ const Banner = () => {
       ([element]) => {
         setAnimateHeaderStat(!element.isIntersecting);
       },
-      { threshold: 0.8 },
+      { threshold: 0.1 },
     );
     if (bannerContainer.current) observer.observe(bannerContainer.current);
     return () => {
@@ -75,7 +75,7 @@ const Banner = () => {
         </div>
         <div className="space-x-8 absolute bottom-[1rem] xl:bottom-[3rem] left-[50%] -translate-x-[50%] z-20"></div>
         <div className="absolute inset-0 bg-black/40"></div>
-        <AnimatedHeader stat={animateHeaderStat} />
+        <AnimatedHeader stat={animateHeaderStat} menuClick={func} />
       </section>
     </>
   );
