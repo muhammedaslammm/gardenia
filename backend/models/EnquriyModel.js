@@ -8,7 +8,7 @@ const Schema = new mongoose.Schema(
     event_date: Date,
     read: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Enquiry = mongoose.model("enquiry", Schema);

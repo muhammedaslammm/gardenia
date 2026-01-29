@@ -578,43 +578,99 @@ export const createExcel = async (req, res) => {
           },
         },
       },
+      {
+        $lookup: {
+          from: "cancelevents",
+          localField: "_id",
+          foreignField: "eventId",
+          as: "cancel_data",
+        },
+      },
+      {
+        $unwind: {
+          path: "$cancel_data",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $addFields: {
+          reScheduled: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ["$cancel_data.reScheduled", true] },
+                  { $ifNull: ["$cancel_data.reScheduledEventId", false] },
+                ],
+              },
+              true,
+              false,
+            ],
+          },
+        },
+      },
+      {
+        $project: { cancel_data: 0 },
+      },
     ]);
 
     if (!events.length)
       return res.status(404).json({
         message: "Excel creation cancelled : No event found on this date range",
       });
-    console.log("events:", events);
+
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Events");
     worksheet.columns = [
       { header: "Booking Number", key: "booking_number", width: 15 },
-      { header: "Date", key: "date", width: 20 },
-      { header: "Event", key: "event", width: 30 },
-      { header: "Event Name", key: "event_name", width: 30 },
-      { header: "Stage", key: "stage", width: 20 },
-      { header: "Start Time", key: "start_time", width: 20 },
-      { header: "End Time", key: "end_time", width: 20 },
-      { header: "Total Amount", key: "total_amount", width: 20 },
-      { header: "Paid Amount", key: "paid_amount", width: 20 },
-      { header: "Cancelled", key: "cancelled", width: 10 },
+      { header: "Date", key: "date", width: 15 },
+      { header: "Start Time", key: "start_time", width: 15 },
+      { header: "End Time", key: "end_time", width: 15 },
+      { header: "Customer", key: "booker_name", width: 20 },
+      { header: "Mobile Number", key: "phone_number", width: 30 },
+      { header: "Address", key: "address", width: 40 },
+      { header: "Hall", key: "hall", width: 15 },
+      { header: "Event", key: "event", width: 15 },
+      { header: "Total Amount", key: "total_amount", width: 15 },
+      { header: "Paid Amount", key: "paid_amount", width: 15 },
+      { header: "Discount Amount", key: "discount_amount", width: 15 },
+      { header: "Balance", key: "balance_amount", width: 15 },
+      { header: "Event Status", key: "event_status", width: 15 },
     ];
 
     events.forEach((event) => {
       worksheet.addRow({
         booking_number: event.booking_number,
         date: event.date,
-        event: event.event,
-        event_name: event.event_name,
-        stage: event.stage,
         start_time: dayjs(event.start_time).format("hh:mm a"),
         end_time: dayjs(event.end_time).format("hh:mm a"),
+        booker_name: event.contact_details.booker_name,
+        phone_number: `${event.contact_details.phone_number_1}, ${event.contact_details.phone_number_2}`,
+        address: event.contact_details.address,
+        hall: event.stage
+          .split("_")
+          .map((word) => word[0].toUpperCase() + word.slice(1))
+          .join(" "),
+        event: event.event,
         total_amount: event.payment.total_amount,
-        paid_amount: event.payment.payment_timeline.reduce((amt, item) => {
-          if (item.payment_type !== "discount") amt += item.paid_amount;
-          return amt;
+        paid_amount: event.payment.payment_timeline.reduce((total, item) => {
+          if (item.payment_type !== "discount") total += item.paid_amount;
+          return total;
         }, 0),
-        cancelled: event.cancelled,
+        discount_amount: event.payment.payment_timeline.reduce(
+          (total, item) => {
+            if (item.payment_type === "discount") total += item.paid_amount;
+            return total;
+          },
+          0,
+        ),
+        balance_amount: event.payment.remaining_amount,
+        event_status: event.reScheduled
+          ? "Rescheduled"
+          : event.cancelled
+            ? "Cancelled"
+            : new Date() > event.end_time
+              ? "Completed"
+              : "Pending",
       });
     });
 

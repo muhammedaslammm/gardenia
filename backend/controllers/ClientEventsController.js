@@ -23,6 +23,14 @@ export const getMonthEvents = async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "blocks",
+          localField: "blocks",
+          foreignField: "_id",
+          as: "blocks",
+        },
+      },
+      {
         $addFields: {
           events: {
             $filter: {
@@ -33,8 +41,14 @@ export const getMonthEvents = async (req, res) => {
               },
             },
           },
-          block: {
-            $cond: [{ $ifNull: ["$blockId", false] }, true, false],
+          blocks: {
+            $filter: {
+              input: "$blocks",
+              as: "block",
+              cond: {
+                $ne: ["$$block.status", "freeze"],
+              },
+            },
           },
         },
       },
@@ -42,7 +56,7 @@ export const getMonthEvents = async (req, res) => {
         $project: {
           date: 1,
           events: { $size: "$events" },
-          block: 1,
+          blocks: { $size: "$blocks" },
         },
       },
     ]);
@@ -75,6 +89,14 @@ export const getDateDetails = async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "blocks",
+          localField: "blocks",
+          foreignField: "_id",
+          as: "blocks",
+        },
+      },
+      {
         $addFields: {
           events: {
             $filter: {
@@ -85,6 +107,15 @@ export const getDateDetails = async (req, res) => {
               },
             },
           },
+          blocks: {
+            $filter: {
+              input: "$blocks",
+              as: "block",
+              cond: {
+                $ne: ["$$block.status", "freeze"],
+              },
+            },
+          },
         },
       },
       {
@@ -92,8 +123,12 @@ export const getDateDetails = async (req, res) => {
           date: 1,
           mainhall_stat: 1,
           minihall_stat: 1,
+          mainhall_block_stat: 1,
+          minihall_block_stat: 1,
           "events.start_time": 1,
           "events.end_time": 1,
+          "blocks.start_time": 1,
+          "blocks.end_time": 1,
         },
       },
     ]);
