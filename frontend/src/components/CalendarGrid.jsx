@@ -68,14 +68,14 @@ const CalendarGrid = ({ util, loading }) => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-[1px] md:gap-1">
+        <div className="grid grid-cols-7 gap-[0px] md:gap-1">
           {dates.map((d) => {
             let isToday = d.date.isSame(dayjs(), "day");
             let isSelected = d.date.isSame(selectedDate, "day");
             let isCurrentMonth = d.date.month() === selectedDate.month();
             return (
               <div
-                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-400/80 md:border-neutral-500 cursor-pointer ${
+                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-400/40 md:border-neutral-500 cursor-pointer ${
                   !isCurrentMonth && "opacity-50 bg-neutral-300"
                 } ${
                   isSelected && "border-2 border-green-700"
