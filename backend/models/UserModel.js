@@ -1,13 +1,17 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, unique: true },
-  role: { type: String, enum: ["md", "staff"], default: "staff" },
-  permission: { type: Boolean, default: false },
-});
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, unique: true },
+    role: { type: String, enum: ["owner", "supervisor", "staff"] },
+    permission: { type: Boolean, default: false },
+    blocked: { type: Boolean, default: false },
+  },
+  { timestamps: true },
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

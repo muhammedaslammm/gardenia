@@ -13,10 +13,11 @@ export const myDetails = async (req, res) => {
 
 export const userRegistration = async (req, res) => {
   try {
-    const data = req.body;
-    console.log("user data:", data);
-    const user = await User.create({ ...data });
-    return res.status(200).json({ message: "user created" });
+    // const data = req.body;
+    // console.log("user data:", data);
+    // const user = await User.create({ ...data });
+    console.log("hey");
+    return res.status(200).json({ message: "user creation cooking..." });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
@@ -49,6 +50,16 @@ export const userLogin = async (req, res) => {
     } else return res.status(401).json({ message: "authentication failed" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    let users = await User.find({ role: { $ne: "owner" } });
+    return res.json({ users });
+  } catch (error) {
+    console.log("failed to get users:", error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
 

@@ -35,7 +35,7 @@ app.use(cookieParser());
 dotenv.config();
 
 app.use("/api/client", clientRouter);
-app.use("/api/users", userRouter);
+app.use("/api", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api", eventRouter);
 app.use("/api", eventDateRouter);

@@ -21,7 +21,6 @@ const EventData = () => {
     data = {},
     cancelData,
     dataLoading,
-    cancelDataLoading,
     getEventData,
     sourceData,
   } = useEventData(id);
