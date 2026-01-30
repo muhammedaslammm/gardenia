@@ -5,6 +5,7 @@ const StaffBody = ({ users }) => {
     <section className="w-4/6 space-y-2">
       <div className="flex justify-between items-center">
         <select className="w-[20rem] bg-white border border-neutral-400 cursor-pointer outline-0 p-1">
+          <option value="all">All</option>
           <option value="supervisor">Supervisor</option>
           <option value="staff">Staff</option>
         </select>
@@ -31,7 +32,7 @@ const StaffBody = ({ users }) => {
           )}
           {users && users.length === 0 && (
             <div className="py-1 text-center pt-[8rem]">
-              Couldn't find any staffs. Add new staff now.
+              Couldn't find any staffs. Add a new staff now.
             </div>
           )}
         </div>

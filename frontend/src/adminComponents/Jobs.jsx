@@ -21,12 +21,12 @@ const Jobs = () => {
     buttonState === "success"
       ? "bg-[#0f592e]"
       : buttonState === "error"
-      ? "bg-red-800"
-      : buttonState === "loading !py-1"
-      ? "bg-[#081e10]/60 cursor-not-allowed"
-      : buttonState === "update"
-      ? "bg-yellow-800"
-      : "bg-[#081e10]/95";
+        ? "bg-red-800"
+        : buttonState === "loading !py-1"
+          ? "bg-[#081e10]/60 cursor-not-allowed"
+          : buttonState === "update"
+            ? "bg-yellow-800"
+            : "bg-[#081e10]/95";
 
   const buttonText =
     buttonState === "success" ? (
