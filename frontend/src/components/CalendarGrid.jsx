@@ -61,21 +61,21 @@ const CalendarGrid = ({ util, loading }) => {
       </div>
 
       <div className="space-y-1.5 md:space-y-2">
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-[2px] md:gap-1">
           {weekDays.map((d) => (
             <div className="border-0 text-center font--inter-tight font-medium tracking-[.1rem] text-[.5rem] md:text-[.9rem] uppercase">
               {d}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-[1px] md:gap-1">
           {dates.map((d) => {
             let isToday = d.date.isSame(dayjs(), "day");
             let isSelected = d.date.isSame(selectedDate, "day");
             let isCurrentMonth = d.date.month() === selectedDate.month();
             return (
               <div
-                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-500 cursor-pointer ${
+                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-400/80 md:border-neutral-500 cursor-pointer ${
                   !isCurrentMonth && "opacity-50 bg-neutral-300"
                 } ${
                   isSelected && "border-2 border-green-700"
