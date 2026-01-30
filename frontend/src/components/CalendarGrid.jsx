@@ -94,16 +94,16 @@ const CalendarGrid = ({ util, loading }) => {
                     )}
                   </div>
                   {loading ? (
-                    <Spinner className="self-end animate-spin" />
+                    <Spinner className="w-[.6rem] md:w-[1rem] h-[.6rem] md:h-[1rem] self-end animate-spin" />
                   ) : (
-                    <div>
+                    <div className="space-y-1">
                       {d.blocks !== 0 && (
-                        <div className="text-[.4rem] md:text-[.75rem] text-blue-800 bg-blue-100 px-[2px] md:px-1 leading-[.5rem] font-medium self-end">
+                        <div className="text-[.4rem] md:text-[.75rem] text-blue-800 bg-blue-100 px-[2px] md:p-1 inline-block leading-[.5rem] font-medium self-end">
                           {`${d.blocks} Event Holded`}
                         </div>
                       )}
                       {d.events !== 0 && (
-                        <div className="text-[.4rem] md:text-[.75rem] text-green-800 bg-green-100 px-[2px] md:px-1 leading-[.5rem] font-medium self-end">
+                        <div className="text-[.4rem] md:text-[.75rem] text-green-800 bg-green-100 px-[2px] md:p-1 inline-block  leading-[.5rem] font-medium self-end">
                           {`${d.events} Function`}
                         </div>
                       )}
