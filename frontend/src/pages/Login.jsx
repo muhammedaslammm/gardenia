@@ -56,10 +56,10 @@ const Login = () => {
                   )}
                 </div>
                 <input
-                  className="border border-neutral-400/70 p-2 rounded-[.3rem] w-full placeholder:text-neutral-200"
+                  className="border border-neutral-400/70 p-2 rounded-[.3rem] w-full placeholder:!text-neutral-500"
                   type="email"
                   name="email"
-                  placeholder="Eg: simon002@gmail.com"
+                  placeholder="sample@.com"
                   value={userData.email}
                   onChange={handleInput}
                 />
@@ -74,10 +74,10 @@ const Login = () => {
                   )}
                 </div>
                 <input
-                  className="border border-neutral-400/70 placeholder:text-neutral-600 text-neutral-400 p-2 rounded-[.3rem] w-full"
+                  className="border border-neutral-400/70  text-neutral-400 p-2 rounded-[.3rem] w-full placeholder:!text-neutral-500"
                   type="password"
                   name="password"
-                  placeholder="Your Secret Passkey***"
+                  placeholder="******"
                   value={userData.password}
                   onChange={handleInput}
                 />
