@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { CaretRight, Spinner } from "phosphor-react";
 import GeneralData from "./form/GeneralData";
 import ContactInfo from "./form/ContactInfo";
@@ -7,14 +7,17 @@ import PaymentInfo from "./form/PaymentInfo";
 import useEvents2 from "../hooks/useEvents2";
 import dayjs from "dayjs";
 import getEventMessage from "../utils/getEventMessage.js";
-import { useState } from "react";
 import { createPortal } from "react-dom";
 import AddCancelModal from "./modals/AddCancelModal.jsx";
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext.jsx";
+import { toast } from "sonner";
 
 const EventManagement = () => {
   const [searchParams] = useSearchParams();
   let eventId = searchParams.get("event");
   let [modal, setModal] = useState(false);
+  let { user } = useContext(AuthContext);
 
   let {
     dateInfo,
@@ -25,6 +28,7 @@ const EventManagement = () => {
     submitEvent,
     errors,
     stat,
+    crossedMidnight,
   } = useEvents2(eventId);
 
   let date_string = dayjs(searchParams.get("date")).format("Do MMMM, YYYY");
@@ -38,6 +42,21 @@ const EventManagement = () => {
     main_hall: dateInfo?.mainhall_stat,
     mini_hall: dateInfo?.minihall_stat,
   };
+
+  if (crossedMidnight === null)
+    return (
+      <div className="w-full h-[90vh] flex justify-center items-center">
+        <div className="flex items-center gap-2 mb-[10rem]">
+          Loading Data...{" "}
+          <Spinner className="w-[1.3rem] h-[1.3rem] animate-spin" />
+        </div>
+      </div>
+    );
+
+  if (eventId && user && user.role === "staff" && crossedMidnight) {
+    toast.error("Request Denied");
+    return <Navigate to="/admin/events" />;
+  }
 
   return (
     <main>

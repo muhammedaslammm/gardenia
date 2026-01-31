@@ -9,10 +9,10 @@ import AdminHeader from "../adminComponents/AdminHeader.jsx";
 import LoadingPage from "../adminComponents/shimmer/LoadingPage.jsx";
 
 const Admin = () => {
-  const { getPageInfo, getSideBarContents } = useSideBar();
+  const { user } = useContext(AuthContext);
+  const { getPageInfo, getSideBarContents } = useSideBar(user?.role);
   const content = getSideBarContents();
   const data = getPageInfo();
-  const { user } = useContext(AuthContext);
   const { logoutStat } = useUser();
 
   if (user === null) return <LoadingPage />;
@@ -24,7 +24,7 @@ const Admin = () => {
           <Sidebar
             content={content}
             page_slug={data?.slug}
-            username={user?.username}
+            username={user.username}
           />
           <AdminHeader stat={logoutStat} />
           <div className="absolute top-9 sm:top-0 left-0 sm:left-[12rem] right-0 min-h-screen bg-[#0f592e]/1 px-3 sm:px-5 py-3 space-y-3 sm:space-y-4 pb-[5rem]">

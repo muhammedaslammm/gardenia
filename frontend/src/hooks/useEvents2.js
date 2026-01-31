@@ -35,6 +35,7 @@ const useEvents2 = (eventId = null) => {
   let [cancelledEvents, setCancelledEvents] = useState(null);
   let [selected, setSelected] = useState(null);
 
+  let [crossedMidnight, setCrossedMidnight] = useState(null);
   let [stat, setStat] = useState("idle");
   let navigate = useNavigate();
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -91,6 +92,7 @@ const useEvents2 = (eventId = null) => {
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        setCrossedMidnight(result.event.crossedMidnight);
         result.event.start_time = dayjs(result.event.start_time).format(
           "HH:mm",
         );
@@ -246,6 +248,7 @@ const useEvents2 = (eventId = null) => {
     errors,
     submitEvent,
     stat,
+    crossedMidnight,
   };
 };
 

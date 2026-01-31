@@ -23,7 +23,7 @@ const useUsers = () => {
     }
   };
 
-  return { users };
+  return { users, refetch: getUsers };
 };
 
 export default useUsers;

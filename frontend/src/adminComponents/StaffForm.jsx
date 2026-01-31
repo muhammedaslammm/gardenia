@@ -1,29 +1,58 @@
 import { useForm } from "react-hook-form";
 import InputLabel from "./InputLabel";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { Spinner } from "phosphor-react";
+import { toast } from "sonner";
 
-const StaffForm = () => {
+const StaffForm = ({ refetch }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
 
   const submitForm = async (values) => {
+    delete values.confirm_password;
     try {
-      delete values.confirm_password;
-      console.log("staff data:", values);
-      //   let response = await fetch(`${BACKEND_URL}/users/register`, {});
+      setLoading(true);
+      let response = await fetch(`${BACKEND_URL}/api/users/register`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      setLoading(false);
+      let result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      toast.success(result.message);
+      reset();
+      refetch();
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  const getElements = () => {
+    switch (user?.role) {
+      case "owner":
+        return ["supervisor", "staff"];
+      case "supervisor":
+        return ["staff"];
+      default:
+        break;
+    }
+  };
+
   return (
-    <section className="w-2/6 bg-white border border-neutral-300 flex flex-col gap-4 p-2">
+    <section className="w-2/6 bg-white border border-neutral-400 flex flex-col gap-4 p-2">
       <div className="space-y-1">
         <h1 className="text-[1.1rem] font--inter-tight font-semibold">
           Handle User
@@ -31,7 +60,7 @@ const StaffForm = () => {
       </div>
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="h-full flex flex-col gap-2"
+        className="h-full flex flex-col gap-3"
       >
         <div className="space-y-1">
           <InputLabel title="Username" error={errors?.username?.message} />
@@ -85,12 +114,39 @@ const StaffForm = () => {
             })}
           />
         </div>
+        <div className="space-y-2 mt-2">
+          <InputLabel title="User Role" error={errors?.role?.message} />
+          <div className="flex items-center gap-[2rem]">
+            {getElements().map((item, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="role"
+                  id={item}
+                  value={item}
+                  {...register("role", { required: "Required" })}
+                />
+                <label htmlFor={item} className="capitalize">
+                  {item}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <button
           type="submit"
-          className="mt-auto bg-black text-white font-medium py-3 cursor-pointer"
+          className={`mt-auto bg-black text-white font-medium py-3 ${loading ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+          disabled={loading}
         >
-          Submit User Data
+          {loading ? (
+            <div className="flex items-center justify-center gap-1">
+              Submitting{" "}
+              <Spinner className="w-[1.2rem] h-[1.2rem] animate-spin" />
+            </div>
+          ) : (
+            "Submit User Data"
+          )}
         </button>
       </form>
     </section>

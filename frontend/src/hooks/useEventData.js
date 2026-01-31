@@ -54,6 +54,7 @@ const useEventData = (id) => {
       let result = await response.json();
       if (!response.ok) throw new Error(result.message);
       setData(result.event);
+      console.log("event data:", result.event);
     } catch (error) {
       console.log(
         "event data fetch error in useEventData.js page:",

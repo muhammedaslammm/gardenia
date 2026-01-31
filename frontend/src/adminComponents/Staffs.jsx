@@ -4,13 +4,13 @@ import StaffBody from "./StaffBody.jsx";
 import StaffForm from "./StaffForm.jsx";
 
 const Staffs = () => {
-  const { users } = useUsers();
+  const { users, refetch } = useUsers();
   return (
     <main className="space-y-4">
       <h1>Staffs</h1>
       <div className="flex gap-4 text-[.9rem]">
         <StaffBody users={users} />
-        <StaffForm />
+        <StaffForm refetch={refetch} />
       </div>
     </main>
   );
