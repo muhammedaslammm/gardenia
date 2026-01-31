@@ -24,6 +24,8 @@ const validateUser = async (req, res, next) => {
 
   if (!user)
     return res.status(401).json({ message: "Failed : User creation rejected" }); //rare case
+  if (user.blocked)
+    return res.status(401).json({ message: "Failed : User creation rejected" });
   if (
     user.role === "staff" ||
     (user.role == "supervisor" && ["owner", "supervisor"].includes(role))

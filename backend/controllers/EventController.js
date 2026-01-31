@@ -263,30 +263,72 @@ export const getEvent = async (req, res) => {
   let { id } = req.params;
   try {
     if (req.query.date) {
-      let event = await Event.aggregate([
+      let event = (
+        await Event.aggregate([
+          { $match: { _id: new mongoose.Types.ObjectId(id) } },
+          {
+            $addFields: {
+              booker_name: "$contact_details.booker_name",
+              address: "$contact_details.address",
+              phone_number_1: "$contact_details.phone_number_1",
+              phone_number_2: "$contact_details.phone_number_2",
+              crossedMidnight: {
+                $gte: [
+                  "$$NOW",
+                  {
+                    $dateAdd: {
+                      startDate: {
+                        $dateTrunc: {
+                          date: "$createdAt",
+                          unit: "day",
+                        },
+                      },
+                      unit: "day",
+                      amount: 1,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $project: {
+              payment: 0,
+              timeline: 0,
+              contact_details: 0,
+            },
+          },
+        ])
+      )[0];
+      return res.json({ event });
+    }
+    let event = (
+      await Event.aggregate([
         { $match: { _id: new mongoose.Types.ObjectId(id) } },
         {
           $addFields: {
-            booker_name: "$contact_details.booker_name",
-            address: "$contact_details.address",
-            phone_number_1: "$contact_details.phone_number_1",
-            phone_number_2: "$contact_details.phone_number_2",
+            crossedMidnight: {
+              $gte: [
+                "$$NOW",
+                {
+                  $dateAdd: {
+                    startDate: {
+                      $dateTrunc: {
+                        date: "$createdAt",
+                        unit: "day",
+                      },
+                    },
+                    unit: "day",
+                    amount: 1,
+                  },
+                },
+              ],
+            },
           },
         },
-        {
-          $project: {
-            payment: 0,
-            timeline: 0,
-            contact_details: 0,
-          },
-        },
-      ]);
-      return res.json({ event: event[0] });
-    }
-    let event = await Event.aggregate([
-      { $match: { _id: new mongoose.Types.ObjectId(id) } },
-    ]);
-    return res.json({ event: event[0] });
+      ])
+    )[0];
+    return res.json({ event });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });

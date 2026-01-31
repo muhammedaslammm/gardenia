@@ -13,11 +13,9 @@ export const myDetails = async (req, res) => {
 
 export const userRegistration = async (req, res) => {
   try {
-    // const data = req.body;
-    // console.log("user data:", data);
-    // const user = await User.create({ ...data });
-    console.log("hey");
-    return res.status(200).json({ message: "user creation cooking..." });
+    const data = req.body;
+    await User.create(data);
+    return res.json({ message: "User Created" });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
@@ -55,7 +53,20 @@ export const userLogin = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    let users = await User.find({ role: { $ne: "owner" } });
+    let restrictedUsers = ["owner"];
+    let current_user = await User.findById(req.userId).select("role");
+
+    switch (current_user.role) {
+      case "supervisor":
+        restrictedUsers.push("supervisor");
+        break;
+      case "staff":
+        restrictedUsers.push("supervisor", "staff");
+        break;
+    }
+    let users = await User.find({ role: { $nin: restrictedUsers } }).select(
+      "-password",
+    );
     return res.json({ users });
   } catch (error) {
     console.log("failed to get users:", error.message);
