@@ -43,7 +43,7 @@ const EventManagement = () => {
     mini_hall: dateInfo?.minihall_stat,
   };
 
-  if (crossedMidnight === null)
+  if (eventId && crossedMidnight === null)
     return (
       <div className="w-full h-[90vh] flex justify-center items-center">
         <div className="flex items-center gap-2 mb-[10rem]">
