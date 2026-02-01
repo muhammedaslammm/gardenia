@@ -181,6 +181,7 @@ export const updateEvent = async (req, res) => {
             "events.stage": 1,
             "events.start_time": 1,
             "events.end_time": 1,
+            "events.contact_details": 1,
             "blocks._id": 1,
             "blocks.start_time": 1,
             "blocks.end_time": 1,
@@ -190,7 +191,6 @@ export const updateEvent = async (req, res) => {
       ])
     )[0];
 
-    console.log("matching date:", matching_date);
     if (!matching_date)
       return res
         .status(404)
@@ -199,6 +199,8 @@ export const updateEvent = async (req, res) => {
     let matching_event = matching_date.events.find(
       (ev) => ev._id.toString() === id,
     );
+
+    console.log("updation data:", req.body);
 
     if (!matching_event)
       return res
@@ -212,6 +214,19 @@ export const updateEvent = async (req, res) => {
     let event_start_time = start_time || matching_event.start_time;
     let event_end_time = end_time || matching_event.end_time;
     let event_stage = stage || matching_event.stage;
+
+    req.body.contact_details = matching_event.contact_details;
+
+    Object.entries(req.body).forEach(([key, value]) => {
+      if (
+        ["booker_name", "address", "phone_number_1", "phone_number_2"].includes(
+          key,
+        )
+      ) {
+        req.body.contact_details[key] = value;
+        delete req.body[key];
+      }
+    });
 
     if ((stage || start_time || end_time) && date_events.length) {
       if (
@@ -251,7 +266,8 @@ export const updateEvent = async (req, res) => {
       console.log("update stat result:", result);
       await EventDate.updateOne({ _id: matching_date._id }, { $set: result });
     }
-    await Event.updateOne({ _id: id }, { $set: req.body });
+    let result = await Event.updateOne({ _id: id }, { $set: req.body });
+    console.log("update result:", result);
     return res.json({ message: "Event Updation processing" });
   } catch (error) {
     console.log("error:", error.message);
