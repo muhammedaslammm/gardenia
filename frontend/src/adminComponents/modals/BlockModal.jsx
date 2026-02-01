@@ -118,7 +118,7 @@ const BlockModal = ({ setModal, dateDetails, fetchEvents }) => {
                 error={errors.phone_number_1}
               />
               <input
-                type="number"
+                type="tel"
                 className="a--input"
                 {...register("phone_number_1", {
                   required: true,
@@ -132,11 +132,11 @@ const BlockModal = ({ setModal, dateDetails, fetchEvents }) => {
                 error={errors.phone_number_2}
               />
               <input
-                type="number"
+                type="tel"
                 className="a--input"
                 {...register("phone_number_2", {
-                  required: true,
-                  pattern: { value: /^[0-9]{10}$/ },
+                  validate: (v) =>
+                    !v || /^[0-9]{10}$/.test(v) || "Must have 10 digits",
                 })}
               />
             </div>

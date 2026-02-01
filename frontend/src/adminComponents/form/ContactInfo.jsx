@@ -51,10 +51,8 @@ const ContactInfo = ({ register, errors }) => {
             placeholder="+91"
             name="phone_number_2"
             {...register("phone_number_2", {
-              required: true,
-              pattern: {
-                value: /^[0-9]{10}$/,
-              },
+              vallidate: (v) =>
+                !v || /^[0-9]{10}$/.test(v) || "Require 10 digits",
             })}
           />
         </div>
