@@ -7,7 +7,7 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
   return (
     <section className="space-y-2">
       <div className="font-medium text-start">Payment Information</div>
-      <div className="grid grid-cols-3 gap-x-4 gap-y-2">
+      <div className="grid grid-cols-4 gap-x-4 gap-y-2">
         <div>
           <InputLabel title="Total Amount" error={errors.total_amount} />
           <input
@@ -34,6 +34,25 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
           </select>
         </div>
         <div>
+          <InputLabel title="Payment Mode" error={errors.payment_mode} />
+          <select
+            className="a--input"
+            {...register("payment_mode", { required: !id ? true : false })}
+          >
+            <option value="" className="" selected disabled>
+              Select One Payment Mode
+            </option>
+            {[
+              ["Cash", "cash"],
+              ["Bank Transfer", "bank_transfer"],
+              ["UPI", "upi"],
+              ["Bank Card", "bank_card"],
+            ].map(([key, value]) => (
+              <option value={value}>{key}</option>
+            ))}
+          </select>
+        </div>
+        <div>
           <InputLabel title="Amount Paid" error={errors.paid_amount} />
           <input
             type="number"
@@ -46,13 +65,14 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
         </div>
         <div></div>
         <div></div>
+        <div></div>
         <div className="">
           <label htmlFor="">Remaining Amount</label>
           <input
             type="text"
             className="a--input"
             value={Intl.NumberFormat("en-IN").format(
-              (Number(total_amount) || 0) - (Number(paid_amount) || 0)
+              (Number(total_amount) || 0) - (Number(paid_amount) || 0),
             )}
             disabled
           />

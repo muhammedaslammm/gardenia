@@ -63,8 +63,10 @@ export const useUser = () => {
     setLogoutStat(true);
     const logout_result = await userLogout();
     setLogoutStat(false);
-    if (logout_result) navigate("/admin-login");
-    else toast.error("Logging Out Failed");
+    if (logout_result) {
+      navigate("/admin-login");
+      localStorage.removeItem("selected_date");
+    } else toast.error("Logging Out Failed");
   };
 
   return {

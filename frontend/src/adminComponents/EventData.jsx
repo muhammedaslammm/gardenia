@@ -26,7 +26,6 @@ const EventData = () => {
   } = useEventData(id);
   let { user } = useContext(AuthContext);
 
-  let highlight_style = `px-2 py-1.5 ${cancelData && "!text-red-800 !bg-red-100/80"}`;
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
   let getCurrency = (amount) => {
@@ -52,7 +51,8 @@ const EventData = () => {
             <div className="animation--mask animation--loading__effect"></div>
           </div>
         ) : (
-          <div className="bg-white border border-neutral-400 p-4 space-y-4">
+          // bg-white border border-neutral-400 p-4
+          <div className="space-y-4">
             <div className="flex justify-between">
               <div>
                 <div className="text-[1.3rem] font-medium">
@@ -72,24 +72,52 @@ const EventData = () => {
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div
-                  className={`capitalize ${highlight_style} text-green-800 bg-green-100/80`}
+                  className={`capitalize px-2 py-1.5 ${cancelData ? "text-red-800 bg-red-100/80" : "text-green-800 bg-green-100/80"} `}
                 >{`Stage : ${data?.stage.split("_").join(" ")}`}</div>
                 <div
-                  className={`${highlight_style} text-green-800 bg-green-100/80`}
+                  className={`px-2 py-1.5 ${cancelData ? "text-red-800 bg-red-100/80" : "text-green-800 bg-green-100/80"}`}
                 >{`Event : ${data?.event}`}</div>
               </div>
-              {sourceData && (
-                <div
-                  className={`${highlight_style} font-medium text-neutral-800 bg-neutral-100/80`}
-                >
-                  Rescheduled from booking #{sourceData}
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                {sourceData && (
+                  <div
+                    className={`px-2 py-1.5 text-neutral-800 bg-neutral-200/80`}
+                  >
+                    Rescheduled Event from booking #{sourceData}
+                  </div>
+                )}
+                {cancelData?.reScheduled && cancelData.reScheduledEvent ? (
+                  <div className="px-2 py-1.5 text-red-800 bg-red-100/80">
+                    Event Rescheduled.{" "}
+                    <Link
+                      className="underline"
+                      to={`/admin/events/${cancelData.reScheduledEvent._id}`}
+                    >
+                      View event
+                    </Link>
+                  </div>
+                ) : cancelData?.reScheduled ? (
+                  <>
+                    <div className="px-2 py-1.5 text-red-800 bg-red-100/80 ">
+                      Event Cancelled.
+                    </div>
+                    <div className="px-2 py-1.5 text-yellow-600 bg-yellow-100/80">
+                      Event listed to reschedule
+                    </div>
+                  </>
+                ) : cancelData ? (
+                  <div className="px-2 py-1.5 text-red-800 bg-red-100/80">
+                    Event Cancelled.
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
         )}
 
-        {cancelData && (
+        {/* {cancelData && (
           <section className="p-4 bg-white text-red-800 border flex justify-between w-1/2 self-start">
             <div>
               <div className="font-medium text-[1.2rem]">
@@ -141,42 +169,43 @@ const EventData = () => {
               )}
             </div>
           </section>
-        )}
+        )} */}
 
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4">
           {dataLoading ? (
             <div className="animation--container w-1/2 h-[20rem]">
               <div className="animation--mask animation--loading__effect"></div>
             </div>
           ) : (
-            <section className="w-1/2 bg-white self-start p-4 border border-neutral-400 space-y-4">
-              <div>Contact Information</div>
-              <div className="">
-                {Object.entries(data?.contact_details || {}).map(
-                  ([key, value], i) => (
-                    <div
-                      key={i}
-                      className="flex justify-between py-1 border-b border-neutral-400 last:border-0"
-                    >
-                      <div className="capitalize ">
-                        {key.split("_").join(" ")}
-                      </div>
-                      <div className="">{value}</div>
+            <section className="w-full space-y-1 mt-4 mb-4">
+              <div className="font-medium">Contact Information</div>
+              <div className="bg-white border border-neutral-400">
+                <div className="grid grid-cols-4 text-center border-b border-neutral-400">
+                  {Object.keys(data?.contact_details || {}).map((item, i) => (
+                    <div key={i} className="capitalize py-3">
+                      {item.split("_").join(" ")}
                     </div>
-                  ),
-                )}
+                  ))}
+                </div>
+                <div className="grid grid-cols-4 text-center">
+                  {Object.values(data?.contact_details || {}).map((item, i) => (
+                    <div key={i} className="py-3">
+                      {item ?? "-"}
+                    </div>
+                  ))}
+                </div>
               </div>
             </section>
           )}
-          <section className="w-1/2 space-y-4">
-            <section className="p-4 bg-white border border-neutral-400 flex flex-col gap-6">
+          <section className="w-full space-y-4">
+            <section className="flex flex-col gap-1">
               <div className="flex justify-between items-center">
-                <div>Payment Information</div>
+                <div className="font-medium">Payment Information</div>
                 {!dataLoading && (
                   <div className="flex gap-4">
                     {!data?.payment.payment_settled && !data?.cancelled && (
                       <div
-                        className="text-purple-800 underline cursor-pointer"
+                        className="text-purple-800 hover:underline cursor-pointer"
                         onClick={() => handleMode("discount")}
                       >
                         Add discount
@@ -186,7 +215,7 @@ const EventData = () => {
                       data?.payment.remaining_amount > 0 &&
                       !data?.cancelled && (
                         <button
-                          className="text-red-700 hover:text-red-500 transition-colors underline cursor-pointer"
+                          className="text-red-700 hover:text-red-500 transition-colors hover:underline cursor-pointer"
                           onClick={() => handleMode("new")}
                         >
                           Add new payment
@@ -196,18 +225,20 @@ const EventData = () => {
                 )}
               </div>
 
-              <div>
-                <div className="flex justify-between items-end py-2 border-b border-neutral-300 font-medium">
+              <div className="p-4 bg-white border border-neutral-400">
+                <div className="flex justify-between items-end py-2 border-b border-neutral-400 font-medium">
                   <div>Total Amount</div>
                   <div>{getCurrency(data?.payment.total_amount)}</div>
                 </div>
                 {data?.payment.payment_timeline.map((tl) => (
                   <div
-                    className="flex justify-between items-start py-2 border-b border-neutral-300"
+                    className="flex justify-between items-start py-2 border-b border-neutral-400"
                     key={tl._id}
                   >
                     <div className="">
-                      <div className="capitalize">{`${tl.payment_type} Amount`}</div>
+                      <div className="capitalize">
+                        {`${tl.payment_type} Amount ${tl.payment_mode ? `(${tl.payment_mode})` : ""}`}
+                      </div>
                       <div>
                         {tl.timeline.map((tl2) => (
                           <div className="text-[.9rem] flex justify-between items-center gap-2 italic text-neutral-700">
@@ -242,7 +273,7 @@ const EventData = () => {
                   )}
                 </div>
                 {cancelData && (
-                  <div className="flex items-center justify-between text-red-800 font-medium border-t border-neutral-300 pt-2">
+                  <div className="flex items-center justify-between text-red-800 font-medium border-t border-neutral-400 pt-2">
                     <div>Refund Amount</div>
                     <div>{getCurrency(cancelData?.refundAmount)}</div>
                   </div>

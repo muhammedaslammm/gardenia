@@ -33,7 +33,7 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
           },
           body: JSON.stringify(values),
           credentials: "include",
-        }
+        },
       );
       setLoading(false);
       let result = await response.json();
@@ -85,13 +85,31 @@ const NewPaymentModal = ({ handleMode, remainingAmount, eventId, refetch }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col gap-1">
+            <ModalLabel title="Payment Mode" error={errors?.payment_mode} />
+            <select
+              className="modal--input"
+              {...register("payment_mode", { required: true })}
+            >
+              <option value="" selected disabled>
+                Select Payment Mode
+              </option>
+              {[
+                ["Cash", "cash"],
+                ["Bank Transfer", "bank_transfer"],
+                ["UPI", "upi"],
+                ["Bank Card", "bank_card"],
+              ].map(([key, value]) => (
+                <option value={value}>{key}</option>
+              ))}
+            </select>
+          </div>
           <div className="flex flex-col gap-1 overflow-hidden">
             <label htmlFor="">Remaining Amount</label>
             <div className="p-2 bg-green-100">
               {Intl.NumberFormat("en-IN").format(preview)}
             </div>
           </div>
-          <div></div>
         </div>
         <button
           className={`p-3 bg-black text-white font-medium mt-8  ${

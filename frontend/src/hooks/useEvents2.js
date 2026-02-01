@@ -26,6 +26,7 @@ const useEvents2 = (eventId = null) => {
       phone_number_2: "",
       total_amount: "",
       payment_type: "",
+      payment_mode: "",
       paid_amount: "",
     },
   });
@@ -102,6 +103,7 @@ const useEvents2 = (eventId = null) => {
           total_amount: "",
           payment_type: "",
           paid_amount: "",
+          payment_mode: "",
         });
       } catch (error) {
         console.log("error:", error.message);

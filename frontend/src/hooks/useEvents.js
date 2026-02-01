@@ -5,7 +5,10 @@ import dayjs from "dayjs";
 
 const useEvents = () => {
   const [eventDates, setEventDates] = useState([]);
-  const [selectedDate, setselectedDate] = useState(dayjs());
+  const [selectedDate, setselectedDate] = useState(() => {
+    let selected_date = localStorage.getItem("selected_date");
+    return selected_date ? dayjs(selected_date) : dayjs();
+  });
   const [year, setYear] = useState(selectedDate.year());
   const [month, setMonth] = useState(selectedDate.month());
   const [selectedDateDetails, setselectedDateDetails] = useState({});
@@ -19,6 +22,10 @@ const useEvents = () => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   let [datesLoading, setDatesLoading] = useState(false);
   let [detailsLoading, setDetailsLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("selected_date", selectedDate.format("YYYY-MM-DD"));
+  }, [selectedDate]);
 
   useEffect(() => {
     fetchEvents();
