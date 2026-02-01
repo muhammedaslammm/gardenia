@@ -1,4 +1,4 @@
-const getData = (client_data, user) => {
+const getData = (client_data, staff) => {
   let {
     date,
     booking_number,
@@ -13,6 +13,7 @@ const getData = (client_data, user) => {
     phone_number_2,
     total_amount,
     payment_type,
+    payment_mode,
     paid_amount,
   } = client_data;
 
@@ -36,14 +37,15 @@ const getData = (client_data, user) => {
         {
           payment_type,
           paid_amount,
-          timeline: [{ username: user.username }],
+          payment_mode,
+          timeline: [{ username: staff.username }],
         },
       ],
       payment_settled: payment_type === "full",
       remaining_amount: total_amount - paid_amount,
-      timeline: [{ username: user.username }],
+      timeline: [{ username: staff.username }],
     },
-    timeline: [{ username: user.username, date: new Date() }],
+    timeline: [{ username: staff.username, date: new Date() }],
   };
 
   return event_data;

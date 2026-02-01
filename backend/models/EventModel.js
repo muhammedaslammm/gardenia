@@ -25,6 +25,10 @@ const Schema = new mongoose.Schema(
             type: String,
             enum: ["advance", "partial", "discount", "final", "full"],
           },
+          payment_mode: {
+            type: String,
+            enum: ["cash", "bank", "upi", "bank_card"],
+          },
           paid_amount: { type: Number },
           timeline: [
             {
@@ -61,7 +65,7 @@ const Schema = new mongoose.Schema(
     cancelled: { type: Boolean, default: false },
     restricted: { type: Boolean, default: true },
   },
-  { strict: true, timestamps: true }
+  { strict: true, timestamps: true },
 );
 
 const Event = mongoose.model.event || mongoose.model("event", Schema);

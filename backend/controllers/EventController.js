@@ -15,7 +15,7 @@ export const createEvent = async (req, res) => {
   try {
     let client_data = req.body;
     let { payment_type, total_amount, paid_amount } = req.body;
-    let user = await User.findOne({ _id: req.userId });
+    let staff = await User.findOne({ _id: req.userId });
 
     if (["partial", "final"].includes(client_data.payment_type))
       return res.status(400).json({
@@ -43,7 +43,7 @@ export const createEvent = async (req, res) => {
         .status(400)
         .json({ message: "Paid amount cannot be more than total amount" });
 
-    let new_event = getData(client_data, user);
+    let new_event = getData(client_data, staff);
 
     let day_result = await handleDayEvent(
       new_event.date,
