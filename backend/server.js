@@ -9,8 +9,8 @@ const connectDB = async () => {
     await mongoose.connect(CONNECTION_STRING);
     app.listen(PORT, () =>
       console.log(
-        `db connected and server listening for request via port ${PORT}`
-      )
+        `db connected and server listening for request via port ${PORT}`,
+      ),
     );
   } catch (error) {}
 };
