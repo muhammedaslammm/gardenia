@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { eventCreationTemplate } from "./emailTemplates.js";
+import {
+  eventCancellationTemplate,
+  eventCreationTemplate,
+} from "./emailTemplates.js";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -23,5 +26,20 @@ export const sendEventCreationEmail = async (event) => {
     console.log("Success : Email scucessfully send.");
   } catch (error) {
     console.log("Failed : Event creation mail failed to send");
+  }
+};
+
+export const sendEventCancellationEmail = async (util) => {
+  const mailOptions = {
+    from: process.env.CENTER_EMAIL,
+    to: process.env.OWNER_EMAIL,
+    subject: `Event Cancelled #${util.booking_number}`,
+    html: eventCancellationTemplate(util),
+  };
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Success : Event cancellation email successfully send.");
+  } catch (error) {
+    console.log("Failed : Event cancellation email failed to send.");
   }
 };

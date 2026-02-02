@@ -10,7 +10,10 @@ import CancelEventModel from "../models/CancelEventModel.js";
 import ExcelJS from "exceljs";
 import dayjs from "dayjs";
 import Block from "../models/BlockModal.js";
-import { sendEventCreationEmail } from "../utils/emailService.js";
+import {
+  sendEventCancellationEmail,
+  sendEventCreationEmail,
+} from "../utils/emailService.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -479,18 +482,37 @@ export const createCharges = async (req, res) => {
 export const cancelEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    let event = await Event.findById(id).select("_id stage date");
+    let event = await Event.findById(id).select(
+      "_id stage date booking_number payment",
+    );
     let { username } = await User.findOne({ _id: req.userId }).select(
       "username",
     );
     let stat = await getCancellationStat(event);
 
     await Event.findByIdAndUpdate(id, { $set: { cancelled: true } });
-    await CancelEventModel.create({
+    let cancelled_data = await CancelEventModel.create({
       eventId: id,
       ...req.body,
       cancelledBy: username,
     });
+    let message_utils = {
+      booking_number: event.booking_number,
+      event_date: event.date,
+      reScheduled: cancelled_data.reScheduled,
+      reason_note: cancelled_data.reasonNote || "Not Provided",
+      author: cancelled_data.cancelledBy,
+      total_event_amount: event.payment.total_amount,
+      client_paid_amount: event.payment.payment_timeline.reduce(
+        (total, item) => {
+          if (item.payment_type !== "discount") total += item.paid_amount;
+          return total;
+        },
+        0,
+      ),
+      refunded_amount: cancelled_data.refundAmount,
+    };
+    await sendEventCancellationEmail(message_utils);
     await EventDate.updateOne({ date: new Date(event.date) }, { $set: stat });
     return res.json({ message: "Event Cancelled" });
   } catch (error) {
