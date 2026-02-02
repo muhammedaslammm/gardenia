@@ -624,7 +624,7 @@ export const getSourceDetail = async (req, res) => {
   }
 };
 
-export const createExcel = async (req, res) => {
+export const getEventsExcel = async (req, res) => {
   let { start_date, end_date } = req.query;
   try {
     let events = await Event.aggregate([
@@ -745,7 +745,84 @@ export const createExcel = async (req, res) => {
     await workbook.xlsx.write(res);
     res.end();
   } catch (error) {
-    console.log("failed to create excel:", error.message);
+    console.log("failed to create events excel:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getPaymentsExcel = async (req, res) => {
+  try {
+    let { start_date, end_date } = req.query;
+    let convertToUpperCase = (value) =>
+      value
+        .split(" ")
+        .map((word) => word[0].toUpperCase() + word.slice(1))
+        .join(" ");
+    let events = await Event.aggregate([
+      {
+        $match: {
+          start_time: {
+            $gte: new Date(`${start_date}T00:00:00.000Z`),
+            $lte: new Date(`${end_date}T23:59:59.999Z`),
+          },
+        },
+      },
+      {
+        $project: {
+          date: 1,
+          booking_number: 1,
+          customer_name: "$contact_details.booker_name",
+          payment: 1,
+        },
+      },
+    ]);
+    console.log("events:", events);
+    if (!events.length)
+      return res.status(404).json({
+        message: "Excel creation cancelled : No event found on this date range",
+      });
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Payments");
+    worksheet.columns = [
+      { header: "Payment Date", key: "date", width: 15 },
+      { header: "Booking Number", key: "booking_number", width: 15 },
+      { header: "Customer Name", key: "customer_name", width: 20 },
+      { header: "Event Date", key: "event_date", width: 15 },
+      { header: "Payment Type", key: "payment_type", width: 15 },
+      { header: "Payment Mode", key: "payment_mode", width: 15 },
+      { header: "Amount", key: "amount", width: 15 },
+      { header: "Received By", key: "author", width: 20 },
+    ];
+
+    events.forEach((event) => {
+      event.payment.payment_timeline.forEach((payment) => {
+        worksheet.addRow({
+          date: dayjs(payment.timeline[0].date).format("DD-MM-YYYY"),
+          booking_number: event.booking_number,
+          customer_name: convertToUpperCase(event.customer_name),
+          event_date: event.date,
+          payment_type: convertToUpperCase(payment.payment_type),
+          payment_mode: convertToUpperCase(payment?.payment_mode ?? "-"),
+          amount: payment.paid_amount,
+          author: convertToUpperCase(payment.timeline[0].username),
+        });
+      });
+    });
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=payments-report.xlsx",
+    );
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.log("failed to create payments excel:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };

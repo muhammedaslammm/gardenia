@@ -4,13 +4,14 @@ import {
   cancelEvent,
   createCharges,
   createEvent,
-  createExcel,
   deleteEvent,
   getCancelledEvents,
   getCharges,
   getEvent,
   getEventCancelData,
   getEvents,
+  getEventsExcel,
+  getPaymentsExcel,
   getSearch,
   getSourceDetail,
   updateEvent,
@@ -18,7 +19,8 @@ import {
 import { authenticate } from "../middlewares/authentication.js";
 const router = express.Router();
 
-router.post("/events/report/excel", authenticate, createExcel);
+router.post("/events/report/excel-events", authenticate, getEventsExcel);
+router.post("/events/report/excel-payments", authenticate, getPaymentsExcel);
 
 router.get("/events", getEvents);
 router.get("/events/search", getSearch);
