@@ -10,6 +10,7 @@ import CancelEventModel from "../models/CancelEventModel.js";
 import ExcelJS from "exceljs";
 import dayjs from "dayjs";
 import Block from "../models/BlockModal.js";
+import { sendEventCreationEmail } from "../utils/emailService.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -57,7 +58,8 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
-    console.log("event created!");
+    await sendEventCreationEmail(event);
+
     if (client_data.selected) {
       await CancelEventModel.updateOne(
         {
