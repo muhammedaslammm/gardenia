@@ -4,9 +4,12 @@ import InputLabel from "../adminComponents/InputLabel";
 import { Spinner, X } from "phosphor-react";
 import getBlockMessage from "../utils/getBlockMessage";
 import { useEffect, useRef } from "react";
+import advancedFormat from "dayjs/plugin/advancedFormat.js";
+
+dayjs.extend(advancedFormat);
 
 const CalendarForm = ({ util, details_loading, open }) => {
-  let { dateDetails, form } = util;
+  let { dateDetails, selectedDate, form } = util;
   let {
     date = null,
     events = [],
@@ -45,8 +48,8 @@ const CalendarForm = ({ util, details_loading, open }) => {
       ref={formRef}
     >
       <div className="leading-[1.8rem] flex justify-between items-center">
-        <div className="font--dm-serif-display text-[1rem] lg:text-[1.4rem]">
-          Enquiry Form
+        <div className="font--inter-tight text-[.95rem] lg:text-[1.15rem] font-medium">
+          {selectedDate.format("dddd, Do MMMM, YYYY")}
         </div>
         <X
           className="text-red-700 w-[1.3rem] h-[1.3rem] cursor-pointer"

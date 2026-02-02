@@ -29,7 +29,7 @@ const Calendar = () => {
     selectDate,
     daysInMonth,
   };
-  let form_util = { dateDetails, form };
+  let form_util = { dateDetails, selectedDate, form };
 
   return (
     <>
