@@ -22,7 +22,7 @@ const StaffCard = ({ user, refetch }) => {
 
   const updateBlock = async () => {
     try {
-      if (deleteLoading || updateLoading) return;
+      if (deleteLoading || blockLoading) return;
       setBlockLoading(true);
       let response = await fetch(`${BACKEND_URL}/api/users/${user._id}`, {
         method: "PATCH",
@@ -46,7 +46,7 @@ const StaffCard = ({ user, refetch }) => {
 
   const deleteUser = async () => {
     try {
-      if (deleteLoading || updateLoading) return;
+      if (deleteLoading || blockLoading) return;
       setDeleteLoading(true);
       let response = await fetch(`${BACKEND_URL}/api/users/${user._id}`, {
         method: "DELETE",
@@ -110,9 +110,9 @@ const StaffCard = ({ user, refetch }) => {
               )}
             </button>
             <button
-              className={` py-2 px-4 text-red-700 hover:bg-neutral-100 transition-colors ${(deleteLoading || updateLoading) && "cursor-not-allowed opacity-70"}`}
+              className={` py-2 px-4 text-red-700 hover:bg-neutral-100 transition-colors ${(deleteLoading || blockLoading) && "cursor-not-allowed opacity-70"}`}
               onClick={deleteUser}
-              disabled={deleteLoading || updateLoading}
+              disabled={deleteLoading || blockLoading}
             >
               {deleteLoading ? (
                 <div className="flex items-center gap-1">
