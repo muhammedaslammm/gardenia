@@ -1,8 +1,9 @@
 import { Spinner } from "phosphor-react";
+import StaffCard from "./StaffCard";
 
-const StaffBody = ({ users }) => {
+const StaffBody = ({ users, open, refetch }) => {
   return (
-    <section className="w-4/6 space-y-2">
+    <section className="w-full space-y-2">
       <div className="flex justify-between items-end">
         <div className="flex items-center gap-2">
           Total Users :{" "}
@@ -12,19 +13,22 @@ const StaffBody = ({ users }) => {
             <span className="font-medium">{users.length}</span>
           )}
         </div>
-        <select className="w-[10rem] bg-white border border-neutral-400 cursor-pointer outline-0 p-1 ml-auto">
-          <option value="all">All</option>
-          <option value="supervisor">Supervisor</option>
-          <option value="staff">Staff</option>
-        </select>
+        <button
+          className="font-semibold text-green-700 cursor-pointer hover:underline"
+          onClick={() => open(true)}
+        >
+          Add New Staff
+        </button>
       </div>
       <div className="bg-white border border-neutral-400">
-        <div className="grid grid-cols-4 border-b border-neutral-400">
-          {["User", "Email", "Role", "Active"].map((item, i) => (
-            <div key={i} className="text-center py-1">
-              {item}
-            </div>
-          ))}
+        <div className="grid grid-cols-6 border-b border-neutral-400">
+          {["Created Date", "User", "Email", "Role", "Status", "Action"].map(
+            (item, i) => (
+              <div key={i} className="text-center py-1">
+                {item}
+              </div>
+            ),
+          )}
         </div>
         <div className="h-[30rem]">
           {users === null && (
@@ -42,20 +46,8 @@ const StaffBody = ({ users }) => {
           )}
           {users &&
             users.length >= 1 &&
-            users.map((user) => (
-              <div
-                key={user._id}
-                className="grid grid-cols-4 text-center py-2 odd:bg-neutral-200/60"
-              >
-                <div>{user.username}</div>
-                <div>{user.email}</div>
-                <div className="capitalize">{user.role}</div>
-                <div
-                  className={`font-medium ${user.blocked ? "text-red-800" : "text-green-800"}`}
-                >
-                  {user.blocked ? "Blocked" : "Active"}
-                </div>
-              </div>
+            users.map((user, i) => (
+              <StaffCard user={user} key={i} refetch={refetch} />
             ))}
         </div>
       </div>

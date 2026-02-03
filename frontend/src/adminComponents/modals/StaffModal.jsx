@@ -1,17 +1,25 @@
 import { useForm } from "react-hook-form";
-import InputLabel from "./InputLabel";
-import { useContext, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import { Spinner } from "phosphor-react";
+import InputLabel from "../InputLabel";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { Spinner, X } from "phosphor-react";
 import { toast } from "sonner";
 
-const StaffForm = ({ refetch }) => {
+const StaffModal = ({ refetch, open }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+      role: "",
+    },
+  });
 
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [loading, setLoading] = useState(false);
@@ -35,6 +43,7 @@ const StaffForm = ({ refetch }) => {
       toast.success(result.message);
       reset();
       refetch();
+      open(false);
     } catch (error) {
       console.log(error.message);
     }
@@ -52,11 +61,14 @@ const StaffForm = ({ refetch }) => {
   };
 
   return (
-    <section className="w-2/6 bg-white border border-neutral-400 flex flex-col gap-4 p-2">
-      <div className="space-y-1">
-        <h1 className="text-[1.1rem] font--inter-tight font-semibold">
-          Handle User
-        </h1>
+    <div className="w-[30rem] bg-white space-y-4 font--inter-tight p-6">
+      <div className="flex justify-between items-center">
+        <div className="font--dm-serif-display font-medium text-[1.6rem]">
+          Manage Staff Personal
+        </div>
+        <div onClick={() => open(false)} className="cursor-pointer">
+          <X className="w-[1.3rem] h-[1.3rem] text-red-700" weight="bold" />
+        </div>
       </div>
       <form
         onSubmit={handleSubmit(submitForm)}
@@ -136,7 +148,7 @@ const StaffForm = ({ refetch }) => {
 
         <button
           type="submit"
-          className={`mt-auto bg-black text-white font-medium py-3 ${loading ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+          className={`mt-[4rem] bg-black text-white font-medium py-3 ${loading ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
           disabled={loading}
         >
           {loading ? (
@@ -149,8 +161,8 @@ const StaffForm = ({ refetch }) => {
           )}
         </button>
       </form>
-    </section>
+    </div>
   );
 };
 
-export default StaffForm;
+export default StaffModal;
