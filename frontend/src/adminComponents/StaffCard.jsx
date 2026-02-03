@@ -67,7 +67,7 @@ const StaffCard = ({ user, refetch }) => {
     }
   };
 
-  const block_button_text = user.block ? "Unblock User" : "Block User";
+  const block_button_text = user.blocked ? "Unblock User" : "Block User";
   return (
     <div
       key={user._id}
