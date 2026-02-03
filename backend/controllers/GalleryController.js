@@ -3,7 +3,7 @@ import cloudinary from "../config/cloudinary.js";
 
 export const getImages = async (req, res) => {
   try {
-    let images = await Gallery.find().select("url _id");
+    let images = await Gallery.find().select("public_id _id");
     let count = await Gallery.countDocuments();
     return res.json({ images, count });
   } catch (error) {

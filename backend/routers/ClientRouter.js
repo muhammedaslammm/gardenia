@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get("/events", getMonthEvents);
-router.get("/events/:date", getDateDetails);
-router.get("/gallery", getGallery);
+router.get("/client/events", getMonthEvents);
+router.get("/client/events/:date", getDateDetails);
+router.get("/client/gallery", getGallery);
 
 export default router;

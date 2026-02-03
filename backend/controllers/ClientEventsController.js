@@ -141,7 +141,7 @@ export const getDateDetails = async (req, res) => {
 
 export const getGallery = async (req, res) => {
   try {
-    let images = await Gallery.find().select("url -_id");
+    let images = await Gallery.find().select("public_id -_id");
     return res.json({ images });
   } catch (error) {
     console.log(
