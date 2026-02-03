@@ -24,7 +24,7 @@ const headerConfig = {
       title: "Contact",
       path: "contact",
     },
-    { title: "Careeres", path: "/careers" },
+    { title: "Careers", path: "/careers" },
     { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
@@ -48,7 +48,7 @@ const headerConfig = {
       path: "/",
     },
 
-    { title: "Careeres", path: "/careers" },
+    { title: "Careers", path: "/careers" },
     { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
@@ -58,7 +58,7 @@ const headerConfig = {
       path: "/",
     },
 
-    { title: "Careeres", path: "/careers" },
+    { title: "Careers", path: "/careers" },
     { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
@@ -68,7 +68,7 @@ const headerConfig = {
       path: "/",
     },
 
-    { title: "Careeres", path: "/careers" },
+    { title: "Careers", path: "/careers" },
     { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
@@ -78,7 +78,7 @@ const headerConfig = {
       path: "/",
     },
 
-    { title: "Careeres", path: "/careers" },
+    { title: "Careers", path: "/careers" },
     { title: "Gallery", path: "/gallery" },
     { title: "Calendar", path: "/calendar" },
   ],
