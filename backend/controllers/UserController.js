@@ -33,7 +33,7 @@ export const userLogin = async (req, res) => {
       return res
         .cookie("token", token, {
           httpOnly: true,
-          sameSite: "none",
+          sameSite: "lax",
           secure: true,
         })
         .status(200)
@@ -76,7 +76,7 @@ export const getUsers = async (req, res) => {
 
 export const userLogout = (req, res) => {
   res
-    .clearCookie("token", { httpOnly: true, sameSite: "none", secure: true })
+    .clearCookie("token", { httpOnly: true, sameSite: "lax", secure: true })
     .status(200)
     .json({ message: "user logged out" });
 };
