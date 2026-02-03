@@ -101,7 +101,8 @@ const StaffCard = ({ user, refetch }) => {
             >
               {blockLoading ? (
                 <div className="flex items-center gap-1">
-                  Updating <Spinner />
+                  Updating{" "}
+                  <Spinner className="w-[1rem] h-[1rem] animate-spin" />
                 </div>
               ) : (
                 block_button_text
@@ -115,7 +116,7 @@ const StaffCard = ({ user, refetch }) => {
               {deleteLoading ? (
                 <div className="flex items-center gap-1">
                   Deleteing{" "}
-                  <Spinner className="w-[1.1rem] h-[1.1rem] animate-spin" />
+                  <Spinner className="w-[1rem] h-[1rem] animate-spin" />
                 </div>
               ) : (
                 " Delete User"
