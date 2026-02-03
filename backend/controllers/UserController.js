@@ -64,12 +64,35 @@ export const getUsers = async (req, res) => {
         restrictedUsers.push("supervisor", "staff");
         break;
     }
-    let users = await User.find({ role: { $nin: restrictedUsers } }).select(
-      "-password",
-    );
+    let users = await User.find({ role: { $nin: restrictedUsers } })
+      .select("-password")
+      .sort("-createdAt");
     return res.json({ users });
   } catch (error) {
     console.log("failed to get users:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const handleBlock = async (req, res) => {
+  try {
+    let result = await User.findByIdAndUpdate(req.params.id, [
+      { $set: { blocked: { $not: "$blocked" } } },
+    ]);
+    console.log("block update result:", result);
+    return res.json({ message: "Updated : User block status updated" });
+  } catch (error) {
+    console.log("failed to handle user block:", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    return res.json({ message: "User Deleted" });
+  } catch (error) {
+    console.log("Failed to delete user:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };

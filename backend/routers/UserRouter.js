@@ -1,7 +1,9 @@
 import express from "express";
 import {
   clientEnquiry,
+  deleteUser,
   getUsers,
+  handleBlock,
   myDetails,
   userLogin,
   userLogout,
@@ -16,5 +18,7 @@ router.post("/users/login", userLogin);
 router.post("/users/logout", userLogout);
 router.post("/users/client-enquiry", clientEnquiry);
 router.get("/users", authenticate, getUsers);
+router.patch("/users/:id", authenticate, validateUser, handleBlock);
+router.delete("/users/:id", authenticate, validateUser, deleteUser);
 
 export default router;

@@ -23,14 +23,14 @@ const validateUser = async (req, res, next) => {
   let user = await User.findOne({ _id: req.userId }).select("role");
 
   if (!user)
-    return res.status(401).json({ message: "Failed : User creation rejected" }); //rare case
+    return res.status(401).json({ message: "Failed : Request rejected" }); //rare case
   if (user.blocked)
-    return res.status(401).json({ message: "Failed : User creation rejected" });
+    return res.status(401).json({ message: "Failed : Request rejected" });
   if (
     user.role === "staff" ||
     (user.role == "supervisor" && ["owner", "supervisor"].includes(role))
   )
-    return res.status(403).json({ message: "Failed : User creation rejected" });
+    return res.status(403).json({ message: "Failed : Request rejected" });
 
   next();
 };
