@@ -5,6 +5,7 @@ import { toast } from "sonner";
 const GalleryImage = ({ image, refetch }) => {
   let [loading, setLoading] = useState(false);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  let IMAGE_URL = import.meta.env.VITE_CLOUDINARY_IMAGE_URL;
 
   const deleteImage = async (id) => {
     try {
@@ -29,7 +30,7 @@ const GalleryImage = ({ image, refetch }) => {
       onClick={() => deleteImage(image._id)}
     >
       <img
-        src={image.url}
+        src={`${IMAGE_URL}/${image.public_id}`}
         alt="uploaded image"
         className="w-full h-full object-contain object-center"
       />

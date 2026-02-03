@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 const Gallery = () => {
   let [gallery, setGallery] = useState([]);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  let IMAGE_URL = import.meta.env.VITE_CLOUDINARY_IMAGE_URL;
   useEffect(() => {
     let getGallery = async () => {
       try {
@@ -50,7 +51,7 @@ const Gallery = () => {
           {gallery.map((image, i) => (
             <div>
               <img
-                src={image.url}
+                src={`${IMAGE_URL}/${image.public_id}`}
                 alt="gallery image"
                 className="mb-4"
                 key={i}
