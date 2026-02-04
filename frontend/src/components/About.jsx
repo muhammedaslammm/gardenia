@@ -8,7 +8,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="pt-4 pb-2 md:py-6 lg:py-8 xl:pb-12 space-y-2 lg:space-y-2 section"
+      className="pt-4 pb-2 md:py-6 lg:py-8 xl:pb-12 space-y-2 lg:space-y-2 section--about"
       ref={containerRef}
     >
       <h1 className="heading--section">who are we ?</h1>
