@@ -816,7 +816,7 @@ export const getPaymentsExcel = async (req, res) => {
       { header: "Payment Type", key: "payment_type", width: 15 },
       { header: "Payment Mode", key: "payment_mode", width: 15 },
       { header: "Amount", key: "amount", width: 15 },
-      { header: "Received By", key: "author", width: 20 },
+      { header: "Remarks", key: "remarks", width: 25 },
     ];
 
     events.forEach((event) => {
@@ -827,9 +827,12 @@ export const getPaymentsExcel = async (req, res) => {
           customer_name: convertToUpperCase(event.customer_name),
           event_date: event.date,
           payment_type: convertToUpperCase(payment.payment_type),
-          payment_mode: convertToUpperCase(payment?.payment_mode ?? "-"),
+          payment_mode:
+            payment?.payment_mode
+              .split("_")
+              .map((word) => word[0].toUpperCase() + word.slice(1))
+              .join(" ") ?? "-",
           amount: payment.paid_amount,
-          author: convertToUpperCase(payment.timeline[0].username),
         });
       });
     });
