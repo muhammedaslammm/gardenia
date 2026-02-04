@@ -187,6 +187,7 @@ export const updateEvent = async (req, res) => {
             "events.start_time": 1,
             "events.end_time": 1,
             "events.contact_details": 1,
+            "events.createdAt": 1,
             "blocks._id": 1,
             "blocks.start_time": 1,
             "blocks.end_time": 1,
@@ -199,18 +200,24 @@ export const updateEvent = async (req, res) => {
     if (!matching_date)
       return res
         .status(404)
-        .json({ message: "Updation Failed : Credential not found" });
+        .json({ message: "Updation Failed : Event Date not found" });
 
     let matching_event = matching_date.events.find(
       (ev) => ev._id.toString() === id,
     );
 
-    console.log("updation data:", req.body);
-
     if (!matching_event)
       return res
         .status(404)
-        .json({ message: "Updation Failed : Credential not found" });
+        .json({ message: "Updation Failed : Event not found" });
+
+    if (
+      req.userRole === "staff" &&
+      Date.now() >= new Date(matching_event.createdAt).setHours(24, 0, 0, 0)
+    )
+      return res
+        .status(403)
+        .json({ message: "Updation Failed : Permission Denied" });
 
     let date_events = matching_date.events.filter(
       (ev) => ev._id.toString() !== id,
@@ -273,7 +280,7 @@ export const updateEvent = async (req, res) => {
     }
     let result = await Event.updateOne({ _id: id }, { $set: req.body });
     console.log("update result:", result);
-    return res.json({ message: "Event Updation processing" });
+    return res.json({ message: "Updation Successfull" });
   } catch (error) {
     console.log("error:", error.message);
     return res.status(500).json({ message: error.message });
