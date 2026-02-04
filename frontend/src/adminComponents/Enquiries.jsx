@@ -1,17 +1,41 @@
 import dayjs from "dayjs";
 import useEnquiries from "../hooks/useEnquiries";
-import { Check, MagnifyingGlass, Spinner } from "phosphor-react";
+import { Spinner } from "phosphor-react";
 
 const Enquiries = () => {
   let { sortedResult, handleRead, updateId, handleSort } = useEnquiries();
   return (
     <main className="space-y-4">
       <h1>Client Enquiries</h1>
-      <div className="w-full flex gap-4">
-        <div className="w-[70%]">
-          {sortedResult === null ? (
-            <div>loading ...</div>
-          ) : sortedResult.length > 0 ? (
+
+      <div className="w-[70%]">
+        {sortedResult === null ? (
+          <div className="space-y-4">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="animation--container h-[10rem] w-full">
+                <div className="animation--mask animation--loading__effect"></div>
+              </div>
+            ))}
+          </div>
+        ) : sortedResult && sortedResult.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <div className="self-start w-2/6 space-y-1">
+              {/* <div className="">Sort</div> */}
+              <select
+                name=""
+                id=""
+                className="w-full border border-neutral-400 cursor-pointer p-2"
+                onChange={handleSort}
+              >
+                {[
+                  ["all", "All"],
+                  ["read", "Read"],
+                  ["un-read", "Unread"],
+                ].map(([key, value]) => (
+                  <option value={key}>{value}</option>
+                ))}
+              </select>
+            </div>
             <div className="space-y-2">
               {sortedResult.map((enq) => (
                 <div
@@ -56,40 +80,13 @@ const Enquiries = () => {
                 </div>
               ))}
             </div>
-          ) : (
-            <div>
-              <div>No Enquiries</div>
-              <div>Couldn't find any enquiries from clients!</div>
-            </div>
-          )}
-        </div>
-        <div className="w-[30%] self-start space-y-4">
-          <input
-            type="search"
-            className="w-full border border-neutral-400 outline-0 p-2"
-            placeholder="Search enquiries here . . ."
-          />
-          <div>
-            <div className="space-y-1">
-              <div className="">Sort</div>
-              <select
-                name=""
-                id=""
-                className="w-[50%] border border-neutral-400 cursor-pointer p-2"
-                onChange={handleSort}
-              >
-                {[
-                  ["all", "All"],
-                  ["read", "Read"],
-                  ["un-read", "Unread"],
-                ].map(([key, value]) => (
-                  <option value={key}>{value}</option>
-                ))}
-              </select>
-            </div>
-            <div></div>
           </div>
-        </div>
+        ) : (
+          <div>
+            <div>No Enquiries</div>
+            <div>Couldn't find any enquiries from clients!</div>
+          </div>
+        )}
       </div>
     </main>
   );

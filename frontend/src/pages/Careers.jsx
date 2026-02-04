@@ -1,4 +1,3 @@
-import Shimmer from "../components/Shimmer.jsx";
 import useJobs from "../hooks/useJobs.js";
 
 export default function Careers() {
@@ -6,11 +5,17 @@ export default function Careers() {
   return (
     <div className="py-[5rem] lg:py-20 xl:pt-[6rem] min-h-[100svh] w-[90%] xl:w-[85%] mx-auto space-y-4">
       {jobs === null ? (
-        <Shimmer />
+        <div className="space-y-4">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div className="animation--container w-full h-[15rem]" key={i}>
+              <div className="animation--mask animation--loading__effect"></div>
+            </div>
+          ))}
+        </div>
       ) : jobs.length === 0 ? (
         <div className="p-3 md:p-6 bg-[#0f592e]/10 rounded-[.3rem] space-y-2 md:space-y-1">
-          <div className="text-[1.2rem] lg:text-[1.8rem] font--dm-serif-display text-[#0f592e]">
-            Nothing Found
+          <div className="text-[1.2rem] lg:text-[1.6rem] font--dm-serif-display text-[#0f592e]">
+            No Job Openings Avaialable
           </div>
           <div className="font--inter-tight text-[1rem] md:text-[1.2rem] leading-[1.4rem] text-[#0f592e]">
             We couldn't find any job openings in Gardenia Convention Center

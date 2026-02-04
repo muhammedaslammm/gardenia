@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const Gallery = () => {
-  let [gallery, setGallery] = useState([]);
+  let [gallery, setGallery] = useState(null);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   let IMAGE_URL = import.meta.env.VITE_CLOUDINARY_IMAGE_URL;
   useEffect(() => {
