@@ -6,7 +6,7 @@ const Spaces = () => {
   return (
     <section
       id="spaces"
-      className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-8 xl:space-y-4"
+      className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-8 xl:space-y-4 section"
     >
       <div className="space-y-1">
         <h2

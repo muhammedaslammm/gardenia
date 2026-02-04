@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="w-full pt-0 pb-10 md:pb-12 flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-3 border-t-0 border-[#0f592e]"
+      className="w-full pt-0 pb-10 md:pb-12 flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-3 border-t-0 border-[#0f592e] section"
     >
       <div className="space-y-1">
         <h3 className="heading--section">reach out to us</h3>

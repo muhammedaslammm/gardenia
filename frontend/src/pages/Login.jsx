@@ -15,12 +15,12 @@ const Login = () => {
     <section className="relative">
       <Link
         to="/"
-        className="absolute top-2 left-[1%] sm:left-[6.5%] md:left-[50%] md:-translate-x-[50%] lg:left-1 lg:-translate-x-0 lg:top-1 z-100 text-white font-semibold text-[1.4rem]"
+        className="absolute top-0 left-[4%] sm:left-[6.5%] md:left-[50%] md:-translate-x-[50%] lg:left-[5%] lg:-translate-x-0 z-100 bg-green-900 pb-4 pt-[1rem] rounded-b-[1.5rem] flex items-center justify-center"
       >
         <img
           src="/logo/gardenia-logo-2.png"
           alt="Gardenia Convention Center Logo"
-          className="w-[7rem] sm:w-[7.5rem] md:w-[8.5rem] md:-translate-x-[8%] lg:translate-x-0 h-[2rem] lg:w-[8.5rem] lg:h-[3rem] object-cover"
+          className="w-[7rem] sm:w-[7.5rem] md:w-[8.5rem]  lg:translate-x-0 h-[2rem] lg:w-[8.5rem] lg:h-[3rem] object-cover"
         />
       </Link>
       <div className="lg:h-screen flex flex-col lg:flex-row">

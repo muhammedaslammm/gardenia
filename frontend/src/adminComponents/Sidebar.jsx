@@ -45,7 +45,11 @@ const Sidebar = ({ content, page_slug, username }) => {
           disabled={logoutStat === "loading"}
         >
           {logoutStat ? (
-            <Spinner className="animate-spin duration-200" />
+            <div className="flex items-center gap-1">
+              {" "}
+              Logging Out
+              <Spinner className="animate-spin duration-200" />
+            </div>
           ) : (
             "Log Out"
           )}

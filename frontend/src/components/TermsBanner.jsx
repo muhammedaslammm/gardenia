@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 
 const TermsBanner = () => {
   return (
-    <section id="terms" className="py-10 lg:py-12 border-t border-[#0f592e]">
+    <section
+      id="terms"
+      className="py-10 lg:py-12 border-t border-[#0f592e] section"
+    >
       <div className="bg-green-100 p-4 sm:p-8 flex flex-col gap-12 rounded-[.5rem]">
         <div className="space-y-3 sm:space-y-1">
           <h1 className="font--dm-serif-display text-[#081e10] text-[1.3rem] sm:text-[1.6rem] leading-[1.6rem] capitalize">

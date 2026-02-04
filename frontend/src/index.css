@@ -63,6 +63,10 @@ button {
   font-family: "Inter Tight", serif;
 }
 
+.section {
+  scroll-margin-top: 50px;
+}
+
 .banner-button {
   @apply self-center text-[.7rem] sm:text-[1rem] font-semibold py-2 px-4 uppercase cursor-pointer;
 }

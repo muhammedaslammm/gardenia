@@ -3,7 +3,7 @@ const toSection = (id) => {
   if (section) {
     section.scrollIntoView({
       behavior: "smooth",
-      block: "start",
+      block: "nearest",
     });
   }
 };

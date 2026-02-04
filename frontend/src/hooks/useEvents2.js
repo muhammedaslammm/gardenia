@@ -39,6 +39,7 @@ const useEvents2 = (eventId = null) => {
   let [crossedMidnight, setCrossedMidnight] = useState(null);
   let [stat, setStat] = useState("idle");
   let navigate = useNavigate();
+
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -152,6 +153,10 @@ const useEvents2 = (eventId = null) => {
         if (selected) values.selected = selected.event._id;
 
         setStat("loading");
+        const toast_id = toast.loading(
+          "This may take a few seconds. Do not refresh or leave the page.",
+          { icon: null },
+        );
         let response = await fetch(`${BACKEND_URL}/api/events`, {
           method: "POST",
           headers: {
@@ -169,18 +174,18 @@ const useEvents2 = (eventId = null) => {
             type: "manual",
             message: result.message || "Failed : Detected payment type error",
           });
-          toast.warning(result.message);
+          toast.warning(result.message, { id: toast_id });
           return;
         } else if (response.status == 409) {
           setError("booking_number", {
             type: "manual",
             message: "Booking number already taken",
           });
-          toast.warning(result.message);
+          toast.warning(result.message, { id: toast_id });
           return;
         } else if (!response.ok) throw new Error(result.message);
         else {
-          toast.success(result.message);
+          toast.success(result.message, { id: toast_id });
           navigate("/admin/events");
         }
       } else {
@@ -200,6 +205,10 @@ const useEvents2 = (eventId = null) => {
         }
         if (flag) {
           setStat("loading");
+          let toast_id = toast.loading(
+            "This may take a few seconds. Do not refresh or leave the page.",
+            { icon: null },
+          );
           let response = await fetch(
             `${BACKEND_URL}/api/events/${eventId}?date=${date}`,
             {
@@ -217,15 +226,16 @@ const useEvents2 = (eventId = null) => {
           if (response.status === 401) {
             toast.error(
               "Event Updation Restricted : Failed to authenticate the user.",
+              { id: toast_id },
             );
             return navigate("/admin-login");
           } else if (response.status === 404) {
-            return toast.warning(result.message);
+            return toast.warning(result.message, { id: toast_id });
           } else if (response.status === 409) {
-            return toast.error(result.message);
+            return toast.error(result.message, { id: toast_id });
           } else if (!response.ok) throw new Error(result.message);
 
-          toast.success(result.message);
+          toast.success(result.message, { id: toast_id });
           navigate(`/admin/events/${eventId}`);
         } else
           toast.warning(

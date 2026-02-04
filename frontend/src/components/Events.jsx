@@ -4,7 +4,7 @@ const Events = () => {
   return (
     <section
       id="events"
-      className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-6 xl:space-y-12"
+      className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-6 xl:space-y-12 section"
     >
       <div className="space-y-1">
         <h2 className="heading--section">events we host</h2>

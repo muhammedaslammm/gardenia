@@ -2,7 +2,7 @@ import chooseusSection from "../data/chooseusSection";
 
 const ChooseUs = () => {
   return (
-    <section className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-6 lg:space-y-8 xl:space-y-12">
+    <section className="py-10 lg:py-12 border-t border-[#0f592e] space-y-4 sm:space-y-6 lg:space-y-8 xl:space-y-12 section">
       <div className="space-y-1">
         <h2 className="heading--section">{chooseusSection.title}</h2>
         <p className="hidden sm:block paragraph--section">
