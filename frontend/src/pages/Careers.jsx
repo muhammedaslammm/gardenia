@@ -12,7 +12,7 @@ export default function Careers() {
             </div>
           ))}
         </div>
-      ) : jobs.length === 0 ? (
+      ) : jobs && jobs.length === 0 ? (
         <div className="p-3 md:p-6 bg-[#0f592e]/10 rounded-[.3rem] space-y-2 md:space-y-1">
           <div className="text-[1.2rem] lg:text-[1.6rem] font--dm-serif-display text-[#0f592e]">
             No Job Openings Avaialable
@@ -23,16 +23,13 @@ export default function Careers() {
           </div>
         </div>
       ) : (
-        <div className="space-y-4 lg:space-y-8  min-h-[80svh]">
-          {/* <h1 className="heading--section !font-medium !normal-case underline">
-            Available job openings
-          </h1> */}
-          <div className="grid grid-cols-1 lg:grid-cols-1">
+        <div className="space-y-4 lg:space-y-8 min-h-[80svh]">
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
             {jobs.map((job) => (
-              <div className="flex flex-col gap-8 border-b border-neutral-400 py-10 first:pt-0 last:border-b-0">
+              <div className="flex flex-col gap-8 bg-green-100/70 p-6 last:border-b-0">
                 <div className="space-y-1">
                   <div className="flex justify-between items-center">
-                    <h2 className="lg:text-[1.2rem] font-semibold text-[#0f592e] font--marriweather">
+                    <h2 className="lg:text-[1.2rem] font-semibold text-[#0f592e] uppercase">
                       {job.title}
                     </h2>
                     <div

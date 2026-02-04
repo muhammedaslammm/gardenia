@@ -61,7 +61,7 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
-    await sendEventCreationEmail(event);
+    // await sendEventCreationEmail(event);
 
     if (client_data.selected) {
       await CancelEventModel.updateOne(
@@ -512,7 +512,7 @@ export const cancelEvent = async (req, res) => {
       ),
       refunded_amount: cancelled_data.refundAmount,
     };
-    await sendEventCancellationEmail(message_utils);
+    // await sendEventCancellationEmail(message_utils);
     await EventDate.updateOne({ date: new Date(event.date) }, { $set: stat });
     return res.json({ message: "Event Cancelled" });
   } catch (error) {

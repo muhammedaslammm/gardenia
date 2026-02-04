@@ -1,9 +1,7 @@
 import useJobs from "../hooks/useJobs";
 import Empty from "./Empty";
 import { Spinner } from "phosphor-react";
-import { Toaster, toast } from "sonner";
 import Job from "./Job";
-import Shimmer from "../components/Shimmer.jsx";
 
 const Jobs = () => {
   const {
@@ -47,8 +45,14 @@ const Jobs = () => {
       <section className="flex flex-col lg:flex-row ">
         <div className="lg:w-4/6 border-b pb-8 lg:pb-0 lg:border-r lg:pr-8 border-neutral-400 ">
           {jobs === null ? (
-            <Shimmer />
-          ) : jobs.length ? (
+            <div className="space-y-4">
+              {Array.from({ length: 2 }).map((_, i) => (
+                <div className="animation--container w-full h-[10rem]">
+                  <div className="animation--mask animation--loading__effect"></div>
+                </div>
+              ))}
+            </div>
+          ) : jobs && jobs.length ? (
             <div className="space-y-2">
               <div className="font-semibold">Jobs Posted</div>
               <div className="space-y-2 w-full">
@@ -64,7 +68,7 @@ const Jobs = () => {
             </div>
           ) : (
             <Empty
-              head={"No Jobs Added"}
+              head={"No Job Openings Added"}
               note={
                 "We couldn't find any jobs. You need to add available openings inorder for the publec to get aware of."
               }
@@ -169,7 +173,10 @@ const Jobs = () => {
               />
             </div>
             <button
-              disabled={["loading", "success", "error"].includes(buttonState)}
+              disabled={
+                ["loading", "success", "error"].includes(buttonState) ||
+                jobs === null
+              }
               className={`mt-8 w-full text-center text-white font-semibold py-2 cursor-pointer hover:-translate-y-[.1rem] active:translate-y-0 transition ${buttonStyle}`}
               onClick={submitNewJob}
             >

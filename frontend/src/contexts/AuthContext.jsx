@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
           setUser(data.user);
         }
       } catch (error) {
-        console.error("error:", error.message);
+        console.log("error:", error.message);
         setUser(false);
       }
     };

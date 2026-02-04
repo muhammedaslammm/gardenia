@@ -3,7 +3,7 @@ import Sidebar from "../adminComponents/Sidebar.jsx";
 import useSideBar from "../hooks/useSideBar";
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext } from "react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import { useUser } from "../hooks/useUser.js";
 import AdminHeader from "../adminComponents/AdminHeader.jsx";
 import LoadingPage from "../adminComponents/shimmer/LoadingPage.jsx";
@@ -16,7 +16,7 @@ const Admin = () => {
   const { logoutStat } = useUser();
 
   if (user === null) return <LoadingPage />;
-  else if (user)
+  else if (user && !user.blocked) {
     return (
       <>
         <Toaster position="top-center" richColors />
@@ -33,7 +33,7 @@ const Admin = () => {
         </section>
       </>
     );
-  else return <Navigate to="/admin-login" />;
+  } else return <Navigate to="/admin-login" />;
 };
 
 export default Admin;

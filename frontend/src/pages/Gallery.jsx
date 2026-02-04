@@ -23,7 +23,7 @@ const Gallery = () => {
     <main className="min-h-screen pt-[4rem] xl:pt-[6rem] w-[85%] mx-auto">
       {gallery === null ||
         (gallery.length >= 1 && (
-          <h1 className="font--dm-serif-display text-[1rem] xl:text-[1.4rem]">
+          <h1 className="font--dm-serif-display text-[1rem] xl:text-[1.4rem] text-center">
             Event Gallery
           </h1>
         ))}

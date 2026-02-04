@@ -26,6 +26,7 @@ import GalleryPage from "./pages/Gallery.jsx";
 
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter([
   {
@@ -49,7 +50,11 @@ const router = createBrowserRouter([
 
   {
     path: "/admin",
-    element: <Admin />,
+    element: (
+      <AuthProvider>
+        <Admin />
+      </AuthProvider>
+    ),
     children: [
       { index: true, element: <Navigate to="events" /> },
       { path: "events", element: <Events /> },
@@ -63,16 +68,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-login",
-    element: <Login />,
+    element: (
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    ),
   },
+  { path: "*", element: <NotFound /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ErrorBoundary>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <RouterProvider router={router} />
     </ErrorBoundary>
   </StrictMode>,
 );

@@ -4,7 +4,9 @@ import nodemailer from "nodemailer";
 
 export const myDetails = async (req, res) => {
   try {
-    let user = await User.findById(req.userId).select("-password");
+    let user = await User.findById(req.userId).select(
+      "-password -createdAt -updatedAt -__v",
+    );
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -43,6 +45,7 @@ export const userLogin = async (req, res) => {
             username: user.username,
             email: user.email,
             role: user.role,
+            blocked: user.blocked,
           },
         });
     } else return res.status(401).json({ message: "authentication failed" });

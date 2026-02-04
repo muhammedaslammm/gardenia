@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, unique: true },
     role: { type: String, enum: ["owner", "supervisor", "staff"] },
-    permission: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
   },
   { timestamps: true },

@@ -24,7 +24,7 @@ const Enquiries = () => {
               <select
                 name=""
                 id=""
-                className="w-full border border-neutral-400 cursor-pointer p-2"
+                className="w-full border border-neutral-400 cursor-pointer outline-0 p-2"
                 onChange={handleSort}
               >
                 {[
