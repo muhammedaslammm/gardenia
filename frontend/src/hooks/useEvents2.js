@@ -233,6 +233,8 @@ const useEvents2 = (eventId = null) => {
             return toast.warning(result.message, { id: toast_id });
           } else if (response.status === 409) {
             return toast.error(result.message, { id: toast_id });
+          } else if (response.status === 403) {
+            return toast.error(result.message, { id: toast_id });
           } else if (!response.ok) throw new Error(result.message);
 
           toast.success(result.message, { id: toast_id });
