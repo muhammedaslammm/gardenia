@@ -15,11 +15,11 @@ const Footer = () => {
           <div className="top__left w-[55%] text-[1rem] sm:text-[1.3rem] md:text-[1.5rem] xl:text-[1.8rem] leading-[1.3rem] xl:leading-[1.5rem] capitalize">
             {footer.title}
           </div>
-          <div className="top__right text-[1.5rem] md:text-[1.8rem] xl:text-[2.5rem]">
+          <div>
             <img
               src="/logo/gardenia-logo-2.png"
               alt="Gardenia Convention Center Logo"
-              className="w-[10rem] sm:w-[11rem] md:w-[14rem] xl:w-[16rem] h-[5rem] object-cover translate-x-6 sm:translate-x-6 md:translate-x-7 xl:translate-x-19"
+              className="w-[8rem] sm:w-[11rem] md:w-[14rem] xl:w-[16rem] h-[5rem] object-cover translate-x-4 sm:translate-x-7 md:translate-x-10 xl:translate-x-11"
             />
           </div>
         </div>
