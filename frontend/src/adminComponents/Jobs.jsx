@@ -41,9 +41,10 @@ const Jobs = () => {
       "Create New Job"
     );
   return (
-    <>
-      <section className="flex flex-col lg:flex-row ">
-        <div className="lg:w-4/6 border-b pb-8 lg:pb-0 lg:border-r lg:pr-8 border-neutral-400 ">
+    <div className="space-y-2">
+      <div>Jobs</div>
+      <section className="flex gap-4">
+        <div className="w-4/6">
           {jobs === null ? (
             <div className="space-y-4">
               {Array.from({ length: 2 }).map((_, i) => (
@@ -75,8 +76,8 @@ const Jobs = () => {
             />
           )}
         </div>
-        <div className="mx-auto w-full lg:w-2/6 text-black pt-6 lg:pt-0 lg:pl-8 font--inter-tight space-y-4 rounded-[.3rem]">
-          <div className=" font-semibold text-[1rem] sm:text-[1.2rem] ">
+        <div className="w-2/6 border border-neutral-300 flex flex-col gap-1 p-4">
+          <div className="font--dm-serif-display text-[1rem] sm:text-[1.2rem] ">
             {updateChild
               ? "Update the Selected Job..."
               : "Add new Job Openings here..."}
@@ -185,7 +186,7 @@ const Jobs = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

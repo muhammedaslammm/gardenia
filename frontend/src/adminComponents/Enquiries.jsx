@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import useEnquiries from "../hooks/useEnquiries";
 import { Spinner } from "phosphor-react";
+import Empty from "./Empty";
 
 const Enquiries = () => {
   let { sortedResult, handleRead, updateId, handleSort } = useEnquiries();
@@ -82,10 +83,10 @@ const Enquiries = () => {
             </div>
           </div>
         ) : (
-          <div>
-            <div>No Enquiries</div>
-            <div>Couldn't find any enquiries from clients!</div>
-          </div>
+          <Empty
+            head={"No Enquiries Found"}
+            note={"Couldn't find any enquiries from the client."}
+          />
         )}
       </div>
     </main>
