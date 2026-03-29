@@ -12,7 +12,9 @@ const connectDB = async () => {
         `db connected and server listening for request via port ${PORT}`,
       ),
     );
-  } catch (error) {}
+  } catch (error) {
+    console.log("Failed to connect database:", error.message);
+  }
 };
 
 connectDB();
