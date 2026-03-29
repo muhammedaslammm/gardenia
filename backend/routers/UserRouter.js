@@ -13,7 +13,7 @@ import { authenticate, validateUser } from "../middlewares/authentication.js";
 const router = express.Router();
 
 router.get("/users/me", authenticate, myDetails);
-router.post("/users/register", userRegistration);
+router.post("/users/register", authenticate, validateUser, userRegistration);
 router.post("/users/login", userLogin);
 router.post("/users/logout", userLogout);
 router.post("/users/client-enquiry", clientEnquiry);
