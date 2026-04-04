@@ -21,8 +21,8 @@ const getDateUpdate = async (
 
   const intersecting__block = blocks.find(
     (block) =>
-      start_time <= new Date(block.end_time).getTime() + 2 * 1000 * 60 * 60 &&
-      end_time >= new Date(block.start_time).getTime() - 2 * 1000 * 60 * 60,
+      start_time < new Date(block.end_time).getTime() + 2 * 1000 * 60 * 60 &&
+      end_time > new Date(block.start_time).getTime() - 2 * 1000 * 60 * 60,
   );
 
   const getBlockStat = (main, mini, main_hall = false) => {
