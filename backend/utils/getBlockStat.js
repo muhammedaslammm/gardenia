@@ -83,7 +83,7 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     } else if (stat.mainhall_block_stat === 2) {
       let intersecting = [...events, ...blocks].find(
         (item) =>
-          end_time >= new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
+          end_time > new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
       );
       if (intersecting)
         return {
@@ -95,7 +95,7 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     } else if (stat.mainhall_block_stat === 3) {
       let intersecting = [...events, ...blocks].find(
         (item) =>
-          start_time <= new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
+          start_time < new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
       );
       if (intersecting)
         return {
@@ -122,7 +122,7 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     } else if (stat.minihall_block_stat === 2) {
       let intersecting = [...events, ...blocks].find(
         (item) =>
-          end_time >= new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
+          end_time > new Date(item.start_time).getTime() - 2 * 1000 * 60 * 60,
       );
       if (intersecting)
         return {
@@ -134,7 +134,7 @@ const getBlockStat = async (date, stage, start_time, end_time) => {
     } else if (stat.minihall_block_stat === 3) {
       let intersecting = [...events, ...blocks].find(
         (item) =>
-          start_time <= new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
+          start_time < new Date(item.end_time).getTime() + 2 * 1000 * 60 * 60,
       );
       if (intersecting)
         return {

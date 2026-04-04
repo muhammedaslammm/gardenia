@@ -252,9 +252,9 @@ export const updateEvent = async (req, res) => {
         });
       let overlap = date_events.find(
         (ev) =>
-          event_start_time <=
+          event_start_time <
             new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000 &&
-          event_end_time >=
+          event_end_time >
             new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
       );
       if (overlap)
