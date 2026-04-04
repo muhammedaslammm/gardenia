@@ -3,9 +3,10 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import { Link } from "react-router-dom";
 import getEventMessage from "../utils/getEventMessage";
 import getBlockMessage from "../utils/getBlockMessage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import BlockModal from "./modals/BlockModal";
+import { Handshake } from "phosphor-react";
 
 dayjs.extend(advancedFormat);
 
@@ -21,7 +22,9 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
     minihall_block_stat = 1,
   } = dateDetails;
 
+  console.log("blocks:", blocks);
   blocks = blocks.filter((b) => b.status !== "freeze");
+
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
   let block_message = getBlockMessage(
     events,
@@ -37,6 +40,21 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
   const formatted_date = date ? date.format("Do MMMM, YYYY - dddd") : "";
   const date_string = date ? date.format("YYYY-MM-DD") : "";
   const not_available = mainhall_block_stat === 0 && minihall_block_stat === 0;
+
+  let [showHoldings, setShowHoldings] = useState(false);
+  let holdBoxRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (holdBoxRef.current && !holdBoxRef.current.contains(event.target)) {
+        setShowHoldings(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="pt-6 border-t border-neutral-400 sm:border-t-0 sm:pt-0 lg:w-4/12 flex flex-col gap-2 sm:gap-1 relative overflow-x-hidden">
@@ -125,35 +143,50 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                 </div>
               </div>
             )}
-            <div className="mt-auto flex flex-col gap-2">
-              {blocks.length > 0 &&
-                blocks.map(
-                  ({
-                    requester_name,
-                    stage,
-                    start_time,
-                    end_time,
-                    ...rest
-                  }) => (
-                    <div className="p-4 bg-blue-100 text-blue-900 space-y-4 mt-auto">
-                      Client{" "}
-                      <span className="font-medium">{requester_name}</span> has
-                      blocked the{" "}
-                      <span className="font-medium capitalize">
-                        {stage.replace("_", " ")}
-                      </span>{" "}
-                      on this date from{" "}
-                      <span className="font-medium">
-                        {dayjs(start_time).format("hh:mm a")}
-                      </span>{" "}
-                      to{" "}
-                      <span className="font-medium">
-                        {dayjs(end_time).format("hh:mm a")}
-                      </span>
-                      . Proceed only after verification.
-                    </div>
-                  ),
+            {blocks.length > 0 && (
+              <div className="mt-auto flex flex-col relative" ref={holdBoxRef}>
+                <div
+                  className="flex items-center gap-1
+            text-blue-900 bg-blue-100 hover:bg-blue-200 transition-colors self-end font-medium cursor-pointer p-2"
+                  onClick={() => setShowHoldings(!showHoldings)}
+                >
+                  <Handshake className="w-[1.2rem]" />{" "}
+                  <div className="">{`Holdings (${blocks.length})`}</div>
+                </div>
+                {showHoldings && (
+                  <div className="absolute bottom-[120%] flex flex-col gap-2 bg-white border border-neutral-300 shadow-2xl p-4">
+                    {blocks.map(
+                      ({
+                        requester_name,
+                        stage,
+                        start_time,
+                        end_time,
+                        ...rest
+                      }) => (
+                        <div className="bg-[#dbfeee] text-blue-900 space-y-4 p-4 italic">
+                          Client{" "}
+                          <span className="font-medium">{requester_name}</span>{" "}
+                          has blocked the{" "}
+                          <span className="font-medium capitalize">
+                            {stage.replace("_", " ")}
+                          </span>{" "}
+                          on this date from{" "}
+                          <span className="font-medium">
+                            {dayjs(start_time).format("hh:mm a")}
+                          </span>{" "}
+                          to{" "}
+                          <span className="font-medium">
+                            {dayjs(end_time).format("hh:mm a")}
+                          </span>
+                          . Proceed only after verification.
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
+              </div>
+            )}
+            <div className="mt-auto flex flex-col gap-2">
               {!isPast && !isToday && (
                 <div
                   className="p-4"
@@ -200,6 +233,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
               setModal={setBlockModal}
               dateDetails={dateDetails}
               fetchEvents={fetchEvents}
+              refetch={refetchData}
             />
           </div>,
           document.getElementById("modal--event"),

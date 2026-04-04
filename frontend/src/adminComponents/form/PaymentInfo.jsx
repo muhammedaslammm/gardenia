@@ -22,7 +22,7 @@ const PaymentInfo = ({ register, errors, id, watch }) => {
           <select
             name="payment_type"
             id=""
-            className={`a--input`}
+            className={`a--input capitalize`}
             {...register("payment_type", { required: !id ? true : false })}
           >
             <option value="" disabled>

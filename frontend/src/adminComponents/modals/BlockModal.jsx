@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import ButtonLoading from "./ButtonLoading";
 
-const BlockModal = ({ setModal, dateDetails, fetchEvents }) => {
+const BlockModal = ({ setModal, dateDetails, fetchEvents, refetch }) => {
   const [loading, setLoading] = useState(false);
   let { date } = dateDetails;
   const {
@@ -43,7 +43,8 @@ const BlockModal = ({ setModal, dateDetails, fetchEvents }) => {
       if (!response.ok) throw new Error(result.message);
       setModal(false);
       toast.success(result.message);
-      fetchEvents();
+      fetchEvents(); //get data of whole month
+      refetch(); // get data of the date
     } catch (error) {
       console.log(error.message);
     }
