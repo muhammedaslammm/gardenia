@@ -101,11 +101,11 @@ export const createEvent = async (req, res) => {
             {
               _id: item,
               start_time: {
-                $lte:
+                $lt:
                   new Date(new_event.end_time).getTime() + 2 * 1000 * 60 * 60,
               },
               end_time: {
-                $gte:
+                $gt:
                   new Date(new_event.start_time).getTime() - 2 * 1000 * 60 * 60,
               },
             },
