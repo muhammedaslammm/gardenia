@@ -12,15 +12,16 @@ export const createEnquiry = async (req, res) => {
 };
 
 export const getEnquiries = async (req, res) => {
-  let { filter } = req.query;
+  let { filter, query } = req.query;
   try {
     let enquiries = [];
     switch (filter) {
       case "all":
-        enquiries = await Enquiry.find()
+        let db_query = {};
+        if (query) db_query.name = { $regex: query, $options: "i" };
+        enquiries = await Enquiry.find(db_query)
           .sort({ read: 1, createdAt: -1 })
           .select("-updatedAt -__v");
-        console.log("enquiries:", enquiries);
         return res.json({ enquiries });
       default:
         return res.status(400).json({ message: "Invalid filter option" });

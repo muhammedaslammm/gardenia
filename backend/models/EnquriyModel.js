@@ -6,6 +6,8 @@ const Schema = new mongoose.Schema(
     email: String,
     contact_number: String,
     event_date: Date,
+    event: String,
+    stage: String,
     read: { type: Boolean, default: false },
   },
   { timestamps: true },
