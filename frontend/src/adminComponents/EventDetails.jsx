@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import BlockModal from "./modals/BlockModal";
 import { Handshake } from "phosphor-react";
+import Block from "./Block";
 
 dayjs.extend(advancedFormat);
 
@@ -22,7 +23,6 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
     minihall_block_stat = 1,
   } = dateDetails;
 
-  console.log("blocks:", blocks);
   blocks = blocks.filter((b) => b.status !== "freeze");
 
   let message = getEventMessage(mainhall_stat, minihall_stat, events, date);
@@ -104,18 +104,18 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                   {events.map((event) => (
                     <Link
                       className={`space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:-translate-y-[.2rem] transition-transform z-10 ${
-                        event.cancelled && "opacity-70 relative"
+                        event.cancelled && "opacity-60 relative"
                       }`}
                       to={`/admin/events/${event._id}`}
                     >
                       {event.cancelled && (
-                        <div className="absolute left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] text-red-800 z-10">
+                        <div className="absolute text-[.9rem] font-medium left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] text-red-800 z-10">
                           This Event is Cancelled
                         </div>
                       )}
-                      <div className="space-y-8 my-0">
+                      <div className="flex flex-col gap-4 my-0">
                         <div className="leading-[1.4rem]">
-                          <div className="text-[1rem] uppercase font-medium">
+                          <div className="text-[1rem] font-medium">
                             {event.event_name}
                           </div>
                           <div className="text-[.9rem] text-neutral-600">
@@ -143,50 +143,46 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                 </div>
               </div>
             )}
-            {blocks.length > 0 && (
-              <div className="mt-auto flex flex-col relative" ref={holdBoxRef}>
-                <div
-                  className="flex items-center gap-1
-            text-blue-900 bg-blue-100 hover:bg-blue-200 transition-colors self-end font-medium cursor-pointer p-2"
-                  onClick={() => setShowHoldings(!showHoldings)}
-                >
-                  <Handshake className="w-[1.2rem]" />{" "}
-                  <div className="">{`Holdings (${blocks.length})`}</div>
-                </div>
-                {showHoldings && (
-                  <div className="absolute bottom-[120%] flex flex-col gap-2 bg-white border border-neutral-300 shadow-2xl p-4">
-                    {blocks.map(
-                      ({
-                        requester_name,
-                        stage,
-                        start_time,
-                        end_time,
-                        ...rest
-                      }) => (
-                        <div className="bg-[#dbfeee] text-blue-900 space-y-4 p-4 italic">
-                          Client{" "}
-                          <span className="font-medium">{requester_name}</span>{" "}
-                          has blocked the{" "}
-                          <span className="font-medium capitalize">
-                            {stage.replace("_", " ")}
-                          </span>{" "}
-                          on this date from{" "}
-                          <span className="font-medium">
-                            {dayjs(start_time).format("hh:mm a")}
-                          </span>{" "}
-                          to{" "}
-                          <span className="font-medium">
-                            {dayjs(end_time).format("hh:mm a")}
-                          </span>
-                          . Proceed only after verification.
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
             <div className="mt-auto flex flex-col gap-2">
+              {blocks.length > 0 && (
+                <div
+                  className="mt-auto flex flex-col relative"
+                  ref={holdBoxRef}
+                >
+                  <div
+                    className="flex items-center gap-1
+            text-blue-900 bg-blue-100 hover:bg-blue-200 transition-colors self-end font-medium cursor-pointer p-2"
+                    onClick={() => setShowHoldings(!showHoldings)}
+                  >
+                    <Handshake className="w-[1.2rem]" />{" "}
+                    <div className="">{`Holdings (${blocks.length})`}</div>
+                  </div>
+                  {showHoldings && (
+                    <div className="absolute bottom-[120%] flex flex-col gap-2 bg-white border border-neutral-300 shadow-2xl p-4">
+                      {blocks.map(
+                        ({
+                          _id,
+                          requester_name,
+                          stage,
+                          start_time,
+                          end_time,
+                        }) => (
+                          <Block
+                            id={_id}
+                            name={requester_name}
+                            stage={stage}
+                            start={start_time}
+                            end={end_time}
+                            refetch={refetchData}
+                            fetchEvents={fetchEvents}
+                            close={() => setShowHoldings(false)}
+                          />
+                        ),
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
               {!isPast && !isToday && (
                 <div
                   className="p-4"

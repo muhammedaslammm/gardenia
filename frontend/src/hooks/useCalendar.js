@@ -23,7 +23,13 @@ const useCalendar = (setBox) => {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: { name: "", email: "", contact_number: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      stage: "",
+      event: "",
+      contact_number: "",
+    },
   });
 
   useEffect(() => {
@@ -105,6 +111,7 @@ const useCalendar = (setBox) => {
 
   let [loading, setLoading] = useState(false);
 
+  // submit new data form
   const submitForm = async (values) => {
     try {
       setLoading(true);

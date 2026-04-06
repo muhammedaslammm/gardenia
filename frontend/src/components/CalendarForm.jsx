@@ -44,7 +44,7 @@ const CalendarForm = ({ util, details_loading, open }) => {
 
   return (
     <div
-      className="w-[90%] md:w-2/6 bg-white shadow-md border border-neutral-500 font--inter-tight p-2 md:p-4 space-y-2 md:space-y-4"
+      className="w-[90%] md:w-3/6 bg-white shadow-md border border-neutral-500 font--inter-tight p-2 md:p-4 space-y-2 md:space-y-4"
       ref={formRef}
     >
       <div className="leading-[1.8rem] flex justify-between items-center">
@@ -67,7 +67,7 @@ const CalendarForm = ({ util, details_loading, open }) => {
       ) : (
         <>
           <div className=" p-1 md:p-2 text-[.8rem] lg:text-[1.1rem] leading-[1.2rem] lg:leading-[1.7rem] bg-neutral-200 text-neutral-800">
-            Note : The enquiry is not treated as a confirmation booking or slot
+            Note : This enquiry is not treated as a confirmed booking or slot
             blocking for you in any way. Confirmation is made only after further
             verification.
           </div>
@@ -92,29 +92,74 @@ const CalendarForm = ({ util, details_loading, open }) => {
         className="my-4 flex flex-col gap-2"
         onSubmit={handleSubmit(submitForm)}
       >
-        <div className="space-y-1">
-          <InputLabel title="Name" error={errors?.name?.message} />
-          <input
-            type="text"
-            className="form__input placeholder:!text-neutral-500"
-            placeholder="Eg: George"
-            {...register("name", { required: "Name Required" })}
-          />
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          <div className="w-full flex flex-col gap-1">
+            <InputLabel title="Name" error={errors?.name?.message} />
+            <input
+              type="text"
+              className="form__input placeholder:!text-neutral-500"
+              placeholder="Eg: George"
+              {...register("name", { required: "Name Required" })}
+            />
+          </div>
+          <div className="w-full flex flex-col gap-1">
+            <InputLabel title="Email" error={errors?.email?.message} />
+            <input
+              type="email"
+              className="form__input placeholder:!text-neutral-500"
+              placeholder="george@gmail.com"
+              {...register("email", {
+                required: "Email Required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid Email Address",
+                },
+              })}
+            />
+          </div>
         </div>
-        <div>
-          <InputLabel title="Email" error={errors?.email?.message} />
-          <input
-            type="email"
-            className="form__input placeholder:!text-neutral-500"
-            placeholder="george@gmail.com"
-            {...register("email", {
-              required: "Email Required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Invalid Email Address",
-              },
-            })}
-          />
+        <div className="flex items-center gap-2">
+          <div className="w-full flex flex-col gap-1">
+            <InputLabel title="Stage" error={errors?.stage?.message} />
+            <select
+              className="form__input"
+              {...register("stage", { required: "Stage Required" })}
+            >
+              <option value="" disabled selected>
+                Select Stage
+              </option>
+              {[
+                ["Main Hall", "main_hall"],
+                ["Mini Hall", "mini_hall"],
+              ].map(([key, value]) => (
+                <option value={value}>{key}</option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full flex flex-col gap-1">
+            <InputLabel title="Event" error={errors?.event?.message} />
+            <select
+              className="form__input"
+              {...register("event", { required: "Event Required" })}
+            >
+              <option value="" selected disabled>
+                Select Event
+              </option>
+              {[
+                "Wedding",
+                "Reception",
+                "Engagements",
+                "Conference & Seminar",
+                "Meetings & Workshops",
+                "Product Launch",
+                "Award Functions",
+                "Exhibitions and Trade fairs",
+                "Training Sessions",
+              ].map((event) => (
+                <option>{event}</option>
+              ))}
+            </select>
+          </div>
         </div>
         <div>
           <InputLabel
