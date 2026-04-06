@@ -21,20 +21,20 @@ const getBlockMessage = (
   ) {
     message.blocked = true;
     message.text =
-      "Holding or Blocking stage for events not available for any halls on this date.";
+      "Holding stage for events not available for any halls on this date.";
     message.bg = "#ffe2e2";
     message.color = "#9f0712";
   } else if (mainhall_block_stat === 1 && minihall_block_stat === 1) {
     message.text =
-      "Time slot holding available : Holding or Blocking stage for events available for both Main and Mini Hall.";
+      "Holding stage for events available for both Main and Mini Hall.";
   } else if (!mainhall_block_stat && minihall_block_stat === 2) {
-    message.text = `Time slot holding available : Holding or Blocking stage for events available only in Mini hall before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+    message.text = `Holding stage for events available only in Mini hall before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
   } else if (!mainhall_block_stat && minihall_block_stat === 3) {
-    message.text = `Time slot holding available : Holding or Blocking stage for events only available in Mini hall after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
+    message.text = `Holding stage for events only available in Mini hall after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
   } else if (mainhall_block_stat === 2 && minihall_block_stat === 2) {
-    message.text = `Time slot holding available : Holding or Blocking stage for events in both Main hall and Mini Hall available - before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
+    message.text = `Holding stage for events in both Main hall and Mini Hall available - before ${dayjs(existing_item?.start_time).subtract(120, "minutes").format("hh:mm a")}`;
   } else if (mainhall_block_stat === 3 && minihall_block_stat === 3) {
-    message.text = `Time slot holding available : Holding or Blocking stage for events in both Main hall and Mini Hall available - after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
+    message.text = `Holding stage for events in both Main hall and Mini Hall available - after ${dayjs(existing_item?.end_time).add(120, "minutes").format("hh:mm a")}`;
   }
 
   return message;
