@@ -784,11 +784,15 @@ export const getEventsExcel = async (req, res) => {
 export const getPaymentsExcel = async (req, res) => {
   try {
     let { start_date, end_date } = req.query;
-    let convertToUpperCase = (value) =>
-      value
-        .split(" ")
+
+    let convertToUpperCase = (value) => {
+      if (!value) return "-";
+      return value
+        .split("_")
         .map((word) => word[0].toUpperCase() + word.slice(1))
         .join(" ");
+    };
+
     let events = await Event.aggregate([
       {
         $match: {
@@ -807,7 +811,6 @@ export const getPaymentsExcel = async (req, res) => {
         },
       },
     ]);
-    console.log("events:", events);
     if (!events.length)
       return res.status(404).json({
         message: "Excel creation cancelled : No event found on this date range",
@@ -828,17 +831,19 @@ export const getPaymentsExcel = async (req, res) => {
 
     events.forEach((event) => {
       event.payment.payment_timeline.forEach((payment) => {
+        console.log(`
+          booking number : ${event.booking_number}
+          customer name : ${event.customer_name}
+          payment type : ${payment.payment_type}
+          payment mode : ${payment.payment_mode}
+          `);
         worksheet.addRow({
           date: dayjs(payment.timeline[0].date).format("DD-MM-YYYY"),
           booking_number: event.booking_number,
           customer_name: convertToUpperCase(event.customer_name),
           event_date: event.date,
           payment_type: convertToUpperCase(payment.payment_type),
-          payment_mode:
-            payment?.payment_mode
-              .split("_")
-              .map((word) => word[0].toUpperCase() + word.slice(1))
-              .join(" ") ?? "-",
+          payment_mode: convertToUpperCase(payment.payment_mode),
           amount: payment.paid_amount,
         });
       });
