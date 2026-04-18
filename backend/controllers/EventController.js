@@ -126,6 +126,8 @@ export const updateEvent = async (req, res) => {
   let { id } = req.params;
   let { date } = req.query;
   let { start_time, end_time, stage, ...rest } = req.body;
+  console.log("start time:", start_time);
+  console.log("end time:", end_time);
   try {
     let day_start = new Date(`${date}T00:00:00.000Z`);
     let day_end = new Date(`${date}T23:59:59.000Z`);
@@ -197,6 +199,8 @@ export const updateEvent = async (req, res) => {
       ])
     )[0];
 
+    console.log("matching date:", matching_date._id);
+
     if (!matching_date)
       return res
         .status(404)
@@ -211,13 +215,13 @@ export const updateEvent = async (req, res) => {
         .status(404)
         .json({ message: "Updation Failed : Event not found" });
 
-    if (
-      req.userRole === "staff" &&
-      Date.now() >= new Date(matching_event.createdAt).setHours(24, 0, 0, 0)
-    )
-      return res
-        .status(403)
-        .json({ message: "Updation Failed : Permission Denied" });
+    // if (
+    //   req.userRole === "staff" &&
+    //   Date.now() >= new Date(matching_event.createdAt).setHours(24, 0, 0, 0)
+    // )
+    //   return res
+    //     .status(403)
+    //     .json({ message: "Updation Failed : Permission Denied" });
 
     let date_events = matching_date.events.filter(
       (ev) => ev._id.toString() !== id,
@@ -265,7 +269,7 @@ export const updateEvent = async (req, res) => {
     }
     //
     else if (start_time || end_time || stage) {
-      let result = getDateUpdate(
+      let result = await getDateUpdate(
         event_stage,
         event_start_time,
         event_end_time,
@@ -275,11 +279,10 @@ export const updateEvent = async (req, res) => {
         matching_date.minihall_block_stat,
       );
 
-      console.log("update stat result:", result);
+      console.log("date stat:", result);
       await EventDate.updateOne({ _id: matching_date._id }, { $set: result });
     }
     let result = await Event.updateOne({ _id: id }, { $set: req.body });
-    console.log("update result:", result);
     return res.json({ message: "Updation Successfull" });
   } catch (error) {
     console.log("error:", error.message);

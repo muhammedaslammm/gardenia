@@ -97,8 +97,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 2:
           let intersecting_events_1 = event_date?.events.find(
             (ev) =>
-              end_time >
-              new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
+              end_time > new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
           );
           if (intersecting_events_1)
             return {
@@ -112,8 +111,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 3:
           let intersecting_events_2 = event_date.events.find(
             (ev) =>
-              start_time <
-              new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000,
+              start_time < new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000,
           );
           if (intersecting_events_2) return { message: ERROR_MESSAGE() };
           day_stat.mainhall_stat = 0;
@@ -153,8 +151,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 2:
           let intersecting_time_1 = day_stat.events.find(
             (ev) =>
-              end_time >
-              new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
+              end_time > new Date(ev.start_time).getTime() - 2 * 60 * 60 * 1000,
           );
           if (intersecting_time_1) return { message: ERROR_MESSAGE() };
           day_stat.minihall_stat = 0;
@@ -165,8 +162,7 @@ const handleDayEvent = async (date, stage, start_time, end_time) => {
         case 3:
           let intersecting_time_2 = day_stat.events.find(
             (ev) =>
-              start_time <
-              new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000,
+              start_time < new Date(ev.end_time).getTime() + 2 * 60 * 60 * 1000,
           );
           if (intersecting_time_2) return { message: ERROR_MESSAGE() };
           day_stat.minihall_stat = 0;
