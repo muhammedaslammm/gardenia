@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify(userData),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error();
+      if (!response.ok) throw new Error(data.message);
       setButtonState("idle");
       setUser(data.user);
       return true;

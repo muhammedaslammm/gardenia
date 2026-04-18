@@ -94,7 +94,9 @@ const useEvents2 = (eventId = null) => {
         );
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
-        setCrossedMidnight(result.event.crossedMidnight);
+        // setCrossedMidnight(result.event.crossedMidnight);
+        setCrossedMidnight(false);
+
         result.event.start_time = dayjs(result.event.start_time).format(
           "HH:mm",
         );

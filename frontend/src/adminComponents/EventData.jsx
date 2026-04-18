@@ -280,10 +280,8 @@ const EventData = () => {
                   Cancel this Event
                 </button>
               )}
-              {(["owner", "supervisor"].includes(user?.role) &&
-                !isPast &&
-                !data?.cancelled) ||
-              (user?.role === "staff" && !data?.crossedMidnight) ? (
+              {["owner", "supervisor", "staff"].includes(user?.role) &&
+              !data?.cancelled ? (
                 <div className="self-end bg-black text-white font-medium py-2 px-4 cursor-pointer">
                   <Link
                     to={`/admin/events/event-management?date=${data?.date}&event=${id}`}

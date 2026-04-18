@@ -208,16 +208,16 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
               >
                 {message.text}{" "}
               </div>
-              {(mainhall_stat !== 0 || minihall_stat !== 0) &&
-                !isPast &&
-                !isToday && (
-                  <Link
-                    to={`/admin/events/event-management?date=${date_string}`}
-                    className="w-full py-2 px-3 bg-green-900 text-white text-[.9rem] font-medium text-center hover:bg-green-800 transition-colors cursor-pointer uppercase"
-                  >
-                    Add Event
-                  </Link>
-                )}
+              {/* down logic : add !isPast &&
+                !isToday */}
+              {(mainhall_stat !== 0 || minihall_stat !== 0) && true && (
+                <Link
+                  to={`/admin/events/event-management?date=${date_string}`}
+                  className="w-full py-2 px-3 bg-green-900 text-white text-[.9rem] font-medium text-center hover:bg-green-800 transition-colors cursor-pointer uppercase"
+                >
+                  Add Event
+                </Link>
+              )}
             </div>{" "}
           </>
         )}
