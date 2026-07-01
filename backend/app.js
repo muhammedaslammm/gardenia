@@ -8,7 +8,8 @@ import eventRouter from "./routers/EventRouter.js";
 import eventDateRouter from "./routers/DateRouter.js";
 import blockRouter from "./routers/BlockRouter.js";
 import enquiryRouter from "./routers/EnquiryRouter.js";
-import galleryRouter from "./routers/GalleryRouter.js";
+import galleryRouter from "./routers/gallery.routes.js";
+
 import clientRouter from "./routers/ClientRouter.js";
 
 const app = express();

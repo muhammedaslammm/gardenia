@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const Schema = new mongoose.Schema(
   {
-    url: { type: String },
-    public_id: { type: String },
+    folder_name: String,
+    images: [{ public_id: String, url: String }],
+    order: Number,
   },
   { timestamps: true },
 );
