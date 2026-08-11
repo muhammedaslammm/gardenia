@@ -27,6 +27,7 @@ import GalleryPage from "./pages/Gallery.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import GalleryImages from "./adminComponents/GalleryImages.jsx";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
       { path: "events/:id", element: <EventData /> },
       { path: "enquiries", element: <Enquiries /> },
       { path: "gallery", element: <Gallery /> },
+      { path: "gallery/:id", element: <GalleryImages /> },
       { path: "staffs", element: <Staffs /> },
       { path: "jobs", element: <Jobs /> },
     ],

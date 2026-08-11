@@ -1,5 +1,5 @@
 import EventDate from "../models/DateModel.js";
-import Gallery from "../models/GalleryModal.js";
+import Gallery from "../models/gallery.model.js";
 
 export const getMonthEvents = async (req, res) => {
   try {
@@ -141,12 +141,15 @@ export const getDateDetails = async (req, res) => {
 
 export const getGallery = async (req, res) => {
   try {
-    let images = await Gallery.find().select("public_id -_id");
-    return res.json({ images });
+    const galleries = await Gallery.find({
+      images: { $exists: true, $ne: [] },
+    }).select("_id folder_name images");
+    return res.status(200).json({ folders: galleries });
   } catch (error) {
     console.log(
       "failed to fetch gallery images for client page:",
       error.message,
     );
+    return res.status(500).json({ message: error.message });
   }
 };
