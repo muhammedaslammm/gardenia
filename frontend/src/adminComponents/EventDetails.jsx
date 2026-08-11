@@ -163,6 +163,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                         ({
                           _id,
                           requester_name,
+                          phone_number_1,
                           stage,
                           start_time,
                           end_time,
@@ -170,6 +171,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                           <Block
                             id={_id}
                             name={requester_name}
+                            phone={phone_number_1}
                             stage={stage}
                             start={start_time}
                             end={end_time}
