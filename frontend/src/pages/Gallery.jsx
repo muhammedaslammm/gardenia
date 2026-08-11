@@ -90,7 +90,7 @@ const Gallery = () => {
   };
 
   return (
-    <main className="min-h-screen pt-[4.2rem] lg:pt-[5rem] xl:pt-[6rem] w-[85%] mx-auto">
+    <main className="min-h-screen pt-[4.2rem] lg:pt-[5rem] xl:pt-[6rem] w-[95%] mx-auto">
       {gallery === null && (
         <div className="w-full grid grid-cols-4 gap-4 my-4">
           {Array.from({ length: 7 }).map((_, i) => (

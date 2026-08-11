@@ -142,9 +142,10 @@ const GalleryModal = ({ close, folderId, refetch }) => {
         </div>
         <div className="flex items-center justify-end gap-2 mt-auto">
           <button
-            className="bg-neutral-300 hover:bg-neutral-200 transition-colors py-2 px-6 rounded-[.2rem] cursor-pointer"
+            className="bg-neutral-300 hover:bg-neutral-200 transition-colors py-2 px-6 rounded-[.2rem] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             onClick={() => close()}
+            disabled={loading}
           >
             Cancel
           </button>
