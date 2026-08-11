@@ -73,7 +73,7 @@ const Enquiries = () => {
                       <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-4">
                           <div>Number : {enq.contact_number}</div>
-                          <div>Email : {enq.email}</div>
+                          <div>Email : {enq.email || "Not Provided"}</div>
                         </div>
                         <div className="text-neutral-600">
                           Enquired date :{" "}

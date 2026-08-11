@@ -108,13 +108,6 @@ const CalendarForm = ({ util, details_loading, open }) => {
               type="email"
               className="form__input placeholder:!text-neutral-500"
               placeholder="george@gmail.com"
-              {...register("email", {
-                required: "Email Required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid Email Address",
-                },
-              })}
             />
           </div>
         </div>
