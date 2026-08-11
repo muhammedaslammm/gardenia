@@ -38,19 +38,17 @@ const Gallery = () => {
     );
   return (
     <main className="flex flex-col gap-4">
-      <h1>Gallery Folders</h1>
+      <h1 className="text-[.9rem]">Gallery Folders</h1>
       {folders && (
         <div className="container">
           <div className="grid grid-cols-6 gap-4">
             <div
               onClick={() => setShowModal(true)}
-              className="relative group border-1 border-dashed border-neutral-400 h-[15rem] cursor-pointer hover:border-neutral-500 bg-yellow-50 transition-all"
+              className="relative group border-1 border-dashed border-neutral-400 h-[12rem] cursor-pointer  bg-yellow-100 hover:bg-yellow-200 transition-all rounded-[1rem]"
             >
-              <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-neutral-700 flex flex-col items-center gap-2 ">
+              <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-green-800 flex flex-col items-center gap-2 ">
                 <FilePlus className="w-[3rem] h-[3rem]" />
-                <div className="text-center group-hover:underline">
-                  Add New Folder
-                </div>
+                <div className="text-center">Add New Folder</div>
               </div>
             </div>
             {folders.map((folder) => (

@@ -45,7 +45,7 @@ const EventData = () => {
         <CaretRight className="inline-block w-4 h-4 mb-1 mx-1" />
         <span>Event Details</span>
       </div>
-      <div className="mt-8 flex flex-col gap-4">
+      <div className="mt-4 flex flex-col gap-4">
         {dataLoading ? (
           <>
             <div className="animation--container w-full h-[8rem]">

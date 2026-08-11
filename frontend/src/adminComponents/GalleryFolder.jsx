@@ -1,7 +1,8 @@
-import { DotsThreeVertical } from "phosphor-react";
+import { DotsThreeVertical, Spinner } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import useFolderAPI from "../hooks/useFolderAPI.js";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const GalleryFolder = ({ data, refetch }) => {
   let { folder_name, count, _id } = data;
@@ -21,6 +22,7 @@ const GalleryFolder = ({ data, refetch }) => {
   }, []);
 
   const handleDelete = async (event) => {
+    event.preventDefault();
     event.stopPropagation();
     try {
       setLoading(true);
@@ -36,14 +38,18 @@ const GalleryFolder = ({ data, refetch }) => {
   };
 
   return (
-    <div className="group h-[15rem] border border-neutral-400 flex flex-col justify-between cursor-pointer hover:bg-neutral-100 active:bg-neutral-100 transition-colors p-4">
+    <Link
+      to={`/admin/gallery/${_id}`}
+      className="group bg-green-800 hover:bg-green-900 transition-colors text-yellow-200 flex flex-col justify-between rounded-[1rem] h-[12rem] p-4"
+    >
       <div className="self-end">{count}</div>
       <div className="flex items-center justify-between gap-2">
-        <div className="truncate">{folder_name}</div>
+        <div className="truncate font-medium ">{folder_name}</div>
         <div className="relative">
           <button
             type="button"
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               setBox((prev) => !prev);
             }}
@@ -61,15 +67,22 @@ const GalleryFolder = ({ data, refetch }) => {
                 type="button"
                 onClick={handleDelete}
                 disabled={loading}
-                className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 cursor-pointer"
+                className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
-                {loading ? "Deleting..." : "Delete"}
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    Deleting{" "}
+                    <Spinner className="animate-spin w-[1.1rem] h-[1.1rem]" />
+                  </div>
+                ) : (
+                  "Delete"
+                )}
               </button>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
