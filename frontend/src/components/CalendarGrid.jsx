@@ -22,7 +22,7 @@ const CalendarGrid = ({ util, loading }) => {
 
   return (
     <div className="w-full md:w-4/6 space-y-4 lg:space-y-6">
-      <div className="space-y-1 md:space-y-2">
+      <div className="space-y-3 md:space-y-3">
         <div className="flex items-center justify-between md:justify-start font--inter-tight font-medium text-[.9rem] lg:text-[1.3rem]">
           <div className="md:hidden">
             <CaretLeft
@@ -75,7 +75,7 @@ const CalendarGrid = ({ util, loading }) => {
             let isCurrentMonth = d.date.month() === selectedDate.month();
             return (
               <div
-                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-1 border border-neutral-400/40 md:border-neutral-500 cursor-pointer ${
+                className={`font--inter-tight h-[3.5rem] md:h-[5rem] p-[.15rem] md:p-1 border border-neutral-400/40 md:border-neutral-500 cursor-pointer ${
                   !isCurrentMonth && "opacity-50 bg-neutral-300"
                 } ${
                   isSelected && "border-2 border-green-700"
@@ -85,29 +85,25 @@ const CalendarGrid = ({ util, loading }) => {
                   className="flex flex-col justify-between h-full"
                   onClick={() => selectDate(d)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-start md:items-center justify-between">
                     <div className="text-[.6rem] md:text-[.9rem] font-medium">
                       {d.date.date()}
                     </div>
                     {isToday && (
-                      <CalendarCheck className="text-green-800" weight="fill" />
+                      <CalendarCheck
+                        className="text-green-800 w-[.7rem] h-[.7rem] md:w-[1rem] md:h-[1rem]"
+                        weight="fill"
+                      />
                     )}
                   </div>
                   {loading ? (
                     <Spinner className="w-[.6rem] md:w-[1rem] h-[.6rem] md:h-[1rem] self-end animate-spin" />
                   ) : (
-                    <div className="space-y-1">
-                      {d.blocks !== 0 && (
-                        <div className="text-[.4rem] md:text-[.75rem] text-blue-800 bg-blue-100 px-[2px] md:p-1 inline-block leading-[.5rem] font-medium self-end">
-                          {`${d.blocks} Event Holded`}
-                        </div>
-                      )}
-                      {d.events !== 0 && (
-                        <div className="text-[.4rem] md:text-[.75rem] text-green-800 bg-green-100 px-[2px] md:p-1 inline-block  leading-[.5rem] font-medium self-end">
-                          {`${d.events} Function`}
-                        </div>
-                      )}
-                    </div>
+                    d.events !== 0 && (
+                      <div className="text-[.4rem] md:text-[.75rem] text-green-800 bg-green-100 px-[2px] md:p-1 leading-[.5rem] font-medium">
+                        {`${d.events} Function`}
+                      </div>
+                    )
                   )}
                 </div>
               </div>

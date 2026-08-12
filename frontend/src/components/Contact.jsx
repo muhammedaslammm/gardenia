@@ -15,17 +15,27 @@ const Contact = () => {
           happy to help make your event at Gardenia
         </p>
         <div className="mt-5 mb-10 md:my-8 space-y-2 md:space-y-1 lg:space-y-0 xl:space-y-1">
-          {contact.map((c, index) => (
-            <div
-              className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]"
-              key={index}
-            >
-              <p className="uppercase font-semibold text-[#0f592e]">
-                {c.label}
-              </p>
-              <p>{c.value}</p>
+          <div className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]">
+            <div className="uppercase font-semibold text-[#0f592e]">
+              Contact Us
             </div>
-          ))}
+            <div className="flex items-center gap-2">
+              <a href="tel:+918891813666">+91 8891813666</a>
+              <a href="tel:+918891813555">+91 8891813555</a>
+            </div>
+          </div>
+          <div className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]">
+            <div className="uppercase font-semibold text-[#0f592e]">
+              Location
+            </div>
+            <div>Njekkad, Kallambalam, Trivandrum</div>
+          </div>
+          <div className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]">
+            <div className="uppercase font-semibold text-[#0f592e]">Email</div>
+            <a href="mailto:gardeniaconventioncenter@gmail.com">
+              gardeniaconventioncenter@gmail.com
+            </a>
+          </div>
         </div>
         <ConventionMap />
       </div>
