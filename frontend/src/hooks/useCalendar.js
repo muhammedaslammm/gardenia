@@ -44,10 +44,9 @@ const useCalendar = (setBox) => {
         setDateLoading(false);
         let result = await response.json();
         if (!response.ok) throw new Error(result.message);
-        console.log("calendar dates:", result.dates);
         setBookedDates(result.dates);
       } catch (error) {
-        console.log("calendar date error:", error.message);
+        toast.error("Something went wrong");
       }
     };
 
@@ -81,9 +80,8 @@ const useCalendar = (setBox) => {
           blocks: data?.blocks ?? [],
         };
         setDateDetails(details);
-        console.log("date data:", details);
       } catch (error) {
-        console.log(error.message);
+        toast.error("Something went wrong");
       }
     };
     getDateDetails();
@@ -103,10 +101,16 @@ const useCalendar = (setBox) => {
     setSelectedDate((prev) => prev.subtract(1, "month"));
 
   const selectDate = (d) => {
+    let clickedDate = d.date;
     setSelectedDate(d.date);
     setMonth(d.date.month());
     setYear(d.date.year());
-    setBox(true);
+
+    const isPastOrCurrentDate =
+      clickedDate.isBefore(dayjs(), "day") ||
+      clickedDate.isSame(dayjs(), "day");
+
+    if (!isPastOrCurrentDate) setBox(true);
   };
 
   let [loading, setLoading] = useState(false);
@@ -131,9 +135,8 @@ const useCalendar = (setBox) => {
       reset();
     } catch (error) {
       toast.error(
-        "Enquiry Submission Failed : Contact office if submission is rejected multiple times.",
+        "Enquiry Submission Failed : Contact Gardenia directly if submission is failed multiple times.",
       );
-      console.log("enquiry creation error:", error.message);
     }
   };
 

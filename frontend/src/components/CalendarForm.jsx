@@ -29,6 +29,9 @@ const CalendarForm = ({ util, details_loading, open }) => {
   );
 
   let { register, handleSubmit, submitForm, errors, loading, reset } = form;
+  const isPastOrCurrentDate =
+    selectedDate.isBefore(dayjs(), "day") ||
+    selectedDate.isSame(dayjs(), "day");
 
   const formRef = useRef(null);
   useEffect(() => {
@@ -173,22 +176,24 @@ const CalendarForm = ({ util, details_loading, open }) => {
           />
         </div>
 
-        <button
-          type="submit"
-          className={`mt-8 bg-green-800 form__input text-white font-semibold cursor-pointer hover:bg-green-900 transition-colors ${
-            loading && "opacity-70 !cursor-not-allowed"
-          } ${message.blocked && "opacity-40 !cursor-not-allowed"}`}
-          disabled={loading || message.blocked}
-        >
-          {loading ? (
-            <div className="flex justify-center gap-2">
-              <div>Submitting</div>
-              <Spinner className="animate-spin w-[1.5rem] h-[1.5rem]" />
-            </div>
-          ) : (
-            "Submit Enquiry"
-          )}
-        </button>
+        {!isPastOrCurrentDate && (
+          <button
+            type="submit"
+            className={`mt-8 bg-green-800 form__input text-white font-semibold cursor-pointer hover:bg-green-900 transition-colors ${
+              loading && "opacity-70 !cursor-not-allowed"
+            } ${message.blocked && "opacity-40 !cursor-not-allowed"}`}
+            disabled={loading || message.blocked || isPastOrCurrentDate}
+          >
+            {loading ? (
+              <div className="flex justify-center gap-2">
+                <div>Submitting</div>
+                <Spinner className="animate-spin w-[1.5rem] h-[1.5rem]" />
+              </div>
+            ) : (
+              "Submit Enquiry"
+            )}
+          </button>
+        )}
       </form>
     </div>
   );
