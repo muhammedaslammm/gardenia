@@ -103,7 +103,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                 <div className="space-y-2">
                   {events.map((event) => (
                     <Link
-                      className={`space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:-translate-y-[.2rem] transition-transform z-10 ${
+                      className={`space-y-4 sm:space-y-4 p-2 flex justify-between cursor-pointer border border-neutral-400/80 hover:translate-x-[.1rem] z-10 ${
                         event.cancelled && "opacity-60 relative"
                       }`}
                       to={`/admin/events/${event._id}`}
@@ -113,7 +113,7 @@ const EventDetails = ({ dateDetails, refetchData, fetchEvents, loading }) => {
                           This Event is Cancelled
                         </div>
                       )}
-                      <div className="flex flex-col gap-4 my-0">
+                      <div className="flex flex-col gap-6 my-0">
                         <div className="leading-[1.4rem]">
                           <div className="text-[1rem] font-medium">
                             {event.event_name}

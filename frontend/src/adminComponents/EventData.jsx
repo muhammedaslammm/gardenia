@@ -29,7 +29,7 @@ const EventData = () => {
   let isPast = dayjs(data?.date).isBefore(dayjs());
 
   let getCurrency = (amount) => {
-    if (!amount) return <Spinner className="animate-spin" />;
+    if (amount == null) return <Spinner className="animate-spin" />;
     return `${Intl.NumberFormat("en-IN").format(amount)} `;
   };
   let [mode, setMode] = useState(null);
