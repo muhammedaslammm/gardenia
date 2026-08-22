@@ -27,6 +27,7 @@ const convention_spaces = [
   {
     id: 1,
     name: "AC Main Hall",
+    slug: "main_hall",
     image: main_hall_image,
     inner_image: main_hall_image_inner,
     main_description:
@@ -109,6 +110,7 @@ const convention_spaces = [
   {
     id: 2,
     name: "AC Mini Hall",
+    slug: "mini_hall",
     image: mini_hall_image,
     inner_image: mini_hall_image_inner,
     main_description:
@@ -164,14 +166,6 @@ const convention_spaces = [
       },
     ],
   },
-  // {
-  //   id: 3,
-  //   name: "Outdoor Stage",
-  //   image:
-  //     "https://images.unsplash.com/photo-1747115275519-e9b20470ac8e?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   short_description:
-  //     "An open-air setup perfect for vibrant celebration, cultural events and grand evening functions",
-  // },
 ];
 
 export default convention_spaces;

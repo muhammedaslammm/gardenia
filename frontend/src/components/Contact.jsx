@@ -20,8 +20,18 @@ const Contact = () => {
               Contact Us
             </div>
             <div className="flex items-center gap-2">
-              <a href="tel:+918891813666">+91 8891813666</a>
-              <a href="tel:+918891813555">+91 8891813555</a>
+              <a
+                href="tel:+918891813666"
+                className="text-black underline hover:text-purple-700 active:text-purple-800 transition-colors"
+              >
+                +91 8891813666
+              </a>
+              <a
+                href="tel:+918891813555"
+                className="text-black underline hover:text-purple-700 active:text-purple-800 transition-colors"
+              >
+                +91 8891813555
+              </a>
             </div>
           </div>
           <div className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]">
@@ -32,7 +42,10 @@ const Contact = () => {
           </div>
           <div className="contact-info flex flex-col md:flex-row justify-between text-[.9rem] md:text-[1.1rem] lg:text-[1rem] xl:text-[1rem]">
             <div className="uppercase font-semibold text-[#0f592e]">Email</div>
-            <a href="mailto:gardeniaconventioncenter@gmail.com">
+            <a
+              href="mailto:gardeniaconventioncenter@gmail.com"
+              className="text-black underline hover:text-blue-700 active:text-blue-800 transition-colors"
+            >
               gardeniaconventioncenter@gmail.com
             </a>
           </div>
