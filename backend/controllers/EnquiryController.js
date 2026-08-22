@@ -1,9 +1,11 @@
 import Enquiry from "../models/EnquriyModel.js";
+import { sendEnquiryNotification } from "../utils/resendEmailService.js";
 
 export const createEnquiry = async (req, res) => {
   try {
     let event_date = new Date(req.body.event_date);
     let new_enquriy = await Enquiry.create({ ...req.body, event_date });
+    void sendEnquiryNotification(new_enquriy);
     console.log("new enquiry created");
     res.json({ message: "Enquiry Submitted" });
   } catch (error) {

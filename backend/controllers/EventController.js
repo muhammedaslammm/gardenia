@@ -11,9 +11,9 @@ import ExcelJS from "exceljs";
 import dayjs from "dayjs";
 import Block from "../models/BlockModal.js";
 import {
-  sendEventCancellationEmail,
-  sendEventCreationEmail,
-} from "../utils/emailService.js";
+  sendEventCancellationNotification,
+  sendEventCreationNotification,
+} from "../utils/resendEmailService.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -61,7 +61,6 @@ export const createEvent = async (req, res) => {
     }
 
     let event = await Event.create(new_event);
-    // await sendEventCreationEmail(event);
 
     if (client_data.selected) {
       await CancelEventModel.updateOne(
@@ -114,6 +113,8 @@ export const createEvent = async (req, res) => {
         ),
       );
     }
+
+    void sendEventCreationNotification(event);
 
     return res.json({ message: "event created" });
   } catch (error) {
@@ -215,13 +216,13 @@ export const updateEvent = async (req, res) => {
         .status(404)
         .json({ message: "Updation Failed : Event not found" });
 
-    // if (
-    //   req.userRole === "staff" &&
-    //   Date.now() >= new Date(matching_event.createdAt).setHours(24, 0, 0, 0)
-    // )
-    //   return res
-    //     .status(403)
-    //     .json({ message: "Updation Failed : Permission Denied" });
+    if (
+      req.userRole === "staff" &&
+      Date.now() >= new Date(matching_event.createdAt).setHours(24, 0, 0, 0)
+    )
+      return res
+        .status(403)
+        .json({ message: "Updation Failed : Permission Denied" });
 
     let date_events = matching_date.events.filter(
       (ev) => ev._id.toString() !== id,
@@ -522,8 +523,8 @@ export const cancelEvent = async (req, res) => {
       ),
       refunded_amount: cancelled_data.refundAmount,
     };
-    // await sendEventCancellationEmail(message_utils);
     await EventDate.updateOne({ date: new Date(event.date) }, { $set: stat });
+    void sendEventCancellationNotification(message_utils);
     return res.json({ message: "Event Cancelled" });
   } catch (error) {
     console.log("cancellation error:", error.message);
@@ -650,7 +651,6 @@ export const getSourceDetail = async (req, res) => {
         },
       ])
     )[0];
-    console.log("source data:", source_data);
     return res.json({ source_data: source_data?.booking_number || null });
   } catch (error) {
     console.log("failed to fetch the source detail:", error.message);
