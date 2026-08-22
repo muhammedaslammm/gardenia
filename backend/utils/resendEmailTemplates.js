@@ -125,6 +125,7 @@ export const enquiryEmail = ({ name, email, stage, event, contact_number }) => {
           <p><strong>Contact Number:</strong> ${formatValue(contact_number)}</p>
           <p><strong>Venue:</strong> ${formatValue(formattedStage)}</p>
           <p><strong>Event:</strong> ${formatValue(event)}</p>
+          <p><strong>Preferred Event Date:</strong> ${formatValue(event_date ? formatDate(event_date) : event_date)}</p>
         </div>
       </div>
     </div>`;
