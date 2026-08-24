@@ -133,7 +133,7 @@ const Gallery = () => {
                       type="button"
                       key={obj._id || `${folder._id}-${imageIndex}`}
                       onClick={() => openPreview(slideIndex)}
-                      className="mb-2 lg:mb-3 w-full cursor-zoom-in overflow-hidden"
+                      className="mb-2 lg:mb-3 block break-inside-avoid w-full cursor-zoom-in overflow-hidden"
                     >
                       <img
                         src={`${IMAGE_URL}/${obj.public_id}`}
